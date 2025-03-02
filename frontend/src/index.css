@@ -71,3 +71,7 @@ button:focus-visible {
 }
 
 */
+.shadow-gradient {
+  box-shadow: 0 -10px 15px -3px rgba(226, 226, 226, 0.5),  // 增加透明度
+              0 -4px 6px -2px rgba(226, 226, 226, 0.3);
+}
