@@ -36,7 +36,6 @@ export const AuthProvider = ({ children }) => {
                 credentials: "include",
             });
             setUser(null);
-            navigate("/auth?register=false"); //  Nach Logout zur Login-Seite weiterleiten
         } catch (error) {
             console.error("Fehler beim Logout:", error);
         }

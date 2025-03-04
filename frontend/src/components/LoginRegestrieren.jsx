@@ -62,7 +62,8 @@ const LoginRegestrieren = () => {
                                 <li>
                                     <button
                                         onClick={() => {
-                                            logout(navigate);
+                                            logout();  // ✅ Logout nur aufrufen
+                                            navigate("/auth?register=false");
                                             setMenuOpen(false);
                                         }}
                                         className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
