@@ -83,6 +83,17 @@ const getUserProfile = asyncHandler(async (req, res) => {
         _id: req.user._id,
         name: req.user.name,
         email: req.user.email,
+        vorname: req.user.vorname, 
+        nachname: req.user.nachname, 
+        telefonnummer: req.user.telefonnummer,
+        landesvorwahl: req.user.landesvorwahl, 
+        address: {
+            land: req.user.address?.land || "",
+            straße: req.user.address?.straße || "",
+            snummer: req.user.address?.snummer || "",
+            stadt: req.user.address?.stadt || "",
+            postleitzahl: req.user.address?.postleitzahl || "",
+        },
     });
 });
 
@@ -96,14 +107,17 @@ const updateUserProfile = asyncHandler(async (req, res) => {
             user.name = req.body.name || user.name;
             user.vorname = req.body.vorname || user.vorname;
             user.nachname = req.body.nachname || user.nachname;
-            user.telefonnummer = req.body.telfonnummer || user.telefonnummer;
+            user.email = req.body.email || user.email;
+            user.telefonnummer = req.body.telefonnummer || user.telefonnummer;
+            user.landesvorwahl = req.body.landesvorwahl || user.landesvorwahl;
     
             // Adresse aktualisieren
             user.address = {
-                land: req.body.land || user.address.land,
-                straße: req.body.straße || user.address.straße,
-                stadt: req.body.stadt || user.address.stadt,
-                postleitzahl: req.body.postleitzahl || user.address.postleitzahl
+                land: req.body.address?.land || user.address?.land || "",
+                straße: req.body.address?.straße || user.address?.straße || "",
+                snummer: req.body.address?.snummer || user.address?.snummer || "",
+                stadt: req.body.address?.stadt || user.address?.stadt || "",
+                postleitzahl: req.body.address?.postleitzahl || user.address?.postleitzahl || "",
             };
     
             const updatedUser = await user.save();
@@ -115,7 +129,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
                     name: updatedUser.name,
                     vorname: updatedUser.vorname,
                     nachname: updatedUser.nachname,
+                    email: updatedUser.email,
                     telefonnummer: updatedUser.telefonnummer,
+                    landesvorwahl: updatedUser.landesvorwahl,
                     address: updatedUser.address,
                 }
             });

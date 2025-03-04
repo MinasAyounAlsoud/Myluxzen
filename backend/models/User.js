@@ -8,10 +8,12 @@ const UserSchema = new mongoose.Schema({
     password: { type: String, required: true },
     vorname: { type: String, default: "" },
     nachname: { type: String, default: "" },
-    telefonnummer:{ type: Number, default: "" },
+    telefonnummer: { type: String, default: "" },
+    landesvorwahl: { type: String, default: "+49" },
     address: {
         land: { type: String, default: "" },
         straße: { type: String, default: "" },
+        snummer:{ type: String, default: "" },
         stadt: { type: String, default: "" },
         postleitzahl: { type: String, default: "" }
 },

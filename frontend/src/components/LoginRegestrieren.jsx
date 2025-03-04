@@ -1,8 +1,8 @@
 import { useState, useRef, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import { FaUserCircle } from "react-icons/fa"; // Standard-Profil-Icon
-import { HiOutlineMenu } from "react-icons/hi"; // Menü-Icon
+import { FaUserCircle } from "react-icons/fa"; 
+import { HiOutlineMenu } from "react-icons/hi"; 
 
 const LoginRegestrieren = () => {
     const { user, logout } = useContext(AuthContext);
@@ -10,7 +10,6 @@ const LoginRegestrieren = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef();
 
-    // Schließt das Menü, wenn außerhalb geklickt wird
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -37,22 +36,29 @@ const LoginRegestrieren = () => {
                 )}
             </button>
 
-            {/* Dropdown-Menü */}
             {menuOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg">
                     <ul className="py-2 text-gray-800">
                         {user ? (
                             <>
                                 <li>
-                                    <Link to="/account" className="block px-4 py-2 hover:bg-gray-100">Account</Link>
+                                    <Link 
+                                        to="/account-buchung/account" 
+                                        className="block px-4 py-2 hover:bg-gray-100"
+                                        onClick={() => setMenuOpen(false)}
+                                    >
+                                        Account
+                                    </Link>
                                 </li>
                                 <li>
-                                    <Link to="/reisen" className="block px-4 py-2 hover:bg-gray-100">Buchungen</Link>
+                                    <Link 
+                                        to="/account-buchung/buchungen" 
+                                        className="block px-4 py-2 hover:bg-gray-100"
+                                        onClick={() => setMenuOpen(false)}
+                                    >
+                                        Buchung
+                                    </Link>
                                 </li>
-                                <li>
-                                    <Link to="/wunschlisten" className="block px-4 py-2 hover:bg-gray-100">Bewertungen</Link>
-                                </li>
-                                
                                 <li>
                                     <button
                                         onClick={() => {

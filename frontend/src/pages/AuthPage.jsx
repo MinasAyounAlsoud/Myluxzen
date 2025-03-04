@@ -123,7 +123,7 @@ return (
                 {isRegister && (
                     <div className="relative flex items-center border-b border-gray-400">
                         <BiUser className="absolute left-2 text-gray-500" size={20} />
-                        <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} className="w-full pl-8 py-3 bg-transparent focus:outline-none" />
+                        <input type="text" placeholder="Benutzername" value={name} onChange={(e) => setName(e.target.value)} className="w-full pl-8 py-3 bg-transparent focus:outline-none" />
                     </div>
                 )}
                 <div className="relative flex items-center border-b border-gray-400">
