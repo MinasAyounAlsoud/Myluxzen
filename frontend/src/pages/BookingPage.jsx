@@ -9,10 +9,12 @@ import { SummeryBar } from '../components/booking/SummaryBar';
 import { Summery } from '../components/booking/Summery';
 import { SuccessBooking } from '../components/booking/SuccessBooking';
 
+
 export const BookingPage = ()=>{
     const [gotoNextStep, setGotoNextStep] = useState(false);
     const [isStepCompleted, setStepCompleted] = useState(false);
     const [step, setStep] = useState(1);
+    
     const loggedInUser = {
         email: "jane.doe@example.com",
         guestFirstName: "Jane",
@@ -26,8 +28,8 @@ export const BookingPage = ()=>{
         guestFamilyName: user !== null ?user.guestFamilyName : "",
         email: user !== null ?user.email : "",
         guestCount: 1,
-        startDate: "",
-        endDate: "",
+        startDate: null,
+        endDate: null,
         houseType:"",
         price: "",
         mobileNumber: user !== null ?user.mobileNumber : "",
@@ -131,50 +133,42 @@ export const BookingPage = ()=>{
     useEffect(()=>{
         console.log("successBookingNumber",successBookingNumber);
     },[successBookingNumber]);
+
+
     return (
-        <>
+    <div>
         {successBookingNumber==="" ? (
         <div>
         {/* <div>Booking Page</div> */}
-<ProcessBar        step={step} setStep={setStep}></ProcessBar>
-<div  className="py-10 px-12 overflow-auto">
-    <div onClick={e => e.stopPropagation()} 
-    className="flex lg:flex-row w-full lg:space-x-30 min-h-screen">
-        <div className="lg:w-3/5 w-full">
-            {step === 1 && <DateSelect gotoNextStep={gotoNextStep} setStepCompleted={setStepCompleted} setGotoNextStep={setGotoNextStep} newBooking={newBooking} setNewBooking={setNewBooking}></DateSelect >}
-            {step === 2 && <HouseSelect gotoNextStep={gotoNextStep} setStepCompleted={setStepCompleted} setGotoNextStep={setGotoNextStep} newBooking={newBooking} setNewBooking={setNewBooking}></HouseSelect>}
-            {step === 3 && <Contact gotoNextStep={gotoNextStep} setStepCompleted={setStepCompleted} setGotoNextStep={setGotoNextStep} newBooking={newBooking} setNewBooking={setNewBooking}></Contact>}
-            {step === 4 && <Payment gotoNextStep={gotoNextStep} setStepCompleted={setStepCompleted} setGotoNextStep={setGotoNextStep} newBooking={newBooking} setNewBooking={setNewBooking}></Payment>}
-
+        <div   className='pb-10 lg:px-20'>
+            <ProcessBar        step={step} setStep={setStep}></ProcessBar>
+            <div  className="py-10 px-12 overflow-auto">
+                <div onClick={e => e.stopPropagation()}
+                className="flex lg:flex-row w-full lg:space-x-30 min-h-screen">
+                    <div className="lg:w-3/5 w-full">
+                        {step === 1 && <DateSelect gotoNextStep={gotoNextStep} setStepCompleted={setStepCompleted} setGotoNextStep={setGotoNextStep} newBooking={newBooking} setNewBooking={setNewBooking}></DateSelect >}
+                        {step === 2 && <HouseSelect gotoNextStep={gotoNextStep} setStepCompleted={setStepCompleted} setGotoNextStep={setGotoNextStep} newBooking={newBooking} setNewBooking={setNewBooking}></HouseSelect>}
+                        {step === 3 && <Contact gotoNextStep={gotoNextStep} setStepCompleted={setStepCompleted} setGotoNextStep={setGotoNextStep} newBooking={newBooking} setNewBooking={setNewBooking}></Contact>}
+                        {step === 4 && <Payment gotoNextStep={gotoNextStep} setStepCompleted={setStepCompleted} setGotoNextStep={setGotoNextStep} newBooking={newBooking} setNewBooking={setNewBooking}></Payment>}
+                    </div>
+                    <div className="hidden lg:block w-full lg:w-2/5 ">
+                        <Summery newBooking={newBooking} completed={false}></Summery>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div className="hidden lg:block w-full lg:w-2/5 ">
-            <Summery newBooking={newBooking} completed={false}></Summery>
+
+            <div className="fixed bottom-14 w-full block lg:hidden py-1">
+                <SummeryBar  newBooking={newBooking} ></SummeryBar>
+            </div>
+            <div className="fixed bottom-0 w-full bg-gray-100 shadow pb-4 lg:py-4 px-4 space-y-2">
+            <ButtonBar step={step} setPrevStep={setPrevStep} setNextStep={setNextStep}></ButtonBar>
+            </div>
         </div>
-        {/* <button onClick={setPrevStep} 
-        disabled={step <= 1} >
-            prev
-        </button>
-        <button onClick={setNextStep} 
-        disabled={step > totalSteps} >
-            next
-        </button> */}
-
-    </div>
-</div>
-
-<div className="fixed bottom-0 w-full bg-gray-100 shadow py-10 px-12 font-bold">
-<div className="w-full block lg:hidden bg-gray-400">
-    <SummeryBar  newBooking={newBooking} ></SummeryBar>
-</div>
-
-    <ButtonBar step={step} setPrevStep={setPrevStep} setNextStep={setNextStep}></ButtonBar>
-</div>
-</div>
-
         )
         : (
             <SuccessBooking successBookingNumber={successBookingNumber}></SuccessBooking>
         )}
-        </>
+        </div>
     );
 };

@@ -44,13 +44,13 @@ export const SuccessBooking = ({successBookingNumber})=>{
         console.log("bookingTicket",bookingTicket);
     },[bookingTicket]);
     return (
-        <div className='flex flex-col items-center justify-center h-full'>
+        <div className='flex flex-col items-center justify-center h-full pb-20'>
  
             <div className='w-2/3 py-4'>
             <Summery newBooking={bookingTicket} completed={true}></Summery>
 
             </div>
-            <div className='w3/5 py-4 px-4 text-gray-700'>
+            <div className='w3/5 py-4 px-6 lg:px-20 text-gray-700'>
                 <p>Vielen Dank für Ihre Buchung.</p><br></br>
                 <p>Die Details Ihrer Bestellung werden an Ihre E-Mail-Adresse gesendet.</p><br></br>
                 <p>Falls Sie bereits registriert und angemeldet sind, können Sie Ihre Bestellung in Ihrem Benutzerkonto auf unserer Webseite einsehen und bei Bedarf auch stornieren.</p><br></br>

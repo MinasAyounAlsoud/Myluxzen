@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-function ContactForm({ user, newBooking, setNewBooking }) {
-
-
-
-
+function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, errLastName}) {
    
   const [focusedField, setFocusedField] = useState(null);
     // useEffect(() => {
@@ -86,7 +82,8 @@ function ContactForm({ user, newBooking, setNewBooking }) {
               className="mt-1 block w-full px-3 py-2 bg-transparent focus:outline-none"
             />
           </div>
-            <p>email error</p>
+          {errEmail ? <p className='text-red-500 text-sm'>Provide your email address.</p>
+                    : <p className="text-transparent text-sm">Placeholder</p>}
       </div>
       <div className="flex space-x-4">
         <div className="flex-1">
@@ -105,7 +102,9 @@ function ContactForm({ user, newBooking, setNewBooking }) {
                 className="mt-1 block w-full px-3 py-2 bg-transparent focus:outline-none"
               />
             </div>
-            <p>guestFirstName error</p>
+            {errFirstName ? <p className='text-red-500 text-sm'>Provide your first name.</p>
+                    : <p className="text-transparent text-sm">Placeholder</p>}
+
         </div>
         <div className="flex-1">
         <div className={`relative border rounded-lg  ${focusedField === 'guestFamilyName' || newBooking.guestFamilyName ? 'border-gray-700' : 'border-gray-300'} p-2`}>
@@ -123,7 +122,8 @@ function ContactForm({ user, newBooking, setNewBooking }) {
             className="mt-1 block w-full px-3 py-2 bg-transparent focus:outline-none"
           />
         </div>
-        <p>guestFamilyName error</p>
+        {errLastName ? <p className='text-red-500 text-sm'>Provide your last name.</p>
+                    : <p className="text-transparent text-sm">Placeholder</p>}
         </div>
 
       </div>

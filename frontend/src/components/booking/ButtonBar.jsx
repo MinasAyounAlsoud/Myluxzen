@@ -7,11 +7,11 @@ export const ButtonBar = ({step, setPrevStep, setNextStep})=>{
     return (
         <>
          <div>
-            <div className="flex justify-end space-x-4 px-20">
+            <div className="flex justify-end space-x-4 px-20  font-bold">
                 {step > 1 && (
                 <button
                     onClick={setPrevStep}
-                    className="bg-transparent border border-gray-300 text-lg text-gray-600 py-4 px-16 rounded-lg hover:bg-gray-200 flex items-center space-x-2"
+                    className="bg-transparent border border-gray-300 text-lg text-gray-600 py-2 px-16 rounded-lg hover:bg-gray-200 flex items-center space-x-2"
                 >
                     <FaArrowLeft /> <p>prev</p>
                 </button>
@@ -19,9 +19,9 @@ export const ButtonBar = ({step, setPrevStep, setNextStep})=>{
                 <button
                 onClick={setNextStep}
                 // disabled={step > totalSteps}
-                className="bg-gray-200 text-gray-700 text-lg text-gray-600 py-4 px-16  rounded-lg hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-gray-200 text-gray-700 text-lg text-gray-600 py-2 px-16  rounded-lg hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                {step === 4 ? 'Confirm and Pay' : 'Next'}
+                {step === 4 ? 'Confirm' : 'Next'}
                 </button>
             </div>
         </div>

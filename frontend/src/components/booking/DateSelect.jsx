@@ -15,10 +15,10 @@ export const DateSelect = ({newBooking, setNewBooking,gotoNextStep,setStepComple
     useEffect(()=>{
         if(gotoNextStep=== true){
             //varify if important information has been inputed
-            if(newBooking.startDate === "" || newBooking.endDate===""){
+            if(newBooking.startDate === null || newBooking.endDate===null){
                 setDateErrorMsg("Arrival and departure dates are required");
-                setErrStartDate(newBooking.startDate==="");
-                setEndStartDate(newBooking.endDate==="");
+                setErrStartDate(newBooking.startDate===null);
+                setEndStartDate(newBooking.endDate===null);
                 setStepCompleted(false);
                 setGotoNextStep(false);
             }else{

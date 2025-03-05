@@ -10,16 +10,18 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
     useEffect(()=>{
         if(gotoNextStep=== true){
             //varify if important information has been inputed
-            // if(newBooking.title === "" || newBooking.type===""){
-            //     setStepCompleted(false);
-            //     setGotoNextStep(false);
-            // }else{
-            //     setStepCompleted(true);
-            //     setGotoNextStep(false);
-            // }
-            setStepCompleted(true);
-            setGotoNextStep(false);
-            console.log("go to next step")
+            if(newBooking.houseType === ""){
+                setErrorMessage("You need to select an available house for booking.");
+                setStepCompleted(false);
+                setGotoNextStep(false);
+            }else{
+                setErrorMessage("");
+                setStepCompleted(true);
+                setGotoNextStep(false);
+            }
+            // setStepCompleted(true);
+            // setGotoNextStep(false);
+            // console.log("go to next step")
 
         }
     },[gotoNextStep]);
@@ -58,8 +60,10 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
               setErrorMessage("No available rooms for the selected dates.");
             }
           } catch (error) {
-            console.error("Error fetching available rooms:", error);
-            setErrorMessage("An error occurred while fetching available rooms.");
+            // console.error("Error fetching available rooms:", error);
+            // setErrorMessage("An error occurred while fetching available rooms.");
+            setErrorMessage("No available rooms for the selected dates.");
+
           }
         };
         
@@ -77,9 +81,11 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
                 <div class="text-2xl py-2 text-gray-700 font-bold">
                     Houses
                     </div>
-                <h2 class="py-1">Select the perfect room for your stay.</h2>
-                {errorMessage && <p>{errorMessage}</p>}
+                <h2 class="pb-1">Select the perfect room for your stay.</h2>
+                {/* {errorMessage && <p className='text-red-500 text-sm'>{errorMessage}</p>} */}
 
+                {errorMessage !== "" ? <p className='text-red-500 text-sm'>{errorMessage}</p>
+                    : <p className="text-transparent text-sm">Placeholder</p>}
             {availableRooms.length > 0 ? (
             <ul>
                 {availableRooms.map((room, index) => (
@@ -95,7 +101,7 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
                 ))}
             </ul>
             ) : (
-            <p>No available rooms for the selected dates.</p>
+            <p></p>
             )}
         </>
     );
