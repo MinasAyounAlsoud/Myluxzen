@@ -8,6 +8,21 @@ const isValidPassword = (password) => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     return regex.test(password);
 };
+const isValidPhoneNumber = (phoneNumber) => {
+    const regex = /^\d{6,15}$/; // ✅ Akzeptiert "+49..." oder "+123456789" (6-15 Ziffern nach "+")
+    return regex.test(phoneNumber);
+};
+const isValidName = (name) => {
+    const regex = /^[A-Za-zÄÖÜäöüß\s]+$/; // ✅ Nur Buchstaben, Leerzeichen, Bindestriche & Apostrophe erlaubt
+    return regex.test(name);
+};
+
+// 🔹 E-Mail-Validierung
+const isValidEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // ✅ Standard E-Mail-Format prüfen
+    return regex.test(email);
+};
+
 
 // Benutzer registrieren
 const registerUser = asyncHandler(async (req, res) => {
@@ -103,6 +118,27 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         const user = await User.findById(req.user._id);
     
         if (user) {
+             // 🔹 Vorname & Nachname validieren
+        if (req.body.vorname && !isValidName(req.body.vorname)) {
+            res.status(400);
+            throw new Error("Ungültiger Vorname! Nur Buchstaben erlaubt.");
+        }
+        if (req.body.nachname && !isValidName(req.body.nachname)) {
+            res.status(400);
+            throw new Error("Ungültiger Nachname! Nur Buchstaben erlaubt.");
+        }
+
+        // 🔹 E-Mail validieren
+        if (req.body.email && !isValidEmail(req.body.email)) {
+            res.status(400);
+            throw new Error("Ungültige E-Mail-Adresse! Bitte ein gültiges Format verwenden.");
+        }
+                 // 🔹 Telefonnummer validieren
+        if (req.body.telefonnummer && !isValidPhoneNumber(req.body.telefonnummer)) {
+            res.status(400);
+            throw new Error("Ungültige Telefonnummer! Sie darf nur Zahlen enthalten ");
+        }
+
             // Persönliche Daten aktualisieren
             user.name = req.body.name || user.name;
             user.vorname = req.body.vorname || user.vorname;

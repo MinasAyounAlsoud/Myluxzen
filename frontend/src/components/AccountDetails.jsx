@@ -10,8 +10,10 @@ const countryCodes = [
 
 const AccountDetails = () => {
     const { user, setUser } = useContext(AuthContext);
-    const [editField, setEditField] = useState(null);
     const [editingFields, setEditingFields] = useState({}); 
+    const [errors, setErrors] = useState({});
+    const [successMessage, setSuccessMessage] = useState("");
+
     const [formData, setFormData] = useState({
         name: "",
         vorname: "",
@@ -28,9 +30,8 @@ const AccountDetails = () => {
         },
     });
 
-    const [message, setMessage] = useState("");
-
     // **Daten beim Start aus Backend laden**
+   
     useEffect(() => {
         const fetchUserProfile = async () => {
             try {
@@ -38,34 +39,11 @@ const AccountDetails = () => {
                     method: "GET",
                     credentials: "include",
                 });
-    
+
                 if (response.ok) {
                     const userData = await response.json();
-                    setUser(userData); // Benutzer im AuthContext speichern
-                    
-                    // Sicherstellen, dass `address` existiert
-                    setFormData(prevFormData => ({
-                        ...prevFormData,
-                        name: userData.name || prevFormData.name,
-                        vorname: userData.vorname || prevFormData.vorname,
-                        nachname: userData.nachname || prevFormData.nachname,
-                        email: userData.email || prevFormData.email,
-                        telefonnummer: userData.telefonnummer || prevFormData.telefonnummer,
-                        landesvorwahl: userData.landesvorwahl || prevFormData.landesvorwahl,
-                        address: userData.address ? {  
-                            land: userData.address.land || "",
-                            straße: userData.address.straße || "",
-                            snummer: userData.address.snummer || "",
-                            stadt: userData.address.stadt || "",
-                            postleitzahl: userData.address.postleitzahl || "",
-                        } : { // Falls keine Adresse existiert, leeres Objekt setzen
-                            land: "",
-                            straße: "",
-                            snummer: "",
-                            stadt: "",
-                            postleitzahl: "",
-                        }
-                    }));
+                    setUser(userData);
+                    setFormData(userData);
                 } else {
                     console.error("Fehler beim Laden der Benutzerdaten.");
                 }
@@ -73,11 +51,12 @@ const AccountDetails = () => {
                 console.error("Fehler beim Abrufen der Benutzerdaten:", error);
             }
         };
-    
+
         if (!user?.vorname || !user?.nachname || !user?.telefonnummer) {
             fetchUserProfile();
         }
     }, [setUser]);
+
     
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -99,8 +78,41 @@ const AccountDetails = () => {
         }
     };
     
+    const validateFields = () => {
+        let newErrors = {};
+
+        // Vorname & Nachname: nur Buchstaben erlaubt
+        const nameRegex = /^[A-Za-zÄÖÜäöüß\s-]+$/;
+        if (!nameRegex.test(formData.vorname)) {
+            newErrors.vorname = "Vorname darf nur Buchstaben enthalten.";
+        }
+        if (!nameRegex.test(formData.nachname)) {
+            newErrors.nachname = "Nachname darf nur Buchstaben enthalten.";
+        }
+
+        // Telefonnummer: nur Zahlen erlaubt
+        const phoneRegex = /^\d{6,15}$/;
+        if (!phoneRegex.test(formData.telefonnummer)) {
+            newErrors.telefonnummer = "Telefonnummer darf nur Zahlen enthalten.";
+        }
+
+        // E-Mail Validierung
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+            newErrors.email = "Bitte eine gültige E-Mail-Adresse eingeben.";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleSave = async () => {
-        setMessage("");
+        setErrors({});
+        setSuccessMessage("");
+        if (!validateFields()) {
+            return; // Stoppe das Speichern, wenn Fehler vorhanden sind
+        }
+
         try {
             const response = await fetch("http://localhost:3000/api/auth/profile", {
                 method: "PUT",
@@ -108,24 +120,25 @@ const AccountDetails = () => {
                 credentials: "include",
                 body: JSON.stringify(formData),
             });
-    
+
             const data = await response.json();
-            console.log("🔹 Server-Antwort nach Speicherung:", data);
-    
+
             if (response.ok) {
-                setUser(data.user); // ✅ Benutzer-Daten sofort aktualisieren
-                setFormData(data.user); // ✅ Form-Daten mit neuen Werten setzen
-                setEditingFields((prev) => ({ ...prev, name: false, telefonnummer: false, address: false })); // ✅ Alle Bearbeitungsfelder schließen
-                setMessage("Änderungen gespeichert!");
+                setUser(data.user);
+                setFormData(data.user);
+                setEditingFields({});
+                setSuccessMessage("Deine Änderungen wurden erfolgreich gespeichert!");
+
+                setTimeout(() => setSuccessMessage(""), 3000);
             } else {
-                setMessage(data.message || "Fehler beim Speichern.");
+                setErrors(data.errors || { general: data.message || "Fehler beim Speichern." });
             }
         } catch (error) {
             console.error("Fehler beim Speichern:", error);
-            setMessage("Serverfehler, bitte später erneut versuchen.");
+            setErrors({ general: "Serverfehler, bitte später erneut versuchen." });
         }
     };
-    
+
     
     const handleCancel = (field) => {
         setFormData(user); // ✅ Ursprüngliche Werte aus `user` wiederherstellen
@@ -141,11 +154,11 @@ const AccountDetails = () => {
 
         
       
-        <h1 className="text-3xl font-bold text-gray-800 mb-10">Personal Info</h1>
+        <h1 className="text-3xl font-bold text-gray-800 mb-10">Persönliche Daten</h1>
 
             {/* 1️⃣ Benutzername */}
             <div className="p-6 bg-gray-50 shadow-md rounded-xl">
-                <h2 className="text-xl font-semibold text-gray-800">Benutzername</h2>
+                <h2 className="text-xl font-semibold text-gray-800">Benutzer Name</h2>
                 {editingFields.name ? (
                     <>
                         <input
@@ -199,6 +212,8 @@ const AccountDetails = () => {
                                 className="w-1/2 bg-gray-100 p-3 rounded-md border border-gray-300"
                             />
                         </div>
+                        {errors.vorname && <p className="text-red-500 text-sm mt-1">{errors.vorname}</p>}
+                        {errors.nachname && <p className="text-red-500 text-sm mt-1">{errors.nachname}</p>}
                         <div className="flex justify-between mt-3">
                             <button onClick={handleSave} className="px-5 py-2 bg-black text-white rounded-md hover:bg-gray-800">
                                 Speichern
@@ -230,6 +245,7 @@ const AccountDetails = () => {
                             onChange={handleChange}
                             className="w-full bg-gray-100 p-3 rounded-md border border-gray-300 mt-2"
                         />
+                        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                         <div className="flex justify-between mt-3">
                             <button onClick={handleSave} className="px-5 py-2 bg-black text-white rounded-md hover:bg-gray-800">
                                 Speichern
@@ -276,6 +292,8 @@ const AccountDetails = () => {
                                 className="w-2/3 bg-gray-100 p-3 rounded-md border border-gray-300"
                             />
                         </div>
+                        {errors.telefonnummer && <p className="text-red-500 text-sm mt-1">{errors.telefonnummer}</p>}
+                   
                         <div className="flex justify-between mt-3">
                             <button onClick={handleSave} className="px-5 py-2 bg-black text-white rounded-md hover:bg-gray-800">
                                 Speichern
@@ -295,7 +313,7 @@ const AccountDetails = () => {
                 )}
             </div>
     
-                  {/*Addresse*/
+                  {/*Addresse*/}
                   
                   <div className="p-6 bg-gray-50 shadow-md rounded-xl">
     <h2 className="text-lg font-semibold text-gray-800">Adresse</h2>
@@ -384,13 +402,16 @@ const AccountDetails = () => {
         </div>
     )}
 </div>
-}
-            {message && <p className="text-green-600">{message}</p>}
-        </div>
-        //Addresse
 
-        
+        {successMessage && (
+            <div className="fixed bottom-5 left-5 bg-green-100 text-green-800 px-4 py-2 rounded-lg shadow-md">
+                ✅ {successMessage}
+            </div>
+        )}
+    </div>
+
     );
-}    
+};
+
 
 export default AccountDetails;
