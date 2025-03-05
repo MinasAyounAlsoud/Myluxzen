@@ -134,8 +134,15 @@ const AccountDetails = () => {
     
 
     return (
-        <div className="max-w-3xl mx-auto p-8 bg-white shadow-lg rounded-2xl space-y-6">
-            
+        /*
+        <div className="max-w-4xl mx-auto px-8 md:px-12 lg:px-16 py-8 bg-white shadow-lg rounded-2xl space-y-4">
+        */
+        <div className="max-w-3xl mx-auto p-8 bg-white shadow-lg rounded-2xl space-y-4">
+
+        
+      
+        <h1 className="text-3xl font-bold text-gray-800 mb-10">Personal Info</h1>
+
             {/* 1️⃣ Benutzername */}
             <div className="p-6 bg-gray-50 shadow-md rounded-xl">
                 <h2 className="text-xl font-semibold text-gray-800">Benutzername</h2>
@@ -159,7 +166,7 @@ const AccountDetails = () => {
                     </>
                 ) : (
                     <div className="flex justify-between mt-3">
-                        <p className="text-gray-700">{user?.name || "Kein Benutzername angegeben"}</p>
+                        <p className="text-gray-500">{user?.name || "Kein Benutzername angegeben"}</p>
                         <button onClick={() => setEditingFields({ name: true })} className="text-blue-600 hover:underline">
                             Bearbeiten
                         </button>
@@ -203,7 +210,7 @@ const AccountDetails = () => {
                     </>
                 ) : (
                     <div className="flex justify-between mt-3">
-                        <p className="text-gray-700">{user?.vorname || "Kein Vorname"} {user?.nachname || "Kein Nachname"}</p>
+                        <p className="text-gray-500">{user?.vorname || "Kein Vorname"} {user?.nachname || "Kein Nachname"}</p>
                         <button onClick={() => setEditingFields({ nameDetails: true })} className="text-blue-600 hover:underline">
                             Bearbeiten
                         </button>
@@ -234,7 +241,7 @@ const AccountDetails = () => {
                     </>
                 ) : (
                     <div className="flex justify-between mt-3">
-                        <p className="text-gray-700">{user?.email}</p>
+                        <p className="text-gray-500">{user?.email}</p>
                         <button onClick={() => setEditingFields({ email: true })} className="text-blue-600 hover:underline">
                             Bearbeiten
                         </button>
@@ -280,7 +287,7 @@ const AccountDetails = () => {
                     </>
                 ) : (
                     <div className="flex justify-between mt-3">
-                        <p className="text-gray-700">{user?.landesvorwahl} {user?.telefonnummer || "Keine Nummer hinterlegt"}</p>
+                        <p className="text-gray-500">{user?.landesvorwahl} {user?.telefonnummer || "Keine Nummer hinterlegt"}</p>
                         <button onClick={() => setEditingFields({ telefonnummer: true })} className="text-blue-600 hover:underline">
                             Bearbeiten
                         </button>
@@ -364,7 +371,7 @@ const AccountDetails = () => {
         </>
     ) : (
         <div className="flex justify-between mt-3">
-            <p className="text-gray-700">
+            <p className="text-gray-500">
                 {user?.address?.land ? `${user.address.land}, ` : ""}
                 {user?.address?.straße ? `${user.address.straße} ` : ""}
                 {user?.address?.snummer ? `${user.address.snummer}, ` : ""}
