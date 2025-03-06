@@ -40,7 +40,9 @@ export function GuestPicker({ newBooking = {}, setNewBooking }) {
         <FaMinus />
       </button>
       <span className="guest-count text-gray-700 font-bold text-xl flex-auto text-center">
-      {guestCount} guest{guestCount > 1 ? "s" : ""}</span>
+        {guestCount} {guestCount > 1 ? "Gäste" : "Gast"}
+      </span>
+
       <button
         onClick={handleIncrease}
         disabled={guestCount >= maxGuestsNumber}

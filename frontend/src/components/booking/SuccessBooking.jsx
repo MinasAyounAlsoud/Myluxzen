@@ -58,7 +58,7 @@ export const SuccessBooking = ({successBookingNumber})=>{
                 <p>Wir freuen uns darauf, Sie bald willkommen zu heißen und stehen Ihnen jederzeit gerne zur Verfügung, um Ihren Aufenthalt so angenehm wie möglich zu gestalten.</p><br></br>
             </div>
             <button 
-            className="bg-gray-200 text-gray-700 text-lg text-gray-600 py-4 px-16  rounded-lg hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed">
+            className="bg-[#064236] text-white text-lg text-gray-600 py-4 px-16 cursor-pointer rounded-lg hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed">
                 close
             </button>
         </div>

@@ -29,7 +29,7 @@ export const Contact = ({newBooking, setNewBooking,gotoNextStep,setStepCompleted
     return (
         <div>
                 <div class="text-2xl py-2 text-gray-700 font-bold">
-                    Your contact details
+                    Ihre Kontaktdaten
                 </div>
 
                 <ContactForm newBooking={newBooking} setNewBooking={setNewBooking}

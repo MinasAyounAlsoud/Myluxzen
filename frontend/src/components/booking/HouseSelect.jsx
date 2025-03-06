@@ -79,9 +79,9 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
     return (
         <>
                 <div class="text-2xl py-2 text-gray-700 font-bold">
-                    Houses
+                    Häuser
                     </div>
-                <h2 class="pb-1">Select the perfect room for your stay.</h2>
+                <h2 class="pb-1">Wählen Sie das perfekte Zimmer für Ihren Aufenthalt.</h2>
                 {/* {errorMessage && <p className='text-red-500 text-sm'>{errorMessage}</p>} */}
 
                 {errorMessage !== "" ? <p className='text-red-500 text-sm'>{errorMessage}</p>

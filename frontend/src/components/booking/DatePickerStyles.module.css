@@ -1,7 +1,0 @@
-/* DatePickerStyles.module.css */
-.datePickerCalendar {
-  /* 放大日历到150% */
-  transform: scale(1.5);
-  transform-origin: top center; /* 确保放大以日历顶部为中心 */
-  margin: auto; /* 居中日历，如果需要的话 */
-}

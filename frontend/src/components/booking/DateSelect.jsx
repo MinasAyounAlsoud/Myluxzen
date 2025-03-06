@@ -44,7 +44,7 @@ export const DateSelect = ({newBooking, setNewBooking,gotoNextStep,setStepComple
     return (
         <div>
                 <div class="text-2xl py-2 text-gray-700 font-bold">
-                    Dates
+                    Daten
                 </div>
 
                 <div className="w-full space-y-4">

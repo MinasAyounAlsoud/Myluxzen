@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import styles from "./DatePickerStyles.module.css";
+// import styles from "./DatePickerStyles.module.css";
 
 
 export function DateRangePicker({ newBooking, setNewBooking, errStartDate, errEndDate }) {
@@ -42,7 +42,7 @@ export function DateRangePicker({ newBooking, setNewBooking, errStartDate, errEn
           minDate={new Date()}
           placeholderText="--"
           className="text-black font-bold text-xl"
-          calendarClassName={styles.datePickerCalendar}
+          calendarClassName="datePickerCalendar"
 
         />
       </div>
@@ -57,7 +57,7 @@ export function DateRangePicker({ newBooking, setNewBooking, errStartDate, errEn
           minDate={newBooking.startDate ? new Date(newBooking.startDate) : new Date()}
           placeholderText="--"
           className="text-black font-bold text-xl"
-          calendarClassName={styles.datePickerCalendar}
+          calendarClassName="datePickerCalendar"
         />
       </div>
     </div>

@@ -2,7 +2,7 @@ import React from "react";
 
 export const ProcessBar = ({ step, setStep }) => {
     // 定义步骤名称
-    const steps = ["Dates", "Houses", "Contact", "Payment"];
+    const steps = ["Daten", "Häuser", "Kontakt", "Zahlung"];
 
     return (
         <div  className="py-10 px-12" >

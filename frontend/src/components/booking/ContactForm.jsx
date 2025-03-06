@@ -89,7 +89,7 @@ function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, errLast
         <div className="flex-1">
             <div className={`relative border rounded-lg  ${focusedField === 'guestFirstName' || newBooking.newBooking ? 'border-gray-700' : 'border-gray-300'} p-2 `}>
               <label htmlFor="guestFirstName" className={`absolute text-gray-700 transition-all ${focusedField === 'guestFirstName' || newBooking.guestFirstName ? 'text-sm top-0' : 'text-lg top-1/2 transform -translate-y-1/2'}`}>
-                First Name:
+                Vorname:
               </label>
               <input
                 type="text"
@@ -109,7 +109,7 @@ function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, errLast
         <div className="flex-1">
         <div className={`relative border rounded-lg  ${focusedField === 'guestFamilyName' || newBooking.guestFamilyName ? 'border-gray-700' : 'border-gray-300'} p-2`}>
           <label htmlFor="guestFamilyName" className={`absolute text-gray-700 transition-all ${focusedField === 'guestFamilyName' || newBooking.guestFamilyName ? 'text-sm top-0' : 'text-lg top-1/2 transform -translate-y-1/2'}`}>
-            Last Name:
+            Nachname:
           </label>
           <input
             type="text"
@@ -130,7 +130,7 @@ function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, errLast
 
       <div className={`relative border rounded-lg  ${focusedField === 'mobileNumber' || newBooking.mobileNumber ? 'border-gray-700' : 'border-gray-300'} p-2`}>
         <label htmlFor="mobileNumber" className={`absolute text-gray-700 transition-all ${focusedField === 'mobileNumber' || newBooking.mobileNumber ? 'text-sm top-0' : 'text-lg top-1/2 transform -translate-y-1/2'}`}>
-          Phone Number:
+          Telefonnummer:
         </label>
         <input
           type="text"
@@ -145,7 +145,7 @@ function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, errLast
       </div>
       <div className={`relative border rounded-lg  ${focusedField === 'comments' || newBooking.comments ? 'border-gray-700' : 'border-gray-300'} p-2`}>
         <label htmlFor="comments" className={`absolute text-gray-700 transition-all ${focusedField === 'comments' || newBooking.comments ? 'text-sm top-0' : 'text-lg top-1/2 transform -translate-y-1/2'}`}>
-          Comments (Optional):
+          Kommentare (optional):
         </label>
         <textarea
           id="comments"
