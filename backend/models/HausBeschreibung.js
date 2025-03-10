@@ -2,6 +2,10 @@ import { Schema, model } from "mongoose";
 
 const hausBeschreibungSchema = new Schema(
   {
+    houseType: {
+      type: String,
+      required: true,
+    },
     title: {
       type: String,
       required: true,
@@ -12,7 +16,7 @@ const hausBeschreibungSchema = new Schema(
       type: String,
       required: true,
     },
-    guests: Number,
+    guests: Number, // Maximal erlaubte Gäste
     bedrooms: Number,
     livingRoom: Number,
     terrace: Number,
@@ -27,11 +31,16 @@ const hausBeschreibungSchema = new Schema(
       homeSafety: String,
     },
     pricePerNight: {
+      // Preis pro Nacht
       type: Number,
       required: true,
     },
     location: {
       type: String,
+      required: true,
+    },
+    availableCount: {
+      type: Number,
       required: true,
     },
     availability: [
