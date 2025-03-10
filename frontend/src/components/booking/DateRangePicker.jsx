@@ -1,36 +1,24 @@
-import React, { useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-// import styles from "./DatePickerStyles.module.css";
-
-
 export function DateRangePicker({ newBooking, setNewBooking, errStartDate, errEndDate }) {
-  // 解析日期（如果是空字符串或者 undefined，就设为 null）
   const parseDate = (date) => {
     return date && date !== "" ? new Date(date) : null;
   };
-
-  // 设置 DatePicker 选择器的日期
   const handleStartDateChange = (date) => {
     setNewBooking(prev => ({
       ...prev,
       startDate: date ? date.toISOString() : null,
     }));
   };
-
   const handleEndDateChange = (date) => {
     setNewBooking(prev => ({
       ...prev,
       endDate: date ? date.toISOString() : null,
     }));
   };
-
-
-
   return (
-    <div className="flex flex-col lg:flex-row w-full justify-start lg:justify-between space-y-4 lg:space-y-0 lg:space-x-4"
-   >
+    <div className="flex flex-col lg:flex-row w-full justify-start lg:justify-between space-y-4 lg:space-y-0 lg:space-x-4">
       <div className={`bg-white p-1 border rounded-lg shadow px-4 py-1 lg:flex-1 ${errStartDate ? 'border-red-500' : 'border-gray-300'}`}>
         <p className="text-sm text-gray-500">Check-In</p>
         <DatePicker
@@ -43,7 +31,6 @@ export function DateRangePicker({ newBooking, setNewBooking, errStartDate, errEn
           placeholderText="--"
           className="text-black font-bold text-xl"
           calendarClassName="datePickerCalendar"
-
         />
       </div>
       <div className={`bg-white p-1 border rounded-lg shadow px-4 py-1 lg:flex-1 ${errEndDate ? 'border-red-500' : 'border-gray-300'}`}>

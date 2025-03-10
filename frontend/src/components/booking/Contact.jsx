@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ContactForm from './ContactForm';
 
 export const Contact = ({newBooking, setNewBooking,gotoNextStep,setStepCompleted,setGotoNextStep})=>{
-
     const [errEmail, setErrorEmail] = useState(false);
     const [errFirstName, setErrorFirstName] = useState(false);
     const [errLastName, setLastName] = useState(false);
-
     useEffect(()=>{
         if(gotoNextStep=== true){
             //varify if important information has been inputed
@@ -20,22 +18,16 @@ export const Contact = ({newBooking, setNewBooking,gotoNextStep,setStepCompleted
                 setStepCompleted(true);
                 setGotoNextStep(false);
             }
-            // setStepCompleted(true);
-            // setGotoNextStep(false);
         }
     },[gotoNextStep]);
-
-
     return (
-        <div>
-                <div class="text-2xl py-2 text-gray-700 font-bold">
-                    Ihre Kontaktdaten
-                </div>
-
-                <ContactForm newBooking={newBooking} setNewBooking={setNewBooking}
-                            errEmail={errEmail} errFirstName={errFirstName} errLastName={errLastName}
-                ></ContactForm>
-
+    <div>
+        <div className="text-2xl py-2 text-gray-700 font-bold">
+            Ihre Kontaktdaten
         </div>
+        <ContactForm newBooking={newBooking} setNewBooking={setNewBooking}
+                    errEmail={errEmail} errFirstName={errFirstName} errLastName={errLastName}>
+        </ContactForm>
+    </div>
     );
 };

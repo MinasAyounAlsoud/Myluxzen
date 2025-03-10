@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
-import {SingleBookingTicket} from '../components/admin/SingleBookingTicket'; // 确保路径正确
+import { useState } from 'react';
+import {SingleBookingTicket} from '../components/admin/SingleBookingTicket'; 
 
 export function AdminBookingTicket() {
     const [bookingNumber, setBookingNumber] = useState('');
     const [bookingData, setBookingData] = useState(null);
     const [error, setError] = useState('');
     const [showDetails, setShowDetails] = useState(false);
-
     const fetchBooking = async () => {
         try {
             const response = await fetch(`http://localhost:3000/booking/byBookingNum/${bookingNumber}`, {
                 method: "GET",
                 headers: {
-                  "Content-Type": "application/json",
+                    "Content-Type": "application/json",
                 },
-              });
+            });
             if (!response.ok) throw new Error('Buchung Number nicht gefunden.');
             const data = await response.json();
             setBookingData(data);
@@ -26,7 +25,6 @@ export function AdminBookingTicket() {
             setShowDetails(false);
         }
     };
-
     return (
         <div className='py-4 px-10 '>
             {!showDetails ? (
@@ -45,8 +43,7 @@ export function AdminBookingTicket() {
                     {error && <p>{error}</p>}
                 </div>
             ) : (
-                <SingleBookingTicket
-                singleBooking={bookingData}
+                <SingleBookingTicket singleBooking={bookingData}
                     onClose={() => setShowDetails(false)}
                 />
             )}

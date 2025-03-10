@@ -47,4 +47,4 @@ export function AppRouter() {
     return (
       <RouterProvider router={router} />
     );
-  }
+}

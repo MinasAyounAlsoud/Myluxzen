@@ -1,4 +1,3 @@
-// routes/bookingRoutes.js
 import express from "express";
 import { getAvailableBooking, queryBookingTickets,editBookingStatus,deleteBooking } from "../middlewares/bookingMW.js";
 import { getAvailableRooms } from "../middlewares/bookingMW.js";
@@ -6,21 +5,16 @@ import { createBookingMiddleware } from "../middlewares/bookingMW.js";
 import { getBookingTicket } from "../middlewares/bookingMW.js";
 
 const router = express.Router();
-
-
 router.get("/active-bookings",[getAvailableBooking], (req, res) => {
-    // const result = { message: "ok" }; // 直接定义响应数据
     console.log("/active-bookings:");
-    res.status(200).json(req.result); // 直接返回响应
+    res.status(200).json(req.result); 
 });
 router.get("/byBookingNum/:bookingNumber",[getBookingTicket], (req, res) => {
-    // const result = { message: "ok" }; // 直接定义响应数据
     console.log("Response:", req.result);
-    res.status(200).json(req.result); // 直接返回响应
+    res.status(200).json(req.result); 
 });
 router.get('/query',[queryBookingTickets], (req, res) => {
-    // console.log("Response:", req.result);
-    res.status(200).json(req.result); // 直接返回响应
+    res.status(200).json(req.result); 
 });
 router.post("/check-availability", getAvailableRooms, (req, res) => {
     const availableRooms = req.result;
@@ -41,5 +35,4 @@ router.delete("/delete/:bookingNumber", deleteBooking, (req, res) => {
 router.use((err, req, res, next)=>{
     res.status(err.status || 400).json({ message: err.message });
 });
-
 export { router as bookingRouter };
