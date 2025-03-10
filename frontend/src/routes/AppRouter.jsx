@@ -6,7 +6,7 @@ import { AdminBookingQueryPage } from '../pages/AdminBookingQueryPage';
 import { AdminBookingTicket } from '../pages/AdminBookingTicket';
 const userIsLogin = {
     isAuthenticated:true,
-    isAdmin:true
+    isAdmin:false
 }
 const router = createBrowserRouter([
     {
@@ -16,7 +16,12 @@ const router = createBrowserRouter([
     {
         path: "/booking",
         element: <BookingPage></BookingPage>
-      },
+    },
+    // page router, begin
+
+
+
+    // page router, end
     {
         path: "/admin",
         element: <AdminPage></AdminPage>,
@@ -24,6 +29,9 @@ const router = createBrowserRouter([
           { path: "bookings-query", element: <AdminBookingQueryPage></AdminBookingQueryPage> },
           { path: "", element: <div className='text-3xl pt-10 pl-4'>Willkommen im Admin-Dashboard</div> },
           { path: "bookings-manage", element: <AdminBookingTicket></AdminBookingTicket>},
+          // admin page, begin
+
+          // admin page, end
         ],
         loader: async () => {
           const user = userIsLogin; 

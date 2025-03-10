@@ -6,7 +6,6 @@ const bookingSchema = new mongoose.Schema({
     guestFamilyName: { type: String, required: true },
     email: {
         type: String,
-        // select: false,
     },
     guestCount : { type: Number, required: true },
     startDate: { type: Date, required: true },
