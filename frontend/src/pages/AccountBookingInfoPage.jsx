@@ -3,9 +3,9 @@ import { useLocation, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import AccountDetails from "../components/AccountDetails";
-import BuchungDetails from "../components/BuchungDetails";
+import BookingDetails from "../components/BookingDetails";
 
-const AccountBuchungPage = () => {
+const AccountBookingInfoPage = () => {
     const { user } = useContext(AuthContext);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -17,9 +17,9 @@ const AccountBuchungPage = () => {
 
     return (
         <div>
-            {view === "buchung" ? <BuchungDetails /> : <AccountDetails />}
+            {view === "buchung" ? <BookingDetails /> : <AccountDetails />}
         </div>
     );
 };
 
-export default AccountBuchungPage;
+export default AccountBookingInfoPage;

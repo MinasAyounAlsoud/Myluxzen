@@ -3,11 +3,11 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 const UserSchema = new mongoose.Schema({
-    name: { type: String, required: true },
+
+    vorname: { type: String, required: true }, 
+    nachname: { type: String, required: true },  
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    vorname: { type: String, default: "" },
-    nachname: { type: String, default: "" },
     telefonnummer: { type: String, default: "" },
     landesvorwahl: { type: String, default: "+49" },
     address: {

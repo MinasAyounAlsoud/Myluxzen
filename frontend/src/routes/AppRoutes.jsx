@@ -3,9 +3,10 @@ import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import HomePage from "../pages/HomePage";
 import AuthPage from "../pages/AuthPage";
-import AccountBuchungPage from "../pages/AccountBuchungPage";
+import AccountBookingInfoPage from "../pages/AccountBookingInfoPage";
 import AccountDetails from "../components/AccountDetails";  // Importiert die Komponenten
-import BuchungDetails from "../components/BuchungDetails";
+import BookingDetails from "../components/BookingDetails";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const AppRoutes = () => {
     const { user } = useContext(AuthContext);
@@ -14,16 +15,11 @@ const AppRoutes = () => {
         <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/auth" element={<AuthPage />} />
-           { /*
-            <Route path="/account-buchung" element={ user ?<AccountBuchungPage /> : <Navigate to="/auth" />} />
-            <Route path="/account-buchung/account" element={ user ?<AccountDetails /> : <Navigate to="/auth" />} />
-            <Route path="/account-buchung/buchungen" element={ user ?<BuchungDetails /> : <Navigate to="/auth" />} />
-            */}
-            {/* Kombinierte Account & Buchung Page */}
-            <Route path="/account-buchung" element={ <AccountBuchungPage />} />
-            <Route path="/account-buchung/account" element={<AccountDetails /> } />
-            <Route path="/account-buchung/buchungen" element={<BuchungDetails />} />
-
+            <Route element={<ProtectedRoute />}>
+            <Route path="/account-buchung" element={ <AccountBookingInfoPage />} />
+            <Route path="/account-booking/account" element={<AccountDetails /> } />
+            <Route path="/account-booking/booking" element={<BookingDetails />} />
+            </Route>
             {/* Wenn ein nicht vorhandener Pfad aufgerufen wird */}
             <Route path="*" element={<Navigate to="/" />} />
         </Routes>

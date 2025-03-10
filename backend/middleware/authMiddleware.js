@@ -13,10 +13,16 @@ const protect = asyncHandler(async (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET); //  Token entschlüsseln
         req.user = await User.findById(decoded.id).select("-password");
+        if (!req.user) {
+            console.log("❌ Kein Benutzer gefunden!");
+            return res.status(401).json({ message: "Nicht autorisiert, Benutzer existiert nicht" });
+        }
+
+        console.log("✅ Authentifiziert:", req.user.email);
         next();
     } catch (error) {
-        res.status(401);
-        throw new Error("Nicht autorisiert, ungültiges Token");
+        console.log("❌ Fehler bei Token-Überprüfung:", error.message);
+        return res.status(401).json({ message: "Nicht autorisiert, ungültiges Token" });
     }
 });
 

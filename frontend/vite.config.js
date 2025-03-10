@@ -7,4 +7,7 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     react()],
+    json: {
+      stringify: true // ✅ Erlaubt das Importieren von JSON-Dateien
+    }
 })

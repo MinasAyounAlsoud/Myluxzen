@@ -15,7 +15,6 @@ const AccountDetails = () => {
     const [successMessage, setSuccessMessage] = useState("");
 
     const [formData, setFormData] = useState({
-        name: "",
         vorname: "",
         nachname: "",
         email: "",
@@ -158,29 +157,31 @@ const AccountDetails = () => {
 
             {/* 1️⃣ Benutzername */}
             <div className="p-6 bg-gray-50 shadow-md rounded-xl">
-                <h2 className="text-xl font-semibold text-gray-800">Benutzer Name</h2>
-                {editingFields.name ? (
+                <h2 className="text-xl font-semibold text-gray-800">Vorname</h2>
+                {editingFields.vorname ? (
                     <>
                         <input
                             type="text"
-                            name="name"
-                            value={formData.name}
+                            name="vorname"
+                            placeholder="Vorname"
+                            value={formData.vorname}
                             onChange={handleChange}
                             className="w-full bg-gray-100 p-3 rounded-md border border-gray-300 mt-2"
                         />
+                        {errors.vorname && <p className="text-red-500 text-sm mt-1">{errors.vorname}</p>}
                         <div className="flex justify-between mt-3">
                             <button onClick={handleSave} className="px-5 py-2 bg-black text-white rounded-md hover:bg-gray-800">
                                 Speichern
                             </button>
-                            <button onClick={() => handleCancel("name")} className="text-gray-500 hover:underline">
+                            <button onClick={() => handleCancel("vorname")} className="text-gray-500 hover:underline">
                                 Abbrechen
                             </button>
                         </div>
                     </>
                 ) : (
                     <div className="flex justify-between mt-3">
-                        <p className="text-gray-500">{user?.name || "Kein Benutzername angegeben"}</p>
-                        <button onClick={() => setEditingFields({ name: true })} className="text-blue-600 hover:underline">
+                        <p className="text-gray-500">{user?.vorname || "Kein Benutzername angegeben"}</p>
+                        <button onClick={() => setEditingFields({ vorname: true })} className="text-blue-600 hover:underline">
                             Bearbeiten
                         </button>
                     </div>
@@ -189,44 +190,33 @@ const AccountDetails = () => {
     
             {/* 2️⃣ Name (Vorname & Nachname) */}
             <div className="p-6 bg-gray-50 shadow-md rounded-xl">
-                <h2 className="text-lg font-semibold text-gray-800">Offizieller Name</h2>
-                <p className="text-gray-500 text-sm">Achte darauf, dass diese Angabe mit deinem Ausweisdokument übereinstimmt.</p>
-    
-                {editingFields.nameDetails ? (
+                <h2 className="text-lg font-semibold text-gray-800">Nachname</h2>
+                {editingFields.nachname ? (
                     <>
                         <div className="flex space-x-4 mt-3">
-                            <input
-                                type="text"
-                                name="vorname"
-                                placeholder="Vorname"
-                                value={formData.vorname}
-                                onChange={handleChange}
-                                className="w-1/2 bg-gray-100 p-3 rounded-md border border-gray-300"
-                            />
                             <input
                                 type="text"
                                 name="nachname"
                                 placeholder="Nachname"
                                 value={formData.nachname}
                                 onChange={handleChange}
-                                className="w-1/2 bg-gray-100 p-3 rounded-md border border-gray-300"
+                                className="w-full bg-gray-100 p-3 rounded-md border border-gray-300 mt-2"
                             />
                         </div>
-                        {errors.vorname && <p className="text-red-500 text-sm mt-1">{errors.vorname}</p>}
                         {errors.nachname && <p className="text-red-500 text-sm mt-1">{errors.nachname}</p>}
                         <div className="flex justify-between mt-3">
                             <button onClick={handleSave} className="px-5 py-2 bg-black text-white rounded-md hover:bg-gray-800">
                                 Speichern
                             </button>
-                            <button onClick={() => handleCancel("nameDetails")} className="text-gray-500 hover:underline">
+                            <button onClick={() => handleCancel("nachname")} className="text-gray-500 hover:underline">
                                 Abbrechen
                             </button>
                         </div>
                     </>
                 ) : (
                     <div className="flex justify-between mt-3">
-                        <p className="text-gray-500">{user?.vorname || "Kein Vorname"} {user?.nachname || "Kein Nachname"}</p>
-                        <button onClick={() => setEditingFields({ nameDetails: true })} className="text-blue-600 hover:underline">
+                        <p className="text-gray-500">{user?.nachname || "Kein Nachname"}</p>
+                        <button onClick={() => setEditingFields({ nachname: true })} className="text-blue-600 hover:underline">
                             Bearbeiten
                         </button>
                     </div>

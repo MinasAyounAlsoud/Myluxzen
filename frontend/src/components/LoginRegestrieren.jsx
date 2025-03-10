@@ -29,7 +29,7 @@ const LoginRegestrieren = () => {
                 <HiOutlineMenu className="w-5 h-5 text-gray-600" />
                 {user ? (
                     <div className="w-8 h-8 flex items-center justify-center bg-green-600 text-white font-semibold rounded-full">
-                        {user.name.charAt(0).toUpperCase()}
+                          {user.vorname ? user.vorname.charAt(0).toUpperCase() : "?"}
                     </div>
                 ) : (
                     <FaUserCircle className="w-8 h-8 text-gray-600" />
@@ -43,7 +43,7 @@ const LoginRegestrieren = () => {
                             <>
                                 <li>
                                     <Link 
-                                        to="/account-buchung/account" 
+                                        to="/account-booking/account" 
                                         className="block px-4 py-2 hover:bg-gray-100"
                                         onClick={() => setMenuOpen(false)}
                                     >
@@ -52,7 +52,7 @@ const LoginRegestrieren = () => {
                                 </li>
                                 <li>
                                     <Link 
-                                        to="/account-buchung/buchungen" 
+                                        to="/account-booking/booking" 
                                         className="block px-4 py-2 hover:bg-gray-100"
                                         onClick={() => setMenuOpen(false)}
                                     >

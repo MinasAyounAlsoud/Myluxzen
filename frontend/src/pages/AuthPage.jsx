@@ -18,7 +18,8 @@ const AuthPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [name, setName] = useState("");
+    const [vorname, setVorname] = useState("");
+    const [nachname, setNachname] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [error, setError] = useState("");
@@ -56,12 +57,16 @@ const AuthPage = () => {
             ? "http://localhost:3000/api/auth/register" 
             : "http://localhost:3000/api/auth/login";
 
+            const bodyData = isRegister
+            ? { vorname, nachname, email, password }
+            : { email, password };
+
         try {
             const response = await fetch(endpoint, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
-                body: JSON.stringify(isRegister ? { name, email, password } : { email, password }),
+                body: JSON.stringify(bodyData),
             });
 
             const data = await response.json();
@@ -76,7 +81,8 @@ const AuthPage = () => {
 
             if (isRegister) {
                 //  Registrierung war erfolgreich, setze alle Eingaben auf leer!
-                setName("");
+                setVorname("");
+                setNachname("");
                 setEmail("");
                 setPassword("");
                 setConfirmPassword("");
@@ -120,11 +126,17 @@ return (
             <h1 className="text-3xl font-bold text-green-800 text-center w-full mb-20">
              {isRegister ? "Willkommen" : "Willkommen zurück!"}
              </h1>
-                {isRegister && (
-                    <div className="relative flex items-center border-b border-gray-400">
-                        <BiUser className="absolute left-2 text-gray-500" size={20} />
-                        <input type="text" placeholder="Benutzername" value={name} onChange={(e) => setName(e.target.value)} className="w-full pl-8 py-3 bg-transparent focus:outline-none" />
-                    </div>
+             {isRegister && (
+                        <>
+                            <div className="relative flex items-center border-b border-gray-400">
+                                <BiUser className="absolute left-2 text-gray-500" size={20} />
+                                <input type="text" placeholder="Vorname" value={vorname} onChange={(e) => setVorname(e.target.value)} className="w-full pl-8 py-3 bg-transparent focus:outline-none" />
+                            </div>
+                            <div className="relative flex items-center border-b border-gray-400">
+                                <BiUser className="absolute left-2 text-gray-500" size={20} />
+                                <input type="text" placeholder="Nachname" value={nachname} onChange={(e) => setNachname(e.target.value)} className="w-full pl-8 py-3 bg-transparent focus:outline-none" />
+                            </div>
+                        </>
                 )}
                 <div className="relative flex items-center border-b border-gray-400">
                     <BiEnvelope className="absolute left-2 text-gray-500" size={20} />
