@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { connect } from "./utils/connect.js";
 import cors from "cors";
 import hausRoutes from "./routes/HausRoutes.js";
+import { bookingRouter } from "./routes/bookingRouter.js";
 
 dotenv.config();
 connect();
@@ -17,6 +18,9 @@ app.use("/images", express.static("public/images"));
 app.get("/", (req, res) => {
   res.send("✅ Myluxzen API läuft... 🚀");
 });
+// booking router  Xiangyu
+app.use("/booking", bookingRouter);
+
 app.use((err, req, res, next) => {
   console.error("Error occurred:", err);
   res
