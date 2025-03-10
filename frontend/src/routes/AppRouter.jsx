@@ -6,7 +6,7 @@ import { AdminBookingQueryPage } from '../pages/AdminBookingQueryPage';
 import { AdminBookingTicket } from '../pages/AdminBookingTicket';
 const userIsLogin = {
     isAuthenticated:true,
-    isAdmin:false
+    isAdmin:true
 }
 const router = createBrowserRouter([
     {
