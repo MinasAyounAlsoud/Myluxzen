@@ -1,16 +1,16 @@
 
 
 import './index.css'
-import { BookingPage } from './pages/BookingPage'
+// import { AdminPage } from './pages/AdminPage'
+// import { BookingPage } from './pages/BookingPage'
+import { AppRouter } from './routes/AppRouter'
 
 
 function App() {
 
   return (
     <>
-    <h1 style={{ backgroundColor: '#EEEEEE' }}
-    className='text-3xl font-bold bg-gray-200  h-30 text-center'></h1>
-      <BookingPage></BookingPage>
+      <AppRouter></AppRouter>
     </>
   )
 }

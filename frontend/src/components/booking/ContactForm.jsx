@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { RxCrossCircled } from "react-icons/rx";
 
 function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, errLastName}) {
    
@@ -81,6 +82,13 @@ function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, errLast
             //   disabled={!!user}
               className="mt-1 block w-full px-3 py-2 bg-transparent focus:outline-none"
             />
+          <button
+            type="button"
+            onClick={() => handleChange({ target: { name: 'email', value: '' } })}
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-300 hover:text-gray-500 focus:outline-none"
+            >
+            <RxCrossCircled />
+          </button>
           </div>
           {errEmail ? <p className='text-red-500 text-sm'>Provide your email address.</p>
                     : <p className="text-transparent text-sm">Placeholder</p>}
@@ -101,6 +109,13 @@ function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, errLast
                 onBlur={() => handleBlur('guestFirstName')}
                 className="mt-1 block w-full px-3 py-2 bg-transparent focus:outline-none"
               />
+              <button
+                type="button"
+                onClick={() => handleChange({ target: { name: 'guestFirstName', value: '' } })}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-300 hover:text-gray-500 focus:outline-none"
+                >
+                <RxCrossCircled />
+              </button>
             </div>
             {errFirstName ? <p className='text-red-500 text-sm'>Provide your first name.</p>
                     : <p className="text-transparent text-sm">Placeholder</p>}
@@ -121,6 +136,13 @@ function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, errLast
             onBlur={() => handleBlur('guestFamilyName')}
             className="mt-1 block w-full px-3 py-2 bg-transparent focus:outline-none"
           />
+            <button
+              type="button"
+              onClick={() => handleChange({ target: { name: 'guestFamilyName', value: '' } })}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-300 hover:text-gray-500 focus:outline-none"
+              >
+              <RxCrossCircled />
+            </button>
         </div>
         {errLastName ? <p className='text-red-500 text-sm'>Provide your last name.</p>
                     : <p className="text-transparent text-sm">Placeholder</p>}
@@ -142,6 +164,13 @@ function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, errLast
           onBlur={() => handleBlur('mobileNumber')}
           className="mt-1 block w-full px-3 py-2 bg-transparent focus:outline-none"
         />
+            <button
+              type="button"
+              onClick={() => handleChange({ target: { name: 'mobileNumber', value: '' } })}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-300 hover:text-gray-500 focus:outline-none"
+              >
+              <RxCrossCircled />
+            </button>
       </div>
       <div className={`relative border rounded-lg  ${focusedField === 'comments' || newBooking.comments ? 'border-gray-700' : 'border-gray-300'} p-2`}>
         <label htmlFor="comments" className={`absolute text-gray-700 transition-all ${focusedField === 'comments' || newBooking.comments ? 'text-sm top-0' : 'text-lg top-1/2 transform -translate-y-1/2'}`}>
@@ -157,7 +186,13 @@ function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, errLast
           className="mt-1 block w-full px-3 py-2 bg-transparent focus:outline-none"
           rows="3"
         />
-      </div>
+            <button
+              type="button"
+              onClick={() => handleChange({ target: { name: 'comments', value: '' } })}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-300 hover:text-gray-500 focus:outline-none"
+              >
+              <RxCrossCircled />
+            </button>      </div>
 
       {/* <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         Submit

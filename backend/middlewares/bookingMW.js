@@ -1,5 +1,5 @@
-import { Booking} from "../utils/bookingSchema.js";
-import { House } from "../utils/bookingSchema.js";
+import { Booking} from "../models/bookingSchema.js";
+import { House } from "../models/bookingSchema.js";
 
 export const getAvailableBooking = async(req,res,next)=>{
     try {
@@ -18,6 +18,7 @@ export const getBookingTicket = async(req,res,next)=>{
     try {
         console.log("GET request to getBookingTicket"); 
         const {bookingNumber} = req.params;
+        console.log("bookingNumber", bookingNumber);
         const bookingTicket = await Booking.findOne({bookingNumber});
         req.result = bookingTicket;
         next();
@@ -26,6 +27,54 @@ export const getBookingTicket = async(req,res,next)=>{
         next(error);
     }
 }
+
+export const queryBookingTickets = async(req,res,next)=>{
+    const { email, guestFirstName,guestFamilyName,queryStartDate, queryEndDate, page = 1 } = req.query;
+    const limit = 15;
+    const skip = (page - 1) * limit;
+
+    let query = {};
+    if (email) query.email = email;
+    if (guestFirstName) query.guestFirstName = guestFirstName;
+    if (guestFamilyName) query.guestFamilyName = guestFamilyName;
+
+    // 更新查询条件以使用新的参数名
+    if (queryStartDate && queryEndDate) {
+        query.$or = [
+            { startDate: { $lte: new Date(queryEndDate) }, startDate: { $gte: new Date(queryStartDate) } }
+        ];
+    } else {
+        if (queryStartDate) {
+            query.startDate = { $gte: new Date(queryStartDate) };
+        }
+        if (queryEndDate) {
+            query.startDate = { $lte: new Date(queryEndDate) };
+        }
+    }
+    console.log("query API", query);
+    try {
+        const bookingTickets = await Booking.find(query)
+                                    .sort({ createdAt: -1 }) // -1 表示降序排序
+                                    .limit(limit + 1)
+                                    .skip(skip);
+        const hasMore = bookingTickets.length > limit;
+        // 如果有多于limit的数据，移除最后一个记录以返回正确数量的数据
+        if (hasMore) bookingTickets.pop();
+        console.log("bookingTickets.length", bookingTickets.length);
+        console.log("hasMore", hasMore);
+
+        req.result = {
+            bookingTickets: bookingTickets,
+            hasMore: hasMore
+        };
+        next();
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+}
+
+
 export const getAvailableRooms = async (req, res, next) => {
     try {
         const { startDate, endDate, guestCount } = req.body;
@@ -120,3 +169,48 @@ export const createBookingMiddleware = async (req, res, next) => {
         next(error);
     }
 };
+
+export const editBookingStatus = async(req,res,next)=>{
+    const { bookingNumber } = req.params;
+    const { status } = req.body;
+
+    // 检查 status 是否有效
+    if (!['Active', 'Canceled', 'CheckedIn', 'CheckedOut'].includes(status)) {
+        return res.status(400).json({ message: 'Invalid status provided' });
+    }
+
+    try {
+        console.log("GET request to editBookingStatus"); 
+        const booking = await Booking.findOne({ bookingNumber });
+        if (!booking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+
+        // 更新预订状态
+        booking.status = status;
+        await booking.save();
+        req.result = booking;
+        next(); // 继续执行下一个中间件
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+}
+export const deleteBooking = async(req,res,next)=>{
+    const { bookingNumber } = req.params;
+    try {
+        console.log("GET request to deleteBooking"); 
+        const deletedBooking = await Booking.findOneAndDelete({ bookingNumber });
+
+        if (!deletedBooking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+
+        // 更新预订状态
+        req.result = bookingNumber;
+        next(); // 继续执行下一个中间件
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+}

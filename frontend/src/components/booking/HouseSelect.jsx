@@ -33,7 +33,7 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
           }
     
           try {
-            const response = await fetch("http://localhost:3000/check-availability", {
+            const response = await fetch("http://localhost:3000/booking/check-availability", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",

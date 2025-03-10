@@ -88,7 +88,7 @@ export const BookingPage = ()=>{
             // 如果是最后一步，提交预订信息
             try {
     
-                const response = await fetch("http://localhost:3000/create-booking", {
+                const response = await fetch("http://localhost:3000/booking/create-booking", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -101,7 +101,7 @@ export const BookingPage = ()=>{
                         endDate: newBooking.endDate,
                         houseType: newBooking.houseType,
                         status: "Active", // 预订创建时默认为 Active
-                        bookingDay: new Date().toISOString(), // 预订日期设为当前日期
+                        // bookingDay: new Date().toISOString(), // 预订日期设为当前日期
                         price: newBooking.price,
                         email:newBooking.email,
                         mobileNumber: newBooking.mobileNumber,
