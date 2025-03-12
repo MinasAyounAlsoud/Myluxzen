@@ -4,6 +4,7 @@ import { connect } from "./utils/connect.js";
 import cors from "cors";
 import hausRoutes from "./routes/HausRoutes.js";
 import { bookingRouter } from "./routes/bookingRouter.js";
+import reviewRouter from "./routes/reviewRouter.js";
 
 dotenv.config();
 connect();
@@ -14,6 +15,7 @@ app.use(express.json());
 
 app.use("/api/houses", hausRoutes);
 app.use("/images", express.static("public/images"));
+app.use("/api/reviews", reviewRouter);
 
 app.get("/", (req, res) => {
   res.send("✅ Myluxzen API läuft... 🚀");
@@ -31,8 +33,4 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`✅ Server läuft auf http://localhost:${PORT}`);
-
 });
-
-
-
