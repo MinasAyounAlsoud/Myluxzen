@@ -40,7 +40,7 @@ export const AdminBookingQueryPage = ()=>{
             const data = await response.json();
             setBookingData(data);
             setShowDetails(true);
-        } catch () {
+        } catch (err) {
             setBookingData(null);
             setShowDetails(false);
         }

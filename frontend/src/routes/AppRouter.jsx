@@ -1,9 +1,11 @@
 import { createBrowserRouter, RouterProvider, Route, redirect } from 'react-router-dom';
 import { BookingPage } from '../pages/BookingPage';
-import { HomePage } from '../pages/HomePage';
+import HomePage from '../pages/HomePage';
 import { AdminPage } from '../pages/AdminPage';
 import { AdminBookingQueryPage } from '../pages/AdminBookingQueryPage';
 import { AdminBookingTicket } from '../pages/AdminBookingTicket';
+import Gallerie from '../pages/GalleriePage'
+
 const userIsLogin = {
     isAuthenticated:true,
     isAdmin:true
@@ -18,8 +20,11 @@ const router = createBrowserRouter([
         element: <BookingPage></BookingPage>
     },
     // page router, begin
-
-
+//zahra
+    {
+      path: "/gallerie",
+      element: <Gallerie></Gallerie>
+    },
 
     // page router, end
     {

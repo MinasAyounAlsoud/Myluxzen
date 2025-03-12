@@ -4,6 +4,7 @@ import { connect } from "./utils/connect.js";
 import cors from "cors";
 // here is for routers, begin
 import {bookingRouter} from "./routes/bookingRouter.js";
+import imageRoutes from "./routes/imageRoutes.js";
 
 // here is for routers, end
 
@@ -19,6 +20,11 @@ app.use(express.json());
 // here add routers, begin
 // booking router,  Xiangyu
 app.use("/booking", bookingRouter);
+
+// 📌 Servir les images statiques, Zahra
+app.use("/uploads", express.static("uploads"));
+// 📌 Routes, Zahra
+app.use("/api/images", imageRoutes);
 
 // test: change from dev direct
 // test: change from Xiangyu-branch direct

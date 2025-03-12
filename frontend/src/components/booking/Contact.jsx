@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import ContactForm from './ContactForm';
+import {ContactForm} from './ContactForm';
 
 export const Contact = ({newBooking, setNewBooking,gotoNextStep,setStepCompleted,setGotoNextStep})=>{
     const [errEmail, setErrorEmail] = useState(false);
