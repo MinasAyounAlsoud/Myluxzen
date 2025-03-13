@@ -1,10 +1,13 @@
 import './index.css'
 import { AppRouter } from './routes/AppRouter'
+import { AuthProvider } from "./context/AuthContext"; //Naheeda
 
 function App() {
   return (
     <>
-      <AppRouter></AppRouter>
+         <AuthProvider>  {/* Naheeda hat Authprovider hinzugefügt*/}
+               <AppRouter></AppRouter>
+         </AuthProvider>
     </>
   )
 }

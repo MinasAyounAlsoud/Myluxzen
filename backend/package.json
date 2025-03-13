@@ -19,8 +19,9 @@
     "mongoose": "^8.10.0",
     "nodemon": "^3.1.9"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "cookie-parser": "^1.4.7",
+    "multer": "^1.4.5-lts.1"
+  },
   "description": ""
 }
-
-

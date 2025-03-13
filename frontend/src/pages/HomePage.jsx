@@ -11,7 +11,6 @@ const HomePage = () => {
     <div className="flex flex-col min-h-screen">
       {/* Navbar toujours en haut */}
       <Navbar />
-
       {/* Main avec un padding-top équivalent à la hauteur de la Navbar */}
       <main className="flex-1 pt-[150px] md:pt-[200px] lg:pt-[200px] mb-10">
 
