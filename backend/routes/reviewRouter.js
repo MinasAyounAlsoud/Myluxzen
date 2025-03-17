@@ -49,4 +49,14 @@ router.put("/admin/update/:id", async (req, res) => {
   }
 });
 
+// ✅ Review ablehnen (löschen)
+router.delete("/:id", async (req, res) => {
+  try {
+    await Review.findByIdAndDelete(req.params.id);
+    res.json({ message: "Review wurde gelöscht!" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 export default router;

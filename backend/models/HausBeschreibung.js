@@ -5,6 +5,13 @@ const hausBeschreibungSchema = new Schema(
     houseType: {
       type: String,
       required: true,
+      enum: [
+        "HouseType1",
+        "HouseType2",
+        "HouseType3",
+        "HouseType4",
+        "HouseType5",
+      ],
     },
     title: {
       type: String,
@@ -41,7 +48,7 @@ const hausBeschreibungSchema = new Schema(
     },
     availableCount: {
       type: Number,
-      required: true,
+      // required: true,
     },
     availability: [
       {

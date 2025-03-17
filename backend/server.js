@@ -12,7 +12,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-
+// Minas
 app.use("/api/houses", hausRoutes);
 app.use("/images", express.static("public/images"));
 app.use("/api/reviews", reviewRouter);

@@ -7,6 +7,8 @@ dotenv.config();
 connect();
 const houses = [
   {
+    houseType: "HouseType4",
+
     title: "Moderne Strandvilla mit Pool",
     images: [
       "http://localhost:3000/images/Apartment01.jpg",
@@ -21,7 +23,7 @@ const houses = [
     ],
     description:
       "Diese moderne Villa bietet direkten Zugang zum Strand, einen Infinity-Pool und stilvolle Innenräume für einen entspannten Aufenthalt. Großzügige Fenster lassen viel Tageslicht hinein und bieten einen wunderschönen Blick aufs Meer. Die Ausstattung umfasst eine Designer-Küche, Smart-Home-Technologie und luxuriöse Badezimmer mit Whirlpool.",
-    guests: 6,
+    guests: 4,
     bedrooms: 3,
     livingRoom: 1,
     terrace: 1,
@@ -35,11 +37,12 @@ const houses = [
       entertainment: "65'' Smart-TV, Netflix, Soundsystem",
       homeSafety: "Alarmanlage, Safe, Videoüberwachung",
     },
-    pricePerNight: 350,
+    pricePerNight: 745,
     location: "Mallorca, Spanien",
     availability: [{ date: "2025-06-15", isAvailable: true }],
   },
   {
+    houseType: "HouseType2",
     title: "Gemütliche Berghütte mit Sauna",
     images: [
       "http://localhost:3000/images/Apartment02.jpg",
@@ -54,8 +57,8 @@ const houses = [
     ],
     description:
       "Rustikale Berghütte mit Kamin, privater Sauna und einem spektakulären Blick auf die Berge. Die Hütte ist liebevoll mit Holzmöbeln eingerichtet und verfügt über eine große Terrasse zum Entspannen. Eine moderne Küche, kuschelige Schlafräume und eine Fußbodenheizung sorgen für maximalen Komfort.",
-    guests: 5,
-    bedrooms: 2,
+    guests: 6,
+    bedrooms: 4,
     livingRoom: 1,
     terrace: 1,
     toilet: 2,
@@ -68,11 +71,12 @@ const houses = [
       entertainment: "Brettspiele, Bücher, Beamer mit Leinwand",
       homeSafety: "Rauchmelder, Erste-Hilfe-Set",
     },
-    pricePerNight: 250,
+    pricePerNight: 1350,
     location: "Tirol, Österreich",
     availability: [{ date: "2025-07-10", isAvailable: true }],
   },
   {
+    houseType: "HouseType3",
     title: "Luxuriöses Penthouse mit Dachterrasse",
     images: [
       "http://localhost:3000/images/Apartment03.jpg",
@@ -87,7 +91,7 @@ const houses = [
     ],
     description:
       "Elegantes Penthouse mit Panoramablick, privatem Whirlpool auf der Terrasse und hochwertiger Ausstattung. Die bodentiefen Fenster sorgen für ein helles Ambiente und bieten eine atemberaubende Aussicht. Die moderne Küche mit Induktionskochfeld und das elegante Badezimmer mit Regendusche runden das luxuriöse Erlebnis ab.",
-    guests: 6,
+    guests: 4,
     bedrooms: 2,
     livingRoom: 2,
     terrace: 1,
@@ -101,11 +105,12 @@ const houses = [
       entertainment: "Dolby Atmos Soundsystem, Apple TV",
       homeSafety: "Smart Lock, 24/7 Concierge",
     },
-    pricePerNight: 500,
+    pricePerNight: 950,
     location: "Berlin, Deutschland",
     availability: [{ date: "2025-08-01", isAvailable: true }],
   },
   {
+    houseType: "HouseType1",
     title: "Strandhaus mit direktem Meerzugang",
     images: [
       "http://localhost:3000/images/Apartment04.jpg",
@@ -134,12 +139,14 @@ const houses = [
       entertainment: "Strandspiele, Kajaks, Smart-TV",
       homeSafety: "Erste-Hilfe-Set, Feuerlöscher",
     },
-    pricePerNight: 600,
+    pricePerNight: 1350,
     location: "Bali, Indonesien",
     availability: [{ date: "2025-09-15", isAvailable: true }],
   },
   {
-    title: "Modernes Loft im Stadtzentrum",
+    houseType: "HouseType5",
+
+    title: "Modernes Loft ",
     images: [
       "http://localhost:3000/images/Apartment05.jpg",
       "http://localhost:3000/images/Apartment05-01.jpg",
@@ -153,8 +160,8 @@ const houses = [
     ],
     description:
       "Elegantes Loft mit offener Raumgestaltung, moderner Einrichtung und Balkon mit Blick auf die Stadt. Hohe Decken, große Fenster und stilvolle Möbel verleihen dem Apartment ein einzigartiges Flair. Die voll ausgestattete Küche, das gemütliche Schlafzimmer und die zentrale Lage machen es perfekt für Städtereisende und Geschäftsleute.",
-    guests: 5,
-    bedrooms: 2,
+    guests: 2,
+    bedrooms: 1,
     livingRoom: 1,
     terrace: 1,
     toilet: 2,
@@ -167,7 +174,7 @@ const houses = [
       entertainment: "Weinverkostungen, Klavier",
       homeSafety: "Wachdienst, Sicherheitstor",
     },
-    pricePerNight: 200,
+    pricePerNight: 565,
     location: "Toskana, Italien",
     availability: [{ date: "2025-10-20", isAvailable: true }],
   },
