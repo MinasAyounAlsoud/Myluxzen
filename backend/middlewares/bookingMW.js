@@ -1,5 +1,5 @@
-import { Booking} from "../models/bookingSchema.js";
-import { House } from "../models/bookingSchema.js";
+import { Booking, House} from "../models/bookingSchema.js";
+import { HausBeschreibung } from "../models/HausBeschreibung.js";
 
 export const getAvailableBooking = async(req,res,next)=>{
     try {
@@ -75,9 +75,11 @@ export const getAvailableRooms = async (req, res, next) => {
         console.log("startDate", startDate);
         console.log("endDate", endDate);
         console.log("guestCount", guestCount);
-        const availableHouses = await House.find({
-            guestCount: { $gte: guestCount }  
+        // change it to HausBeschreibung 03.17
+        const availableHouses = await HausBeschreibung.find({
+            guests: { $gte: guestCount }  
         });
+        console.log("availableHouses",availableHouses)
         const activeBookings = await Booking.find({
             status: { $in: ['Active', 'CheckedIn'] },
             $or: [
@@ -99,10 +101,16 @@ export const getAvailableRooms = async (req, res, next) => {
                     availableCount -= 1;  
                 }
             });
-            return {
-                houseId: house.houseId,
+            return {//modifyed for hausbeschreibung
                 houseType: house.houseType,
-                price: house.price,
+                pricePerNight: house.pricePerNight,
+                images: house.images,
+                title: house.title,
+                description: house.description,
+                title: house.title,
+                guests :house.guests,
+                bedrooms: house.bedrooms,
+                bathroom: house.bathroom,
                 availableCount: availableCount >= 0 ? availableCount : 0,
             };
         });

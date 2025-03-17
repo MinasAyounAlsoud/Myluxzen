@@ -19,12 +19,6 @@ export const BookingPage = ()=>{
     const [successBookingNumber, setSuccessBookingNumber] = useState("");
     const totalSteps = 4;
     const {user} = useContext(AuthContext);
-    // const loggedInUser = {
-    //     email: "jane.doe@example.com",
-    //     guestFirstName: "Jane",
-    //     guestFamilyName: "Doe",
-    //     mobileNumber: "",
-    // };
     useEffect(()=>{
         if(user !== null){
             const initState = {
@@ -75,7 +69,7 @@ export const BookingPage = ()=>{
     const setNextStep = async () => {
         if (step < totalSteps) {
             setGotoNextStep(true); 
-        } else {
+        } else {//last step, send API and create booking ticket 
             try {
                 const response = await fetch("http://localhost:3000/booking/create-booking", {
                     method: "POST",
@@ -92,7 +86,10 @@ export const BookingPage = ()=>{
                         price: newBooking.price,
                         email:newBooking.email,
                         mobileNumber: newBooking.mobileNumber,
-                        comments: newBooking.comments
+                        comments: newBooking.comments,
+                        houseNum: "",
+                        totalPrice: newBooking.totalPrice,
+                        totalDays:newBooking.totalDays
                     }),
                 });
                 if (!response.ok) {
@@ -110,9 +107,6 @@ export const BookingPage = ()=>{
         setStepCompleted(false);
         setStep(prev=>prev - 1);
     };
-    // useEffect(()=>{
-    //     console.log("successBookingNumber",successBookingNumber);
-    // },[successBookingNumber]);
     return (
     <div>
         <BookingNavBar></BookingNavBar>
