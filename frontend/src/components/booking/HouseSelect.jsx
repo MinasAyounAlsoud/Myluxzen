@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ApartmentCard,ApartmentModal } from "./ApartmentCard";
+import { HouseTypeCard,HouseTypeModal } from "./HouseTypeCard";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { FaArrowTurnUp } from "react-icons/fa6";
@@ -113,8 +113,8 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
               // </button>
               // </li>
               <div key={index} >
-              <ApartmentCard
-                apartment={room} onClick={() => handleSelectHouse(room.houseType, room.pricePerNight, room.title)}  selected={newBooking.houseType === room.houseType}
+              <HouseTypeCard
+                house={room} onClick={() => handleSelectHouse(room.houseType, room.pricePerNight, room.title)}  selected={newBooking.houseType === room.houseType}
               />
                 <div className='flex items-center text-sm space-x-3'>
                   <p>noch <span className='text-base font-bold text-[#064236]'>{room.availableCount} </span>verfügbar</p>
@@ -131,7 +131,7 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
       <p></p>
       )}
       {selectedApartment && (
-        <ApartmentModal
+        <HouseTypeModal
           apartment={selectedApartment}
           onClose={() => setSelectedApartment(null)}
         />

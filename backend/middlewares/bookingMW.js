@@ -1,4 +1,4 @@
-import { Booking, House} from "../models/bookingSchema.js";
+import { Booking} from "../models/bookingSchema.js";
 import { HausBeschreibung } from "../models/HausBeschreibung.js";
 
 export const getAvailableBooking = async(req,res,next)=>{

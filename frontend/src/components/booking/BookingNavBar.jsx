@@ -15,7 +15,6 @@ export const BookingNavBar = ()=>{
         
             <nav className="max-w-[100%] sm:max-w-[95%] md:max-w-[80%] mx-auto flex justify-between items-center">
                 <Logo />
-                <NavbarLinks isMenuOpen={1} />
             </nav>
         </header>
     );

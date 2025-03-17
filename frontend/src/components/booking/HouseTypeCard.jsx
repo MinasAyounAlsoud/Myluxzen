@@ -3,36 +3,36 @@ import { RxCross2 } from "react-icons/rx";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "../../styles/booking.css";
 
-export const ApartmentCard = ({ apartment, onClick, selected=false}) => {
+export const HouseTypeCard = ({ house, onClick, selected=false}) => {
   console.log("selected",selected )
   return (
     <div
       className={`shadow-lg rounded-2xl overflow-hidden transform transition duration-300 hover:scale-105 cursor-pointer mb-6 flex items-center w-full max-w-6xl mx-auto p-4 sm:flex-col md:flex-row ${selected ? "custom-bg-seletedHouseCard-color border border-[#064236]":"bg-white"}`}
-      onClick={() => onClick(apartment)}
+      onClick={() => onClick(house)}
     >
       <img
-        src={apartment.images[0]}
-        alt={apartment.title}
+        src={house.images[0]}
+        alt={house.title}
         className="w-32 h-32 sm:w-48 sm:h-48 lg:w-45 lg:h-45 object-cover rounded-lg mr-4 mb-4 md:mb-0"
       />
       <div className="flex-1">
         <h2 className="text-2xl font-semibold text-gray-600 ">
-          {apartment.title}
+          {house.title}
         </h2>
 
         {/* Beschreibung nur auf größeren Geräten anzeigen */}
         <p className="text-gray-600 mt-2 hidden sm:block text-sm">
-          {apartment.description}
+          {house.description}
         </p>
 
         <div className="flex justify-between items-center mt-4 ">
           <div className="text-gray-600 text-sm sm:text-base flex-1 flex space-x-4">
-          <p>max.<span className="font-semibold"> {apartment.guests}</span> Gäste</p>
-          <p> <span className="font-semibold">{apartment.bedrooms}</span>             Schlafzimmer</p>
-            <p><span className="font-semibold">{apartment.bathroom}</span> Bäder</p>
+          <p>max.<span className="font-semibold"> {house.guests}</span> Gäste</p>
+          <p> <span className="font-semibold">{house.bedrooms}</span>             Schlafzimmer</p>
+            <p><span className="font-semibold">{house.bathroom}</span> Bäder</p>
           </div>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-[#116769]">
-            €{apartment.pricePerNight}/Nacht
+            €{house.pricePerNight}/Nacht
           </p>
         </div>
       </div>
@@ -40,10 +40,10 @@ export const ApartmentCard = ({ apartment, onClick, selected=false}) => {
   );
 };
 
-export const ApartmentModal = ({ apartment, onClose }) => {
-  if (!apartment) return null;
-  const roomAmenities = apartment.roomAmenities
-    ? Object.values(apartment.roomAmenities)
+export const HouseTypeModal = ({ house, onClose }) => {
+  if (!house) return null;
+  const roomAmenities = house.roomAmenities
+    ? Object.values(house.roomAmenities)
     : [];
 
   const handleModalClick = (e) => {
@@ -68,7 +68,7 @@ export const ApartmentModal = ({ apartment, onClose }) => {
       >
         <div className="bg-gray-100 p-4 flex justify-between items-center border-b border-[#064236]">
           <h2 className="text-xl font-semibold text-gray-600">
-            {apartment.title}
+            {house.title}
           </h2>
           <button
             className="text-[#064236] hover:text-black text-2xl cursor-pointer hover:bg-gray-300 p-1 rounded-md"
@@ -80,7 +80,7 @@ export const ApartmentModal = ({ apartment, onClose }) => {
 
         {/* Scrollbarer Bereich */}
         <div className="max-h-[90vh] overflow-y-auto p-4">
-          {/* Carousel für Apartmentbilder */}
+          {/* Carousel für house */}
           <Carousel
             showArrows={true}
             infiniteLoop
@@ -91,30 +91,30 @@ export const ApartmentModal = ({ apartment, onClose }) => {
             showThumbs={false} // Blendet die Miniaturen unter den Bildern aus
             className="carousel-container"
           >
-            {apartment.images.map((image, index) => (
+            {house.images.map((image, index) => (
               <div key={index}>
                 <img
                   src={image}
-                  alt={`Apartment image ${index + 1}`}
+                  alt={`house image ${index + 1}`}
                   className="w-full h-120 object-cover rounded-lg"
                 />
               </div>
             ))}
           </Carousel>
 
-          {/* Apartmentdetails */}
+          {/* house */}
           <div className="p-4 text-gray-600">
             <h2 className="text-2xl font-semibold mb-2 text-center">
-              {apartment.title}
+              {house.title}
             </h2>
-            <p className="text-gray-600 text-center">{apartment.description}</p>
+            <p className="text-gray-600 text-center">{house.description}</p>
             <p className="text-gray-600 mt-2 text-center">
-              max.<strong>{apartment.guests}</strong> Gäste{" "}
-              <strong>{apartment.bedrooms}</strong> Schlafzimmer{" "}
-              <strong>{apartment.bathroom}</strong> Badezimmer
+              max.<strong>{house.guests}</strong> Gäste{" "}
+              <strong>{house.bedrooms}</strong> Schlafzimmer{" "}
+              <strong>{house.bathroom}</strong> Badezimmer
             </p>
             <p className="font-bold text-lg mt-3 text-[#116769] text-center">
-              Ab €{apartment.pricePerNight} pro Nacht
+              Ab €{house.pricePerNight} pro Nacht
             </p>
 
             {/* Wenn roomAmenities vorhanden sind, wird die Liste angezeigt */}

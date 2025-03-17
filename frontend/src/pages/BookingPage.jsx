@@ -51,7 +51,8 @@ export const BookingPage = ()=>{
                 comments:"",
                 houseNum: "",
                 totalPrice: 0,
-                totalDays:0
+                totalDays:0,
+                houseTitle:""
             };
             setNewBooking(initState);
         }
@@ -77,19 +78,8 @@ export const BookingPage = ()=>{
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        guestFirstName: newBooking.guestFirstName,                         guestFamilyName: newBooking.guestFamilyName,
-                        guestCount: newBooking.guestCount,
-                        startDate: newBooking.startDate,
-                        endDate: newBooking.endDate,
-                        houseType: newBooking.houseType,
+                        ...newBooking,
                         status: "Active",
-                        price: newBooking.price,
-                        email:newBooking.email,
-                        mobileNumber: newBooking.mobileNumber,
-                        comments: newBooking.comments,
-                        houseNum: "",
-                        totalPrice: newBooking.totalPrice,
-                        totalDays:newBooking.totalDays
                     }),
                 });
                 if (!response.ok) {
