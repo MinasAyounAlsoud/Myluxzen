@@ -59,7 +59,7 @@ export const AdminBookingQueryPage = ()=>{
             <QueryResults results={results} hasMore={hasMore} onLoadMore={handleLoadMore} fetchBooking={fetchBooking}/>
         </div>
         :<div>
-            <SingleBookingTicket singleBooking={bookingData} onClose={() => setShowDetails(false)}></SingleBookingTicket>
+            <SingleBookingTicket singleBooking={bookingData} setBookingData={setBookingData} onClose={() => setShowDetails(false)}></SingleBookingTicket>
         </div>}
     </div>
     );

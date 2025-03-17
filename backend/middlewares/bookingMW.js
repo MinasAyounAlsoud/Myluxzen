@@ -29,11 +29,12 @@ export const getBookingTicket = async(req,res,next)=>{
 }
 
 export const queryBookingTickets = async(req,res,next)=>{
-    const { email, guestFirstName,guestFamilyName,queryStartDate, queryEndDate, page = 1 } = req.query;
+    const { bookingNum, email, guestFirstName,guestFamilyName,queryStartDate, queryEndDate, page = 1 } = req.query;
     const limit = 15;
     const skip = (page - 1) * limit;
-
+    console.log("queryBookingTickets req.query ",req.query)
     let query = {};
+    if (bookingNum) query.bookingNumber = bookingNum;
     if (email) query.email = email;
     if (guestFirstName) query.guestFirstName = guestFirstName;
     if (guestFamilyName) query.guestFamilyName = guestFamilyName;
@@ -183,3 +184,50 @@ export const deleteBooking = async(req,res,next)=>{
         next(error);
     }
 }
+export const bookingCheckin = async(req,res,next)=>{
+    const bookingNum = req.bookingNum;
+    const houseNum = req.houseNum;
+    console.log("bookingCheckin",bookingNum,houseNum); 
+    if (houseNum==="") {
+        return res.status(400).json({ message: 'Invalid houseNum provided' });
+    }
+    try {
+        console.log("PUT request to bookingCheckin"); 
+        const filter =  { bookingNumber:bookingNum }; 
+        console.log("bookingCheckin,bookingNum", bookingNum)
+        let  updateData = {
+            $set: {
+                houseNum: houseNum,
+                status: "CheckedIn"
+            }
+        };
+        const booking = await Booking.updateOne(filter, updateData);
+        console.log("bookingCheckin,booking", booking)
+        req.bookingNum = bookingNum;
+        req.houseNum = houseNum;
+        next(); 
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+};
+export const bookingCheckOut = async(req,res,next)=>{
+    const bookingNum = req.bookingNum;
+    console.log("bookingCheckOut",bookingNum); 
+    try {
+        console.log("bookingCheckOut"); 
+        const filter =  { bookingNumber:bookingNum }; 
+        let  updateData = {
+            $set: {
+                houseNum: "",
+                status: "CheckedOut"
+            }
+        };
+        const booking = await Booking.updateOne(filter, updateData);
+        req.bookingNum = bookingNum;
+        next(); 
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+};

@@ -10,7 +10,6 @@ import { BookingPage } from "../pages/BookingPage";
 import HomePage from "../pages/HomePage";
 import { AdminPage } from "../pages/AdminPage";
 import { AdminBookingQueryPage } from "../pages/AdminBookingQueryPage";
-import { AdminBookingTicket } from "../pages/AdminBookingTicket";
 import Gallerie from "../pages/GalleriePage";
 import AuthPage from "../pages/AuthPage"; //Naheeda
 import AccountBookingInfoPage from "../pages/AccountBookingInfoPage"; //Naheeda
@@ -75,7 +74,7 @@ const createAuthRouter = (authContext) =>
       element: <AdminPage></AdminPage>,
       children: [
         {
-          path: "bookings-query",
+          path: "bookings-manage",
           element: <AdminBookingQueryPage></AdminBookingQueryPage>,
         },
         {
@@ -86,11 +85,11 @@ const createAuthRouter = (authContext) =>
             </div>
           ),
         },
-        {
-          path: "bookings-manage",
-          element: <AdminBookingTicket></AdminBookingTicket>,
-        },
-
+        //delete this page, Xiangyu
+        // {
+        //   path: "bookings-manage",
+        //   element: <AdminBookingTicket></AdminBookingTicket>,
+        // },
         // admin page, begin
         { path: "reviews", element: <AdminReviewPage /> }, //Minas
 
