@@ -30,7 +30,7 @@ export const BookingPage = ()=>{
         endDate: null,
         houseType:"",
         price: "",
-        mobileNumber: user !== null ?user.mobileNumber : "",
+        mobileNumber: "",
         comments:""
     };
     const [newBooking, setNewBooking] = useState(initState);
