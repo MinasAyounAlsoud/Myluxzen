@@ -2,11 +2,13 @@ import express from "express";
 import dotenv from "dotenv";
 import { connect } from "./utils/connect.js";
 import cors from "cors";
-import cookieParser from 'cookie-parser';//Naheeda
+import cookieParser from "cookie-parser"; //Naheeda
 // here is for routers, begin
-import {bookingRouter} from "./routes/bookingRouter.js";
+import { bookingRouter } from "./routes/bookingRouter.js";
 import imageRoutes from "./routes/imageRoutes.js";
-import {authRouter} from "./routes/authRouter.js"  // authRouter durch Naheeda importiert
+import { authRouter } from "./routes/authRouter.js"; // authRouter durch Naheeda importiert
+import hausRoutes from "./routes/HausRoutes.js"; //Minas
+import reviewRouter from "./routes/reviewRouter.js"; //Minas
 
 // here is for routers, end
 
@@ -14,8 +16,10 @@ dotenv.config();
 connect();
 const app = express();
 
+app.use("/images", express.static("public/images"));
+
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
-app.use(cookieParser());  //Add Cookieparser von Naheeda
+app.use(cookieParser()); //Add Cookieparser von Naheeda
 app.use(express.json());
 // app.get("/", (req, res) => {
 //   res.send("✅ Myluxzen API läuft... 🚀");
@@ -28,7 +32,10 @@ app.use("/booking", bookingRouter);
 app.use("/uploads", express.static("uploads"));
 // 📌 Routes, Zahra
 app.use("/api/images", imageRoutes);
-app.use('/api/auth', authRouter);   // authRouter durch Naheeda hinzugefügt
+app.use("/api/auth", authRouter); // authRouter durch Naheeda hinzugefügt
+// Minas
+app.use("/api/houses", hausRoutes);
+app.use("/api/reviews", reviewRouter);
 
 // test: change from dev direct
 // test: change from Xiangyu-branch direct
@@ -43,6 +50,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`✅ Server läuft auf http://localhost:${PORT}`);
 });
-
-
-
