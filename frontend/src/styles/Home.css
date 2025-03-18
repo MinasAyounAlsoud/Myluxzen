@@ -30,11 +30,12 @@ main {
     position: absolute;
     z-index: 1;
     
-    width: 300%;/*convert to % 2800px/1440=1,9444*/
-    top: calc(50% - 48.14%); /*convert to % 390px/810=0,4814*/
-    left: calc(50% + 0.6%);/*convert to % 10px/1440=0,006*/
+    width: 194.44%;/*convert to % 2800px/1440=1,9444*/
+
+    top: calc(50% - 38%); /*convert to % 390px/810=0,4814*/
+    left: calc(50%);/*convert to % 10px/1440=0,006*/
     transition: none;
-    opacity: 1;
+  
 
 }
 
@@ -134,12 +135,12 @@ main {
     left: calc(50% + 305px);
    */
 }
-
 .text {
     position: absolute;
     z-index: 9;
-    top: 30%; /* (50% - 130px) / 1024px */
-    left: 50%;
+    top: 32%;  /* Met au centre de l'écran */
+    left: 47%;
+    transform: translate(-50%, -50%); /* Centre parfaitement */
     text-align: center;
     text-transform: uppercase;
     color: #fff;
@@ -158,8 +159,8 @@ main {
 
 .text h1 {
     font-weight: 800;
-    font-size: 10rem;
-    line-height: 0.88;
+    font-size: 9rem;
+    line-height: 1;
     color: #e8c791;
     color: #116769;
     color: #d1a26f;
@@ -321,6 +322,7 @@ main {
             rgba(0, 0, 0, 0.7));
     pointer-events: none;
 }*/
+
 @media (max-width: 1700px) {
     .text h1 {
         font-size: 8rem;

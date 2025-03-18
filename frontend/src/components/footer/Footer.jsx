@@ -30,10 +30,13 @@ const Footer = () => {
               <Link to="/gallerie" className="hover:text-peach transition">Galerie</Link>
             </li>
             <li>
+              <Link to="/HausBeschreibung" className="hover:text-peach transition">Unsere Villen</Link>
+            </li>
+            <li>
               <Link to="/about" className="hover:text-peach transition">Über uns</Link>
             </li>
             <li>
-              <Link to="/contact" className="hover:text-peach transition">Kontakt</Link>
+              <Link to="/reviews" className="hover:text-peach transition">Reviews</Link>
             </li>
             <li>
               <Link to="/agb" className="hover:text-peach transition">AGB</Link>

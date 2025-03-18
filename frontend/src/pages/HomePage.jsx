@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Hero from "../components/hero/Hero"; // 🔥 Assure-toi du bon chemin du fichier Hero.jsx
-import Navbar from "../components/navbar/Navbar";
+import NavbarMini from "../components/navbarMini/NavbarMini";
 import Footer from "../components/footer/Footer";
 import "../styles/extra.css";
 
@@ -28,7 +28,7 @@ const HomePage = () => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Navbar fixée en haut */}
-      <Navbar />
+      <NavbarMini />
 
       {/* Section Hero avec un padding-top égal à la hauteur de la Navbar */}
       <main className="flex-grow" style={{ paddingTop: navbarHeight }}>
