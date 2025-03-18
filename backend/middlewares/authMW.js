@@ -3,7 +3,7 @@ import {User} from "../models/userSchema.js";
 import { Booking } from "../models/bookingSchema.js";
 import { generateToken } from "../utils/generateToken.js";
 
-// 📌 Hilfsfunktionen zur Validierung
+//  Hilfsfunktionen zur Validierung
 const formatAndValidateName = (name) => {
     const regex = /^[A-Za-zÄÖÜäöüß\s-]+$/;  //Erlaubt nur Buchstaben, Leerzeichen & Bindestriche
     if (!regex.test(name)){
@@ -95,12 +95,21 @@ const registerUser = async (req, res, next) => {
 
 //  Benutzer Login
 const authUser = async (req, res, next) => {
+    console.log(" Eingehende Login-Daten:", req.body); // ✅ Debugging
     try {
         const { email, password } = req.body;
+        if (!email || !password) {
+            console.log(" Fehlende Daten beim Login:", req.body);
+            return res.status(400).json({ message: "Bitte E-Mail und Passwort eingeben." });
+        }
+
         const user = await User.findOne({ email });
 
-        if (!user || !(await user.matchPassword(password))) return next(new Error("Ungültige Email oder Passwort."));
-
+        if (!user || !(await user.matchPassword(password))) {
+            console.log("Falsche Login-Daten für:", email);
+            return res.status(400).json({ message: "E-Mail oder Passwort ist falsch." });
+        }
+        console.log("✅ Erfolgreicher Login:", user.email);
         const token = generateToken(user._id);
         res.cookie("jwt", token, {
         httpOnly: true, 
@@ -113,6 +122,7 @@ const authUser = async (req, res, next) => {
             vorname: user.vorname, 
             nachname: user.nachname, 
             email: user.email,
+            isAdmin: user.isAdmin,
             token:token
             });
     } catch (error) {
@@ -159,7 +169,7 @@ const updateUserProfile = async (req, res, next) => {
     try {
         const user = await User.findById(req.user._id);
         if (!user) {
-            console.log("❌ Benutzer nicht gefunden!");
+            console.log(" Benutzer nicht gefunden!");
             return res.status(404).json({ message: "Benutzer nicht gefunden" });
         }
     
@@ -189,20 +199,29 @@ const updateUserProfile = async (req, res, next) => {
     }
 };
 
-// 📌 Alle Buchungen des eingeloggten Nutzers abrufen
+//  Alle Buchungen des eingeloggten Nutzers abrufen
 const getUserBookings = async (req, res, next) => {
     try {
-        const bookings = await Booking.find({ email: req.user.email });
-        if (!bookings.length) {
-            return res.status(404).json({ message: "Keine Buchungen gefunden" });
+        if (!req.user || !req.user.email) {
+            return res.status(401).json({ message: "Nicht autorisiert! Bitte erneut einloggen." });
         }
+
+        console.log("📡 Suche Buchungen für:", req.user.email); // Debugging-Log
+
+        const bookings = await Booking.find({ email: req.user.email });
+
+        if (!bookings.length) {
+            return res.status(200).json([]); // ✅ Leeres Array statt Fehler senden
+        }
+
         res.status(200).json(bookings);
     } catch (error) {
-        next(error);
+        console.error(" Fehler beim Abrufen der Buchungen:", error.message);
+        res.status(500).json({ message: "Interner Serverfehler beim Laden der Buchungen" });
     }
 };
 
-// 📌 Buchung stornieren
+//  Buchung stornieren
 const cancelUserBooking = async (req, res, next) => {
     try {
         const { bookingNumber } = req.params;
@@ -225,4 +244,12 @@ const cancelUserBooking = async (req, res, next) => {
     }
 };
 
-export { registerUser, authUser, logoutUser, getUserProfile, updateUserProfile, getUserBookings, cancelUserBooking };
+const adminCheck = (req, res, next) => {
+    if (req.user && req.user.isAdmin) {
+        next(); //  Admin erlaubt
+    } else {
+        res.status(403).json({ message: " Zugriff verweigert. Nur für Admins." });
+    }
+};
+
+export { registerUser, authUser, logoutUser, getUserProfile, updateUserProfile, getUserBookings, cancelUserBooking, adminCheck  };
