@@ -48,7 +48,16 @@ const AuthPage = () => {
     const handleAuth = async (e) => {
         e.preventDefault();
         setError("");
+        if (!email || !password) {
+            setError("Bitte fülle alle Felder aus.");
+            return;
+        }
+    
 
+        if (isRegister && (!vorname || !nachname)) {
+            setError("Bitte Vorname und Nachname eingeben.");
+            return;
+        }
         if (isRegister && password !== confirmPassword) {
             setError("Passwörter stimmen nicht überein.");
             return;
@@ -91,14 +100,21 @@ const AuthPage = () => {
                 // Wechsel zur Login-Seite, aber Benutzer muss selbst die Daten eingeben
                 navigate("/auth?register=false");
             } else {
-                setUser(data);
-                navigate("/"); // Nach Login zum Dashboard
+                setUser({
+                    ...data,
+                    isAuthenticated: true,  // ✅ Sicherstellen, dass der Benutzer als eingeloggt gilt
+                    isAdmin: data.isAdmin || false,  // ✅ Falls `isAdmin` fehlt, setze `false`
+                });
+        
+                  //  Admins gehen ins Admin-Dashboard, normale User zur normalen Startseite
+            navigate(data.isAdmin ? "/admin" : "/");
             }
         } catch (error) {
             console.error("Fehler bei der Authentifizierung:", error);
             setError("E-Mail oder Passwort ist falsch");
         }
     };
+
    
 useEffect(() => {
     document.documentElement.style.overflow = "hidden"; // Scrollen deaktivieren
@@ -127,90 +143,87 @@ const Header = () => {
 
 return (
     <div>
-        <Header /> {/* ✅ Header eingefügt */}
-    <div className="h-screen w-screen flex flex-col lg:flex-row overflow-hidden">
-   
-        <div className="hidden lg:block absolute left-0 top-0 w-1/2 h-screen">
-            <img src={loginImage} alt="Login Illustration"  
-             className="w-full h-full  object-cover object-[center] md:object-[25%_50%]"/>
-        </div>
-
-
-        <div className="w-full lg:w-1/2 h-screen mt-[-50px] lg:ml-185 flex flex-col justify-center items-center bg-white ml-auto px-10">
-    <form onSubmit={handleAuth} className="flex flex-col space-y-5 w-full max-w-[400px]">
-        <h1 className="text-4xl font-semibold text-[#0e5756] text-center w-full mb-14" 
-            style={{ fontFamily: 'Merriweather, serif' }}>
-            {isRegister ? "Willkommen" : "Willkommen zurück!"}
-        </h1>
-
-        {isRegister && (
-            <>
-                <div className="relative flex items-center border-b border-gray-400">
-                    <BiUser className="absolute left-2 text-gray-500" size={20} />
-                    <input type="text" placeholder="Vorname" value={vorname} onChange={(e) => setVorname(e.target.value)} 
-                        className="w-full text-gray-600 pl-8 py-3 bg-transparent focus:outline-none" />
-                </div>
-                <div className="relative flex items-center border-b border-gray-400">
-                    <BiUser className="absolute left-2 text-gray-500" size={20} />
-                    <input type="text" placeholder="Nachname" value={nachname} onChange={(e) => setNachname(e.target.value)} 
-                        className="w-full text-gray-600 pl-8 py-3 bg-transparent focus:outline-none" />
-                </div>
-            </>
-        )}
-
-        <div className="relative flex items-center border-b border-gray-400">
-            <BiEnvelope className="absolute left-2 text-gray-500" size={20} />
-            <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} 
-                className="w-full text-gray-600 pl-8 py-3 bg-transparent focus:outline-none" />
-        </div>
-
-        <div className="relative flex items-center border-b border-gray-400">
-            <BiLock className="absolute left-2 text-gray-500" size={20} />
-            <input type={showPassword ? "text" : "password"} placeholder="Passwort" value={password} onChange={(e) => setPassword(e.target.value)} 
-                className="w-full text-gray-600 pl-8 py-3 bg-transparent focus:outline-none" />
-            <button type="button" className="absolute right-2 text-gray-500" onClick={() => setShowPassword(!showPassword)}>
-                {showPassword ? <BiHide size={20} /> : <BiShow size={20} />}
-            </button>
-        </div>
-
-        {isRegister && (
-            <div className="relative flex items-center border-b border-gray-400">
-                <BiLock className="absolute left-2 text-gray-500" size={20} />
-                <input type={showConfirmPassword ? "text" : "password"} placeholder="Passwort bestätigen" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} 
-                    className="w-full text-gray-600 pl-8 py-3 bg-transparent focus:outline-none" />
-                <button type="button" className="absolute right-2 text-gray-500" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                    {showConfirmPassword ? <BiHide size={20} /> : <BiShow size={20} />}
-                </button>
+        <Header />
+        <div className="h-screen w-screen flex">
+            {/* Linke Seite: Bild */}
+            <div className="hidden lg:block w-1/2 h-full">
+                <img src={loginImage} alt="Login Illustration"
+                     className="w-full h-full  object-cover object-[center] md:object-[25%_50%]"/>
             </div>
-        )}
 
-        {error && <p className="text-[#9C785E] text-sm mt-1">{error}</p>}
+            {/* Rechte Seite: Formular */}
+            <div className="w-full lg:w-1/2 h-full flex justify-center items-center bg-white px-16">
+                <div className="w-full max-w-[500px]">
+                    <h1 className="text-4xl font-semibold text-[#0e5756] text-center mb-14" 
+                        style={{ fontFamily: 'Merriweather, serif' }}>
+                        {isRegister ? "Willkommen" : "Willkommen zurück!"}
+                    </h1>
 
-        <button type="submit" 
-            className="bg-[#116769] text-white py-2 px-6 rounded-full hover:bg-[#0e5756] transition shadow-md mt-6">
-            {isRegister ? "Registrieren" : "Einloggen"}
-        </button>
-    </form>
+                    <form onSubmit={handleAuth} className="flex flex-col space-y-6">
+                        {isRegister && (
+                            <>
+                                <div className="relative flex items-center border-b border-gray-400">
+                                    <BiUser className="absolute left-2 text-gray-500" size={20} />
+                                    <input type="text" placeholder="Vorname" value={vorname} onChange={(e) => setVorname(e.target.value)}
+                                        className="w-full text-gray-600 pl-8 py-3 bg-transparent focus:outline-none" />
+                                </div>
+                                <div className="relative flex items-center border-b border-gray-400">
+                                    <BiUser className="absolute left-2 text-gray-500" size={20} />
+                                    <input type="text" placeholder="Nachname" value={nachname} onChange={(e) => setNachname(e.target.value)}
+                                        className="w-full text-gray-600 pl-8 py-3 bg-transparent focus:outline-none" />
+                                </div>
+                            </>
+                        )}
 
-    <div className="text-center mt-10">
-        <button onClick={() => navigate(`/auth?register=${!isRegister}`)} 
-            className="text-[#0e5756] font-medium hover:text-[#116769] transition">
-            {isRegister ? (
-                <>
-                    Bereits ein Konto? <span className="font-bold underline">Hier einloggen</span>
-                </>
-            ) : (
-                <>
-                    Noch kein Konto? <span className="font-bold underline">Hier registrieren</span>
-                </>
-            )}
-        </button>
+                        <div className="relative flex items-center border-b border-gray-400">
+                            <BiEnvelope className="absolute left-2 text-gray-500" size={20} />
+                            <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}
+                                className="w-full text-gray-600 pl-8 py-3 bg-transparent focus:outline-none" />
+                        </div>
+
+                        <div className="relative flex items-center border-b border-gray-400">
+                            <BiLock className="absolute left-2 text-gray-500" size={20} />
+                            <input type={showPassword ? "text" : "password"} placeholder="Passwort" value={password} onChange={(e) => setPassword(e.target.value)}
+                                className="w-full text-gray-600 pl-8 py-3 bg-transparent focus:outline-none" />
+                            <button type="button" className="absolute right-2 text-gray-500" onClick={() => setShowPassword(!showPassword)}>
+                                {showPassword ? <BiHide size={20} /> : <BiShow size={20} />}
+                            </button>
+                        </div>
+
+                        {isRegister && (
+                            <div className="relative flex items-center border-b border-gray-400">
+                                <BiLock className="absolute left-2 text-gray-500" size={20} />
+                                <input type={showConfirmPassword ? "text" : "password"} placeholder="Passwort bestätigen" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
+                                    className="w-full text-gray-600 pl-8 py-3 bg-transparent focus:outline-none" />
+                                <button type="button" className="absolute right-2 text-gray-500" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                                    {showConfirmPassword ? <BiHide size={20} /> : <BiShow size={20} />}
+                                </button>
+                            </div>
+                        )}
+
+                        {error && <p className="text-red-500 text-sm">{error}</p>}
+
+                        <button type="submit"
+                            className="bg-[#116769] text-white py-2.5 px-6 mt-8 rounded-full hover:bg-[#0e5756] transition shadow-md">
+                            {isRegister ? "Registrieren" : "Einloggen"}
+                        </button>
+                    </form>
+
+                    <div className="text-center mt-10">
+                        <button onClick={() => navigate(`/auth?register=${!isRegister}`)}
+                            className="text-[#0e5756] font-medium hover:text-[#116769] transition">
+                            {isRegister ? (
+                                <>Bereits ein Konto? <span className="font-bold underline">Hier einloggen</span></>
+                            ) : (
+                                <>Noch kein Konto? <span className="font-bold underline">Hier registrieren</span></>
+                            )}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-</div>
-</div>
 );
+};
 
-
-}
 export default AuthPage;

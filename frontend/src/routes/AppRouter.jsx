@@ -25,14 +25,21 @@ const userIsLogin = {
   isAdmin: true,
 };
 const protectedLoader = async ({ context }) => {
-  const user = context.auth?.user; // ✅ AuthContext aus dem `context` abrufen
+  const user = context.auth?.user;
 
-  if (!user || !user.isAuthenticated || !user.isAdmin) {
-    return redirect("/"); // Falls kein User oder Admin → Zur Startseite
+  // Falls der Benutzer noch nicht geladen wurde, NICHT weiterleiten
+  if (user === undefined) {
+      return null; 
   }
 
-  return null;
+  // Falls der Benutzer NICHT eingeloggt ist → Weiterleitung zur Startseite
+  if (!user || !user.isAuthenticated) {
+      return redirect("/");
+  }
+
+  return null; // Falls eingeloggt, Zugriff erlauben
 };
+
 
 const createAuthRouter = (authContext) =>
   createBrowserRouter([
@@ -54,6 +61,7 @@ const createAuthRouter = (authContext) =>
     {
       path: "/account-booking",
       element: <AccountBookingInfoPage />, // Wrapper-Seite
+      protectedLoader,
       children: [
         { path: "account", element: <AccountDetails /> },
         { path: "booking", element: <BookingDetails /> },
