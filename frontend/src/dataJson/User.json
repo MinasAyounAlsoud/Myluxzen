@@ -9,7 +9,7 @@
       "vorname": "Anna",
       "nachname": "Schmidt",
       "email": "anna.schmidt@yahoo.com",
-      "password": "Anna#2024"
+      "password": "Anna@2024"
     },
     {
       "vorname": "Lukas",
@@ -51,13 +51,13 @@
       "vorname": "Paul",
       "nachname": "Schwarz",
       "email": "paul.schwarz@web.de",
-      "password": "Paul+135"
+      "password": "Paul@135"
     },
     {
       "vorname": "Mia",
       "nachname": "Neumann",
       "email": "mia.neumann@t-online.de",
-      "password": "Mia=246"
+      "password": "Mia!2467"
     }
   ]
   

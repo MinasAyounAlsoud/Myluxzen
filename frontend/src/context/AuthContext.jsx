@@ -3,15 +3,12 @@ import { createContext, useState, useEffect } from "react";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState({
-        vorname: "Test",
-        nachname: "Admin",
-        email: "admin@example.com",
-        isAuthenticated: true,  // ✅ Benutzer ist immer eingeloggt (nur für Tests)
-        isAdmin: true,  // ✅ Ist Admin
-    });
+    const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true);
 
+    useEffect(()=>{
+        console.log("AuthProvider,user", user);
+    },[user]);
     //  Funktion, um den aktuellen Benutzer zu prüfen
     const checkUserSession = async () => {
         try {
