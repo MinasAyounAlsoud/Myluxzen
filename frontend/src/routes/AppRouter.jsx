@@ -18,6 +18,7 @@ import BookingDetails from "../components/User/BookingDetails"; //Naheeda
 import { ReviewPage } from "../pages/ReviewPage"; // Minas
 import { AdminReviewPage } from "../pages/AdminReviewPage"; //Minas
 import { ApartmentsList } from "../pages/hausBeschreibung"; //Minas
+import { AdminSingleHouseQueryPage } from '../pages/AdminSingleHouseQueryPage';
 
 const userIsLogin = {
   isAuthenticated: true,
@@ -85,6 +86,7 @@ const createAuthRouter = (authContext) =>
             </div>
           ),
         },
+     
         //delete this page, Xiangyu
         // {
         //   path: "bookings-manage",
@@ -92,7 +94,7 @@ const createAuthRouter = (authContext) =>
         // },
         // admin page, begin
         { path: "reviews", element: <AdminReviewPage /> }, //Minas
-
+        { path: "singleHouse-query", element: <AdminSingleHouseQueryPage></AdminSingleHouseQueryPage>}, // Xiangyu
         // admin page, end
       ],
       loader: async () => {

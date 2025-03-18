@@ -41,6 +41,7 @@ export const HouseTypeCard = ({ house, onClick, selected=false}) => {
 };
 
 export const HouseTypeModal = ({ house, onClose }) => {
+  console.log("HouseTypeModal",house);
   if (!house) return null;
   const roomAmenities = house.roomAmenities
     ? Object.values(house.roomAmenities)

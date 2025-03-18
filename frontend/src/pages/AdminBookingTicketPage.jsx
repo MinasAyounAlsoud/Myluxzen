@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {SingleBookingTicket} from '../components/admin/SingleBookingTicket'; 
 
-export function AdminBookingTicket() {
+export function AdminBookingTicketPage() {
     const [bookingNumber, setBookingNumber] = useState('');
     const [bookingData, setBookingData] = useState(null);
     const [error, setError] = useState('');

@@ -22,6 +22,9 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
           }
       }
   },[gotoNextStep]);
+  useEffect(()=>{
+    console.log("selectedApartment",selectedApartment)
+  },[selectedApartment]);
   const calculateTotalPrice = (booking, price) => {
     const start = new Date(booking.startDate);
     const end = new Date(booking.endDate);
@@ -132,7 +135,7 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
       )}
       {selectedApartment && (
         <HouseTypeModal
-          apartment={selectedApartment}
+          house={selectedApartment}
           onClose={() => setSelectedApartment(null)}
         />
       )}
