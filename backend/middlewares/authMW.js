@@ -157,6 +157,7 @@ const getUserProfile = async (req, res, next) => {
             telefonnummer: req.user.telefonnummer,
             landesvorwahl: req.user.landesvorwahl,
             address: req.user.address,
+            isAdmin: req.user.isAdmin,
         });
     } catch (error) {
         next(error);
