@@ -34,44 +34,38 @@ const NavbarLinks = () => {
 
 export default NavbarLinks;*/
 //NavbarLinks
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link as ScrollLink } from "react-scroll";
 import { NavLink } from "react-router-dom";
 
-
-// Définir les liens du menu avec leur type
 const links = [
-  { link: "Home", path: "/", type: "router" }, // Page
-  { link: "Gallerie", path: "/gallerie", type: "router" }, // ✅ Correction: "/gallery" → "/gallerie"
-  { link: "Villen", section: "villen", type: "scroll" }, // Scroll
-  { link: "Aktivitäten", section: "aktivitaeten", type: "scroll" }, // Scroll
-  { link: "About Us", path: "/about", type: "router" }, // Page
-  { link: "AGB", section: "agb", type: "scroll" } // Scroll
+  { link: "Home", path: "/", type: "router" },
+  { link: "Buchen", path: "/booking", type: "router" },
+  { link: "Galerie", path: "/gallerie", type: "router" },
+  { link: "Villen", section: "villen", type: "scroll" },
+  { link: "Aktivitäten", section: "aktivitaeten", type: "scroll" },
+  { link: "Über Uns", path: "/about", type: "router" },
+  { link: "AGB", section: "agb", type: "scroll" },
+  
 ];
 
-
-const NavbarLinks = ({ isMenuOpen }) => {
-  const [fontSize, setFontSize] = useState("20px");
+const NavbarLinks = ({ isMenuOpen, closeMenu }) => {
+  const menuRef = useRef(null);
 
   useEffect(() => {
-    const adjustFontSize = () => {
-      const screenWidth = window.innerWidth;
-      if (screenWidth < 1280) {
-        setFontSize("12px");
-      } else if (screenWidth < 1400) {
-        setFontSize("15px");
-      } else {
-        setFontSize("20px");
+    const handleClickOutside = (event) => {
+      if (isMenuOpen && menuRef.current && !menuRef.current.contains(event.target)) {
+        closeMenu(); // Ferme le menu si on clique en dehors
       }
     };
 
-    adjustFontSize();
-    window.addEventListener("resize", adjustFontSize);
-    return () => window.removeEventListener("resize", adjustFontSize);
-  }, []);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isMenuOpen, closeMenu]);
 
   return (
     <ul
+      ref={menuRef}
       className={`${
         isMenuOpen
           ? "flex flex-col items-center absolute top-full left-0 right-0 bg-white p-4 gap-4 sm:bg-cyan/30 backdrop-blur-lg z-10 w-full"
@@ -79,7 +73,7 @@ const NavbarLinks = ({ isMenuOpen }) => {
       } lg:flex lg:flex-row lg:gap-8 lg:bg-transparent lg:text-white font-body sm:w-full py-4 sm:text-xl lg:text-base text-center justify-center mx-auto`}
     >
       {links.map((link, index) => (
-        <li key={index} className="group navbar-link" style={{ fontSize }}>
+        <li key={index} className="group navbar-link">
           {link.type === "scroll" ? (
             <ScrollLink
               to={link.section}
@@ -88,6 +82,7 @@ const NavbarLinks = ({ isMenuOpen }) => {
               duration={500}
               offset={-130}
               className="cursor-pointer hover:text-cyan transition-all duration-500"
+              onClick={closeMenu} // Ferme le menu après clic sur un lien
             >
               {link.link}
             </ScrollLink>
@@ -99,6 +94,7 @@ const NavbarLinks = ({ isMenuOpen }) => {
                   isActive ? "text-cyan font-bold" : "hover:text-cyan"
                 }`
               }
+              onClick={closeMenu} // Ferme le menu après clic sur un lien
             >
               {link.link}
             </NavLink>

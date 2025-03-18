@@ -1,27 +1,45 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Hero from "../components/hero/Hero"; // 🔥 Assure-toi du bon chemin du fichier Hero.jsx
 import Navbar from "../components/navbar/Navbar";
 import Footer from "../components/footer/Footer";
 import "../styles/extra.css";
 
-
 const HomePage = () => {
-  return (
-    
-    <div className="flex flex-col min-h-screen">
-      {/* Navbar toujours en haut */}
-      <Navbar />
-      {/* Main avec un padding-top équivalent à la hauteur de la Navbar */}
-      <main className="flex-1 pt-[150px] md:pt-[200px] lg:pt-[200px] mb-10">
+  const [navbarHeight, setNavbarHeight] = useState(0);
 
-      <Hero />  {/* ✅ Affiche la section Hero */}
+  useEffect(() => {
+    // Récupère dynamiquement la hauteur de la navbar
+    const navbar = document.querySelector("header");
+    if (navbar) {
+      setNavbarHeight(navbar.offsetHeight);
+    }
+    
+    // Met à jour la hauteur si la fenêtre est redimensionnée
+    const handleResize = () => {
+      if (navbar) {
+        setNavbarHeight(navbar.offsetHeight);
+      }
+    };
+    
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      {/* Navbar fixée en haut */}
+      <Navbar />
+
+      {/* Section Hero avec un padding-top égal à la hauteur de la Navbar */}
+      <main className="flex-grow" style={{ paddingTop: navbarHeight }}>
+        <Hero />
       </main>
 
-      {/* Footer avec un espace au-dessus */}
-      <Footer className="mt-100" />
+      {/* Footer toujours collé en bas */}
+      <Footer />
     </div>
-
   );
 };
 
 export default HomePage;
+

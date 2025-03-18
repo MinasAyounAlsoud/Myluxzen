@@ -32,6 +32,7 @@ app.use("/booking", bookingRouter);
 app.use("/uploads", express.static("uploads"));
 // 📌 Routes, Zahra
 app.use("/api/images", imageRoutes);
+
 app.use("/api/auth", authRouter); // authRouter durch Naheeda hinzugefügt
 // Minas
 app.use("/api/houses", hausRoutes);

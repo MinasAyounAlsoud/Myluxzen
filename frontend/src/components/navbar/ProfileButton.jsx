@@ -1,24 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import { FaUserCircle, FaTachometerAlt, FaSignInAlt, FaSignOutAlt, FaUserPlus } from "react-icons/fa";
 
 const ProfileButton = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const buttonRef = useRef(null);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Vérifie si le clic est en dehors du bouton et du menu
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   return (
     <div className="relative">
-      {/* Bouton Profil (même taille, icône toujours visible) */}
+      {/* Bouton Profil */}
       <button
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="button button-secondary flex items-center justify-center w-15 h-15 md:w-44 md:h-12 
-                   rounded-full md:rounded-4xl transition-all px-1 "
+        ref={buttonRef}
+        onClick={() => setIsMenuOpen((prev) => !prev)}
+        className="button button-secondary flex items-center justify-center w-13 h-13 md:w-44 md:h-12 
+                   rounded-full md:rounded-4xl transition-all px-1"
       >
-        <FaUserCircle size={28} className="text-current" /> {/* Garde la couleur du texte */}
-        <span className="hidden md:inline ml-2">Login</span> {/* Texte caché sur mobile */}
+        <FaUserCircle size={28} className="text-current" />
+        <span className="hidden md:inline ml-2">Login</span>
       </button>
 
       {/* Menu déroulant sous le bouton */}
       {isMenuOpen && (
-        <div className="absolute top-full right-0 w-48 bg-white p-4 shadow-lg mt-2 rounded-md">
+        <div ref={menuRef} className="absolute top-full right-0 w-48 bg-white p-4 shadow-lg mt-2 rounded-md">
           <ul>
             <li className="py-2 px-4 flex items-center space-x-2 hover:bg-gray-100 cursor-pointer">
               <FaTachometerAlt />
