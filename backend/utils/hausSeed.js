@@ -38,7 +38,7 @@ const houses = [
       homeSafety: "Alarmanlage, Safe, Videoüberwachung",
     },
     pricePerNight: 745,
-    location: "Mallorca, Spanien",
+    availableCount: 5,
     availability: [{ date: "2025-06-15", isAvailable: true }],
   },
   {
@@ -72,7 +72,7 @@ const houses = [
       homeSafety: "Rauchmelder, Erste-Hilfe-Set",
     },
     pricePerNight: 1350,
-    location: "Tirol, Österreich",
+    availableCount: 5,
     availability: [{ date: "2025-07-10", isAvailable: true }],
   },
   {
@@ -92,7 +92,7 @@ const houses = [
     description:
       "Elegantes Penthouse mit Panoramablick, privatem Whirlpool auf der Terrasse und hochwertiger Ausstattung. Die bodentiefen Fenster sorgen für ein helles Ambiente und bieten eine atemberaubende Aussicht. Die moderne Küche mit Induktionskochfeld und das elegante Badezimmer mit Regendusche runden das luxuriöse Erlebnis ab.",
     guests: 4,
-    bedrooms: 2,
+    bedrooms: 3,
     livingRoom: 2,
     terrace: 1,
     toilet: 2,
@@ -106,7 +106,7 @@ const houses = [
       homeSafety: "Smart Lock, 24/7 Concierge",
     },
     pricePerNight: 950,
-    location: "Berlin, Deutschland",
+    availableCount: 5,
     availability: [{ date: "2025-08-01", isAvailable: true }],
   },
   {
@@ -130,7 +130,7 @@ const houses = [
     livingRoom: 1,
     terrace: 2,
     toilet: 3,
-    bathroom: 3,
+    bathroom: 2,
     roomAmenities: {
       bathroomInfo: "Doppelwaschbecken, Regendusche",
       internetInfo: "WLAN, Bluetooth-Lautsprecher",
@@ -139,8 +139,8 @@ const houses = [
       entertainment: "Strandspiele, Kajaks, Smart-TV",
       homeSafety: "Erste-Hilfe-Set, Feuerlöscher",
     },
-    pricePerNight: 1350,
-    location: "Bali, Indonesien",
+    pricePerNight: 1600,
+    availableCount: 2,
     availability: [{ date: "2025-09-15", isAvailable: true }],
   },
   {
@@ -161,10 +161,10 @@ const houses = [
     description:
       "Elegantes Loft mit offener Raumgestaltung, moderner Einrichtung und Balkon mit Blick auf die Stadt. Hohe Decken, große Fenster und stilvolle Möbel verleihen dem Apartment ein einzigartiges Flair. Die voll ausgestattete Küche, das gemütliche Schlafzimmer und die zentrale Lage machen es perfekt für Städtereisende und Geschäftsleute.",
     guests: 2,
-    bedrooms: 1,
+    bedrooms: 2,
     livingRoom: 1,
     terrace: 1,
-    toilet: 2,
+    toilet: 1,
     bathroom: 2,
     roomAmenities: {
       bathroomInfo: "Marmorbad mit Goldarmaturen",
@@ -175,7 +175,7 @@ const houses = [
       homeSafety: "Wachdienst, Sicherheitstor",
     },
     pricePerNight: 565,
-    location: "Toskana, Italien",
+    availableCount: 10,
     availability: [{ date: "2025-10-20", isAvailable: true }],
   },
 ];

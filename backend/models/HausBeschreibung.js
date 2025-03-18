@@ -42,13 +42,9 @@ const hausBeschreibungSchema = new Schema(
       type: Number,
       required: true,
     },
-    location: {
-      type: String,
-      required: true,
-    },
     availableCount: {
       type: Number,
-      // required: true,
+      required: true,
     },
     availability: [
       {
