@@ -1,7 +1,4 @@
 import { useState, useEffect } from 'react';
-import { QueryForm } from "../components/admin/QueryForm";
-import { QueryResults } from "../components/admin/QueryResults";
-import { SingleBookingTicket } from '../components/admin/SingleBookingTicket';
 import { SingleHouseQueryForm } from '../components/admin/SingleHouseQueryForm';
 import { SingleHouseQueryResults } from '../components/admin/SingleHouseQueryResults';
 

@@ -8,6 +8,9 @@ export function AdminBookingTicketPage() {
     const [showDetails, setShowDetails] = useState(false);
     const fetchBooking = async () => {
         try {
+            if(bookingNumber==="") {
+                throw new Error('Bitte füllen Buchungsnummer ein.');
+            }
             const response = await fetch(`http://localhost:3000/booking/byBookingNum/${bookingNumber}`, {
                 method: "GET",
                 headers: {
@@ -16,6 +19,9 @@ export function AdminBookingTicketPage() {
             });
             if (!response.ok) throw new Error('Buchung Number nicht gefunden.');
             const data = await response.json();
+            if(data === null){
+                throw new Error("Kein Buchungsticket gefunden");
+            }
             setBookingData(data);
             setShowDetails(true);
             setError('');
@@ -28,7 +34,8 @@ export function AdminBookingTicketPage() {
     return (
         <div className='py-4 px-10 '>
             {!showDetails ? (
-                <div className='flex space-x-6 py-2'>
+                <div className='flex flex-col space-y-6 py-2'>
+                <div className='flex space-x-6'>
                     <label htmlFor="bookingNumber">Buchung Number:</label>
                     <input
                         type="text"
@@ -40,8 +47,10 @@ export function AdminBookingTicketPage() {
                     />
                     <button onClick={fetchBooking}
                     className='bg-gray-800 text-white px-4 rounded-sm cursor-pointer hover:text-[#FAE1A8]'>Suchen</button>
-                    {error && <p>{error}</p>}
                 </div>
+                {error && <p>{error}</p>}
+            </div>
+
             ) : (
                 <SingleBookingTicket singleBooking={bookingData}
                     onClose={() => setShowDetails(false)}

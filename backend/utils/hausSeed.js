@@ -8,7 +8,6 @@ connect();
 const houses = [
   {
     houseType: "HouseType4",
-
     title: "Moderne Strandvilla mit Pool",
     images: [
       "http://localhost:3000/images/Apartment01.jpg",

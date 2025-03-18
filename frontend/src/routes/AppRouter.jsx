@@ -6,10 +6,10 @@ import {
 console.log("React Router Version:", createBrowserRouter);
 import { useContext } from "react"; //Naheeda
 import AuthContext from "../context/AuthContext"; //Naheeda
-import { BookingPage } from "../pages/BookingPage";
+import { BookingPage } from "../pages/BookingPage";//Xiangyu
 import HomePage from "../pages/HomePage";
-import { AdminPage } from "../pages/AdminPage";
-import { AdminBookingQueryPage } from "../pages/AdminBookingQueryPage";
+import { AdminPage } from "../pages/AdminPage";//Xiangyu
+import { AdminBookingQueryPage } from "../pages/AdminBookingQueryPage";//Xiangyu
 import Gallerie from "../pages/GalleriePage";
 import AuthPage from "../pages/AuthPage"; //Naheeda
 import AccountBookingInfoPage from "../pages/AccountBookingInfoPage"; //Naheeda
@@ -18,7 +18,8 @@ import BookingDetails from "../components/User/BookingDetails"; //Naheeda
 import { ReviewPage } from "../pages/ReviewPage"; // Minas
 import { AdminReviewPage } from "../pages/AdminReviewPage"; //Minas
 import { ApartmentsList } from "../pages/hausBeschreibung"; //Minas
-import { AdminSingleHouseQueryPage } from '../pages/AdminSingleHouseQueryPage';
+import { AdminSingleHouseQueryPage } from '../pages/AdminSingleHouseQueryPage';//Xiangyu
+import { AdminBookingTicketPage } from "../pages/AdminBookingTicketPage";//Xiangyu
 
 const userIsLogin = {
   isAuthenticated: true,
@@ -94,7 +95,6 @@ const createAuthRouter = (authContext) =>
             </div>
           ),
         },
-     
         //delete this page, Xiangyu
         // {
         //   path: "bookings-manage",
@@ -103,6 +103,8 @@ const createAuthRouter = (authContext) =>
         // admin page, begin
         { path: "reviews", element: <AdminReviewPage /> }, //Minas
         { path: "singleHouse-query", element: <AdminSingleHouseQueryPage></AdminSingleHouseQueryPage>}, // Xiangyu
+        { path: "booking-edit", element: <AdminBookingTicketPage></AdminBookingTicketPage>}, // Xiangyu
+
         // admin page, end
       ],
       loader: async () => {

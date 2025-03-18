@@ -10,7 +10,10 @@ export function AdminPage() {
               </li>
               <li className='cursor-pointer hover:text-[#FAE1A8]'>
                 <NavLink to="singleHouse-query">Häuseranfrage</NavLink>  
-              </li>           
+              </li>    
+              <li className='cursor-pointer hover:text-[#FAE1A8]'>
+                <NavLink to="booking-edit">Buchungsticket bearbeiten</NavLink>  
+              </li>         
             </ul>
           </nav>
         );
