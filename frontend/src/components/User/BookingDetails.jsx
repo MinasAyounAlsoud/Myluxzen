@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import AuthContext from "../../context/AuthContext";
 
 const BookingDetails = () => {
-    const { user } = useContext(AuthContext); // ✅ user aus AuthContext holen
+    const { user } = useContext(AuthContext); // ✅ Benutzer aus dem AuthContext holen
 
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -13,7 +13,7 @@ const BookingDetails = () => {
     useEffect(() => {
         if (!user) {
             console.log("❌ Kein Benutzer gefunden. Anfrage wird nicht gesendet.");
-            setError("Nicht eingeloggt! Bitte melden Sie sich an.");
+            setError("❌ Nicht eingeloggt! Bitte melden Sie sich an.");
             setLoading(false);
             return;
         }
@@ -26,23 +26,24 @@ const BookingDetails = () => {
         })
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error("Fehler beim Laden der Buchungen");
+                    throw new Error("Serverfehler! Buchungen konnten nicht geladen werden.");
                 }
                 return response.json();
             })
             .then((data) => {
-                console.log("📡 Empfangenes Backend-Daten:", data);
-                setBookings(data);
+                if (data.length === 0) {
+                    setError("🔍 Du hast noch keine Buchungen gemacht. Zeit für dein nächstes Abenteuer! ✈️🏡");
+                } else {
+                    setBookings(data);
+                }
                 setLoading(false);
             })
             .catch((error) => {
-                console.error("❌ Fehler beim Laden der Buchungen:", error.message);
-                setError(`Fehler beim Laden der Buchungen: ${error.message}`);
+                setError(`⚠️ Fehler beim Laden der Buchungen: ${error.message}`);
                 setLoading(false);
             });
     }, [user]);
     
-
     const handleCancelClick = (booking) => {
         setSelectedBooking(booking);
         setShowConfirm(true);
@@ -63,7 +64,7 @@ const BookingDetails = () => {
                 credentials: "include",
             });
             const data = await response.json();
-            if (!response.ok) throw new Error(data.message || "Fehler beim Stornieren der Buchung.");
+            if (!response.ok) throw new Error(data.message || "❌ Fehler beim Stornieren der Buchung.");
 
             setBookings(prevBookings =>
                 prevBookings.map(booking =>
@@ -94,25 +95,33 @@ const BookingDetails = () => {
             </h2>
 
             {loading ? (
-                <p className="text-gray-600 text-center">Lade Buchungen...</p>
+                <p className="text-gray-600 text-center">⏳ Lade Buchungen...</p>
             ) : error ? (
-                <p className="text-red-500 text-center">{error}</p>
-            ) : bookings.length === 0 ? (
-                <p className="text-gray-600 text-center">Keine Buchungen gefunden.</p>
+                <div className="p-6 bg-gray-100 text-center rounded-lg shadow-md">
+                    <p className="text-gray-700 text-lg font-medium">{error}</p>
+                    {error.includes("noch keine Buchungen") && (
+                        <button 
+                            className="mt-4 px-5 py-2 bg-[#116769] text-white rounded-md hover:bg-[#0e5756] transition duration-200"
+                            onClick={() => window.location.href = "/booking"}
+                        >
+                            Jetzt eine Unterkunft buchen 🏡
+                        </button>
+                    )}
+                </div>
             ) : (
                 <div className="space-y-6">
                     {bookings.map((booking) => (
                         <div key={booking.bookingNumber} className="p-6 bg-gray-50 rounded-lg shadow-md">
                             <div>
                                 <p className="font-medium text-gray-600">
-                                    Buchungsnummer: <span className="font-normal">{booking.bookingNumber}</span>
+                                    <strong>Buchungsnummer:</strong> {booking.bookingNumber}
                                 </p>
                                 <p className="text-gray-600"><strong>Unterkunft:</strong> {booking.houseType}</p>
                                 <p className="text-gray-600"><strong>Gästeanzahl:</strong> {booking.guestCount}</p>
                                 <p className="text-gray-600"><strong>Startdatum:</strong> {formatDate(booking.startDate)}</p>
                                 <p className="text-gray-600"><strong>Enddatum:</strong> {formatDate(booking.endDate)}</p>
-                                <p className="text-gray-600"><strong>Total Preis:</strong> {booking.price} €</p>
-                                <p className="font-medium text-gray-600">Status: {booking.status}</p>
+                                <p className="text-gray-600"><strong>Preis:</strong> {booking.price} €</p>
+                                <p className="font-medium text-gray-600"><strong>Status:</strong> {booking.status}</p>
                             </div>
 
                             {booking.status !== "Canceled" && (
@@ -128,7 +137,7 @@ const BookingDetails = () => {
 
                             {booking.status === "Canceled" && (
                                 <div className="mt-4 p-2 bg-[#e6f2f1] text-[#0e5756] rounded-md">
-                                    <p className="font-medium">Sie haben diese Buchung storniert.</p>
+                                    <p className="font-medium"> Sie haben diese Buchung storniert.</p>
                                 </div>
                             )}
                         </div>
@@ -136,8 +145,8 @@ const BookingDetails = () => {
                 </div>
             )}
 
-            {/* ✅ Bestätigungs-Popup für Stornierung */}
-            {showConfirm && selectedBooking && (
+             {/* ✅ Bestätigungs-Popup für Stornierung */}
+             {showConfirm && selectedBooking && (
                 <div className="fixed inset-0 flex items-center justify-center p-5">
                     <div className="bg-[#e6f2f1] p-6 rounded-xl shadow-xl border border-gray-200 max-w-sm w-full text-center">
                         <h3 className="text-xl font-semibold text-gray-700">Buchung stornieren?</h3>
@@ -166,3 +175,4 @@ const BookingDetails = () => {
 };
 
 export default BookingDetails;
+

@@ -7,11 +7,11 @@ const bookingSchema = new mongoose.Schema({
     email: {
         type: String,
     },
-    guestCount : { type: Number, required: true },
+    guestCount : { type: Number, required: true, max: 8  },
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     houseType: { type: String, 
-        enum: ['House Type 1', 'House Type 2', 'House Type 3', 'House Type 4', 'House Type 5'],  
+        enum: ['HouseType1', 'HouseType2', 'HouseType3', 'HouseType4', 'HouseType5'],  
         required: true  
     },
     status:  { type: String, 
@@ -19,28 +19,15 @@ const bookingSchema = new mongoose.Schema({
         required: true  
     },
     price: { type: Number, required: true },
+    houseTitle: { type: String },
     mobileNumber: { type: String },
     comments:{ type: String },
+    houseNum :{ type: String },
+    totalPrice: { type: Number},
+    totalDays: { type: Number},
 },
 { timestamps: true });
 
 
-const houseSchema = new mongoose.Schema({
-    housegId: { type: String},
-    houseType: { type: String},
-    guestCount: { type: Number},
-    availableCount: { type: Number},
-    price: { type: Number},
-});
-
-const singleHouseSchema = new mongoose.Schema({
-    housegNum: { type: String},
-    houseType: { type: String},
-    price: { type: Number},
-});
-
-
-
 export const Booking = mongoose.model("booking", bookingSchema, "booking");
 
-export const House = mongoose.model("house", houseSchema, "house");

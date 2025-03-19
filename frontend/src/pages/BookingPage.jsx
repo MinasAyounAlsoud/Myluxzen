@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { DateSelect } from '../components/booking/DateSelect';
 import { HouseSelect } from '../components/booking/HouseSelect';
 import { Contact } from '../components/booking/Contact';
@@ -8,34 +8,56 @@ import { ButtonBar } from '../components/booking/ButtonBar';
 import { SummeryBar } from '../components/booking/SummaryBar';
 import { Summery } from '../components/booking/Summery';
 import { SuccessBooking } from '../components/booking/SuccessBooking';
+import AuthContext from '../context/AuthContext';
+import { BookingNavBar } from '../components/booking/BookingNavBar';
 
 export const BookingPage = ()=>{
     const [gotoNextStep, setGotoNextStep] = useState(false);
     const [isStepCompleted, setStepCompleted] = useState(false);
     const [step, setStep] = useState(1);
-    const loggedInUser = {
-        email: "jane.doe@example.com",
-        guestFirstName: "Jane",
-        guestFamilyName: "Doe",
-        mobileNumber: "",
-    };
-    const userNull = null;
-    const user = loggedInUser;
-    const initState = {
-        guestFirstName : user !== null ?user.guestFirstName : "",
-        guestFamilyName: user !== null ?user.guestFamilyName : "",
-        email: user !== null ?user.email : "",
-        guestCount: 1,
-        startDate: null,
-        endDate: null,
-        houseType:"",
-        price: "",
-        mobileNumber: user !== null ?user.mobileNumber : "",
-        comments:""
-    };
-    const [newBooking, setNewBooking] = useState(initState);
+    const [newBooking, setNewBooking] = useState({});
     const [successBookingNumber, setSuccessBookingNumber] = useState("");
     const totalSteps = 4;
+    const {user} = useContext(AuthContext);
+    useEffect(()=>{
+        if(user !== null){
+            const initState = {
+                guestFirstName : user !== null ?user.vorname : "",
+                guestFamilyName: user !== null ?user.nachname : "",
+                email: user !== null ?user.email : "",
+                guestCount: 1,
+                startDate: null,
+                endDate: null,
+                houseType:"",
+                price: "",
+                mobileNumber: "",
+                comments:"",
+                houseNum: "",
+                totalPrice: 0,
+                totalDays:0
+            };
+            setNewBooking(initState);
+        }else{
+            const initState = {
+                guestFirstName : "",
+                guestFamilyName: "",
+                email: "",
+                guestCount: 1,
+                startDate: null,
+                endDate: null,
+                houseType:"",
+                price: "",
+                mobileNumber: "",
+                comments:"",
+                houseNum: "",
+                totalPrice: 0,
+                totalDays:0,
+                houseTitle:""
+            };
+            setNewBooking(initState);
+        }
+        console.log("useContext, user",user);
+    },[user]);
     useEffect(()=>{
         if(isStepCompleted===true){
             setStep(prev=>prev + 1);
@@ -46,11 +68,9 @@ export const BookingPage = ()=>{
         console.log("newBooking changed", newBooking);
     },[newBooking]);
     const setNextStep = async () => {
-        console.log("step:", step);
-
         if (step < totalSteps) {
             setGotoNextStep(true); 
-        } else {
+        } else {//last step, send API and create booking ticket 
             try {
                 const response = await fetch("http://localhost:3000/booking/create-booking", {
                     method: "POST",
@@ -58,16 +78,8 @@ export const BookingPage = ()=>{
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        guestFirstName: newBooking.guestFirstName,                         guestFamilyName: newBooking.guestFamilyName,
-                        guestCount: newBooking.guestCount,
-                        startDate: newBooking.startDate,
-                        endDate: newBooking.endDate,
-                        houseType: newBooking.houseType,
+                        ...newBooking,
                         status: "Active",
-                        price: newBooking.price,
-                        email:newBooking.email,
-                        mobileNumber: newBooking.mobileNumber,
-                        comments: newBooking.comments
                     }),
                 });
                 if (!response.ok) {
@@ -85,11 +97,9 @@ export const BookingPage = ()=>{
         setStepCompleted(false);
         setStep(prev=>prev - 1);
     };
-    // useEffect(()=>{
-    //     console.log("successBookingNumber",successBookingNumber);
-    // },[successBookingNumber]);
     return (
     <div>
+        <BookingNavBar></BookingNavBar>
         {successBookingNumber==="" ? (
         <div>
             <div   className='pb-10 lg:px-20'>

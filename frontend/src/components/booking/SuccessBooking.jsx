@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Summery } from './Summery';
+import { useNavigate } from 'react-router-dom';
 
 export const SuccessBooking = ({successBookingNumber})=>{
   console.log("SuccessBooking",successBookingNumber)
   const [bookingTicket, setBookingTicket] = useState({});
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
   useEffect(() => {
       const fetchBookingTicket = async () => {
         if (successBookingNumber === "") {
@@ -36,6 +38,9 @@ export const SuccessBooking = ({successBookingNumber})=>{
     // useEffect(()=>{
     //     console.log("bookingTicket",bookingTicket);
     // },[bookingTicket]);
+    const handleClose=()=>{
+      navigate("/");
+    }
     return (
     <div className='flex flex-col items-center justify-center h-full pb-20'>
         <div className='w-2/3 py-4'>
@@ -48,9 +53,9 @@ export const SuccessBooking = ({successBookingNumber})=>{
             <p>Sollten Sie nicht angemeldet sein, können Sie direkt mit dem Verwaltungspersonal des Hotels in Kontakt treten, indem Sie uns unter der Telefonnummer ... anrufen oder eine E-Mail an ... senden.</p>
             <p>Wir freuen uns darauf, Sie bald willkommen zu heißen und stehen Ihnen jederzeit gerne zur Verfügung, um Ihren Aufenthalt so angenehm wie möglich zu gestalten.</p><br></br>
         </div>
-        <button 
-        className="bg-[#064236] text-white text-lg text-gray-600 py-4 px-16 cursor-pointer rounded-lg hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed">
-            close
+        <button onClick={handleClose}
+        className="bg-[#116769] text-[#FAE1A8] text-lg py-2 px-10 cursor-pointer rounded-md hover:text-white">
+            schließen
         </button>
     </div>
     );

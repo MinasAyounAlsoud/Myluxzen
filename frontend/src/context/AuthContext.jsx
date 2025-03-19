@@ -3,10 +3,13 @@ import { createContext, useState, useEffect } from "react";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true);
 
-    // 📌 Funktion, um den aktuellen Benutzer zu prüfen
+    useEffect(()=>{
+        console.log("AuthProvider,user", user);
+    },[user]);
+    //  Funktion, um den aktuellen Benutzer zu prüfen
     const checkUserSession = async () => {
         try {
             const response = await fetch("http://localhost:3000/api/auth/me", {
@@ -19,7 +22,10 @@ export const AuthProvider = ({ children }) => {
 
             if (response.ok) {
                 const userData = await response.json();
-                setUser({ ...userData, isAuthenticated: true }); // ✅ Benutzer setzen
+                setUser({ ...userData, 
+                    isAuthenticated: true,
+                    isAdmin: userData.isAdmin || false,
+                }); // ✅ Benutzer setzen
             } else {
                 setUser(null);
             }

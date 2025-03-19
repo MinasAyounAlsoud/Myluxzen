@@ -2,15 +2,16 @@ import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 export function QueryForm({ handleSearch }) { 
     const [formData, setFormData] = useState({
+        bookingNum: "",
         email: '',
         guestFirstName: '',
         guestFamilyName: '',
         queryStartDate: '',
         queryEndDate: ''
     });
-    // useEffect(()=>{
-    //     console.log("query form data", formData)
-    // },[formData]);
+    useEffect(()=>{
+        console.log("query form data", formData)
+    },[formData]);
     const parseDate = (date) => {
         return date && date !== "" ? new Date(date) : "";
     };
@@ -39,6 +40,16 @@ export function QueryForm({ handleSearch }) {
     };
     return (
     <form onSubmit={handleSubmit} className="space-y-4 px-10 py-2 lg:w-3/5 mx-auto my-10 px-10">
+        <div>
+            <label className="block text-sm font-medium text-gray-700">Buchung Nummer:</label>
+            <input
+                type="text"
+                name="bookingNum"
+                value={formData.bookingNum}
+                onChange={handleChange}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            />
+        </div>
         <div>
             <label className="block text-sm font-medium text-gray-700">Email:</label>
             <input

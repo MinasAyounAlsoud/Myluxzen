@@ -5,17 +5,37 @@ export function DateRangePicker({ newBooking, setNewBooking, errStartDate, errEn
   const parseDate = (date) => {
     return date && date !== "" ? new Date(date) : null;
   };
+  const calculateTotalDays = (booking) => {
+    if (booking.startDate===null || booking.endDate===null) return 0;
+    const start = new Date(booking.startDate);
+    const end = new Date(booking.endDate);
+    const msPerDay = 1000 * 3600 * 24;
+    const days = Math.round((end - start) / msPerDay); 
+    return days; 
+  };
   const handleStartDateChange = (date) => {
-    setNewBooking(prev => ({
-      ...prev,
-      startDate: date ? date.toISOString() : null,
-    }));
+    setNewBooking(prev => {
+      const newBooking = {
+        ...prev,
+        startDate: date ? date.toISOString() : null
+      };
+      return {
+        ...newBooking,
+        totalDays: calculateTotalDays(newBooking) 
+      };
+    });
   };
   const handleEndDateChange = (date) => {
-    setNewBooking(prev => ({
-      ...prev,
-      endDate: date ? date.toISOString() : null,
-    }));
+    setNewBooking(prev => {
+      const newBooking = {
+        ...prev,
+        endDate: date ? date.toISOString() : null
+      };
+      return {
+        ...newBooking,
+        totalDays: calculateTotalDays(newBooking)
+      };
+    });
   };
   return (
     <div className="flex flex-col lg:flex-row w-full justify-start lg:justify-between space-y-4 lg:space-y-0 lg:space-x-4">

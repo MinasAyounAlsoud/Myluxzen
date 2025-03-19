@@ -9,6 +9,7 @@ import imageRoutes from "./routes/imageRoutes.js";
 import { authRouter } from "./routes/authRouter.js"; // authRouter durch Naheeda importiert
 import hausRoutes from "./routes/HausRoutes.js"; //Minas
 import reviewRouter from "./routes/reviewRouter.js"; //Minas
+import { singleHouseRouter } from "./routes/singleHouseRouter.js";// Xiangyu
 
 // here is for routers, end
 
@@ -26,7 +27,8 @@ app.use(express.json());
 // });
 // here add routers, begin
 // booking router,  Xiangyu
-app.use("/booking", bookingRouter);
+app.use("/booking", bookingRouter);//Xiangyu
+app.use("/singleHouse", singleHouseRouter);//Xiangyu
 
 // 📌 Servir les images statiques, Zahra
 app.use("/uploads", express.static("uploads"));

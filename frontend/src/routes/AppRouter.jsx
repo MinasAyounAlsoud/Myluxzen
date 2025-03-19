@@ -6,11 +6,10 @@ import {
 console.log("React Router Version:", createBrowserRouter);
 import { useContext } from "react"; //Naheeda
 import AuthContext from "../context/AuthContext"; //Naheeda
-import { BookingPage } from "../pages/BookingPage";
+import { BookingPage } from "../pages/BookingPage";//Xiangyu
 import HomePage from "../pages/HomePage";
-import { AdminPage } from "../pages/AdminPage";
-import { AdminBookingQueryPage } from "../pages/AdminBookingQueryPage";
-import { AdminBookingTicket } from "../pages/AdminBookingTicket";
+import { AdminPage } from "../pages/AdminPage";//Xiangyu
+import { AdminBookingQueryPage } from "../pages/AdminBookingQueryPage";//Xiangyu
 import Gallerie from "../pages/GalleriePage";
 import AuthPage from "../pages/AuthPage"; //Naheeda
 import AccountBookingInfoPage from "../pages/AccountBookingInfoPage"; //Naheeda
@@ -19,20 +18,29 @@ import BookingDetails from "../components/User/BookingDetails"; //Naheeda
 import { ReviewPage } from "../pages/ReviewPage"; // Minas
 import { AdminReviewPage } from "../pages/AdminReviewPage"; //Minas
 import { ApartmentsList } from "../pages/hausBeschreibung"; //Minas
+import { AdminSingleHouseQueryPage } from '../pages/AdminSingleHouseQueryPage';//Xiangyu
+import { AdminBookingTicketPage } from "../pages/AdminBookingTicketPage";//Xiangyu
 
 const userIsLogin = {
   isAuthenticated: true,
   isAdmin: true,
 };
 const protectedLoader = async ({ context }) => {
-  const user = context.auth?.user; // ✅ AuthContext aus dem `context` abrufen
+  const user = context.auth?.user;
 
-  if (!user || !user.isAuthenticated || !user.isAdmin) {
-    return redirect("/"); // Falls kein User oder Admin → Zur Startseite
+  // Falls der Benutzer noch nicht geladen wurde, NICHT weiterleiten
+  if (user === undefined) {
+      return null; 
   }
 
-  return null;
+  // Falls der Benutzer NICHT eingeloggt ist → Weiterleitung zur Startseite
+  if (!user || !user.isAuthenticated) {
+      return redirect("/");
+  }
+
+  return null; // Falls eingeloggt, Zugriff erlauben
 };
+
 
 const createAuthRouter = (authContext) =>
   createBrowserRouter([
@@ -54,6 +62,7 @@ const createAuthRouter = (authContext) =>
     {
       path: "/account-booking",
       element: <AccountBookingInfoPage />, // Wrapper-Seite
+      protectedLoader,
       children: [
         { path: "account", element: <AccountDetails /> },
         { path: "booking", element: <BookingDetails /> },
@@ -75,7 +84,7 @@ const createAuthRouter = (authContext) =>
       element: <AdminPage></AdminPage>,
       children: [
         {
-          path: "bookings-query",
+          path: "bookings-manage",
           element: <AdminBookingQueryPage></AdminBookingQueryPage>,
         },
         {
@@ -86,13 +95,15 @@ const createAuthRouter = (authContext) =>
             </div>
           ),
         },
-        {
-          path: "bookings-manage",
-          element: <AdminBookingTicket></AdminBookingTicket>,
-        },
-
+        //delete this page, Xiangyu
+        // {
+        //   path: "bookings-manage",
+        //   element: <AdminBookingTicket></AdminBookingTicket>,
+        // },
         // admin page, begin
         { path: "reviews", element: <AdminReviewPage /> }, //Minas
+        { path: "singleHouse-query", element: <AdminSingleHouseQueryPage></AdminSingleHouseQueryPage>}, // Xiangyu
+        { path: "booking-edit", element: <AdminBookingTicketPage></AdminBookingTicketPage>}, // Xiangyu
 
         // admin page, end
       ],

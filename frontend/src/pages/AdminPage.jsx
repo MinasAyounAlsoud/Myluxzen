@@ -6,11 +6,14 @@ export function AdminPage() {
           <nav className="bg-gray-800 text-white p-4">
             <ul className="flex space-x-4">
               <li className='cursor-pointer hover:text-[#FAE1A8]'>
-                  <NavLink to="bookings-query">Buchungsanfrage</NavLink>
-                </li>
-              <li className='cursor-pointer hover:text-[#FAE1A8]'>
-                  <NavLink to="bookings-manage">Buchungsverwaltung</NavLink>  
+                  <NavLink to="bookings-manage">BuchungsVerhandlung</NavLink>
               </li>
+              <li className='cursor-pointer hover:text-[#FAE1A8]'>
+                <NavLink to="singleHouse-query">Häuseranfrage</NavLink>  
+              </li>    
+              <li className='cursor-pointer hover:text-[#FAE1A8]'>
+                <NavLink to="booking-edit">Buchungsticket bearbeiten</NavLink>  
+              </li>         
             </ul>
           </nav>
         );

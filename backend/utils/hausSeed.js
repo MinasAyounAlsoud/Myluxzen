@@ -11,6 +11,8 @@ const houses = [
     _id: new mongoose.Types.ObjectId("67c6b643d89f6f26b2a91b93"),
     houseType: "HouseType1",
     title: "Strandhaus mit direktem Meerzugang",
+    houseType: "HouseType4",
+    title: "Moderne Strandvilla mit Pool",
     images: [
       "http://localhost:3000/images/Apartment04.jpg",
       "http://localhost:3000/images/Apartment04-01.jpg",

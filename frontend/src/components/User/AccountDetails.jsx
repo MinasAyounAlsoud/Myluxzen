@@ -1,10 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import AuthContext from "../../context/AuthContext";
-
-const countryCodes = [
-    { code: "+49", name: "Deutschland" },
-    { code: "+1", name: "USA" },
-]
+import countryData from "../../dataJson/CountryCodes.json";
 
 const AccountDetails = () => {
     const { user, setUser } = useContext(AuthContext);
@@ -107,7 +103,7 @@ const AccountDetails = () => {
         setErrors({});
         setSuccessMessage("");
         if (!validateFields()) {
-            console.error("❌ Validierungsfehler:", errors);
+            console.error(" Validierungsfehler:", errors);
             return; // Stoppe das Speichern, wenn Fehler vorhanden sind
         }
 
@@ -140,7 +136,7 @@ const AccountDetails = () => {
     
     const handleCancel = (field) => {
         setFormData(user); // ✅ Ursprüngliche Werte aus `user` wiederherstellen
-        setEditingFields((prev) => ({ ...prev, [field]: false })); // ✅ Bearbeitungsfeld schließen
+        setEditingFields((prev) => ({ ...prev, [field]: false })); // Bearbeitungsfeld schließen
     };
     
 
@@ -156,7 +152,7 @@ const AccountDetails = () => {
         style={{ fontFamily: 'Merriweather, serif' }} >
          Persönliche Daten
          </h2>
-  {/* 1️⃣ Vorname */}
+  {/* 1 Vorname */}
  <div className="p-6 bg-gray-50 shadow-md rounded-xl">
     <h2 className="text-xl font-semibold text-[#0e5756]"  style={{ fontFamily: 'Merriweather, serif' }}>Vorname</h2>
 
@@ -172,7 +168,7 @@ const AccountDetails = () => {
             />
             {errors.vorname && <p className="text-[#9C785E] text-sm mt-1">{errors.vorname}</p>}
 
-            {/* ✅ Buttons: Speichern angepasst, Abbrechen bleibt unverändert */}
+            {/* Buttons: Speichern angepasst, Abbrechen bleibt unverändert */}
             <div className="flex justify-between mt-3">
                 <button 
                     onClick={handleSave} 
@@ -192,7 +188,7 @@ const AccountDetails = () => {
         <div className="flex justify-between mt-3">
             <p className="text-gray-600">{user?.vorname || "Kein Benutzername angegeben"}</p>
 
-            {/* ✅ Bearbeiten-Button jetzt in der gleichen Farbe wie h2 in der Buchungsseite */}
+            {/*  Bearbeiten-Button jetzt in der gleichen Farbe wie h2 in der Buchungsseite */}
             <button 
                 onClick={() => setEditingFields({ vorname: true })} 
                  className="text-[#0e5756] hover:text-[#116769] font-medium transition duration-200 cursor-pointer hover:underline "
@@ -203,7 +199,7 @@ const AccountDetails = () => {
     )}
 </div>
 
-    {/* 2️⃣ Name (Nachname) */}
+    {/*  Name (Nachname) */}
 <div className="p-6 bg-gray-50 shadow-md rounded-xl">
     <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>
         Nachname
@@ -221,7 +217,7 @@ const AccountDetails = () => {
             />
             {errors.nachname && <p className="text-[#9C785E] text-sm mt-1">{errors.nachname}</p>}
 
-            {/* ✅ Buttons: Speichern & Abbrechen */}
+            {/*  Buttons: Speichern & Abbrechen */}
             <div className="flex justify-between mt-3">
                 <button 
                     onClick={handleSave} 
@@ -241,7 +237,7 @@ const AccountDetails = () => {
         <div className="flex justify-between mt-3">
             <p className="text-gray-600">{user?.nachname || "Kein Nachname angegeben"}</p>
 
-            {/* ✅ Bearbeiten-Button angepasst */}
+            {/*  Bearbeiten-Button angepasst */}
             <button 
                 onClick={() => setEditingFields({ nachname: true })} 
                 className="text-[#0e5756] hover:text-[#116769] font-medium transition duration-200 cursor-pointer hover:underline"
@@ -253,7 +249,7 @@ const AccountDetails = () => {
 </div>
 
     
-      {/* 3️⃣ E-Mail Adresse */}
+      {/* 3E-Mail Adresse */}
 <div className="p-6 bg-gray-50 shadow-md rounded-xl">
     <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>
         E-Mail Adresse
@@ -271,7 +267,7 @@ const AccountDetails = () => {
             />
             {errors.email && <p className="text-[#9C785E] text-sm mt-1">{errors.email}</p>}
 
-            {/* ✅ Buttons: Speichern & Abbrechen */}
+            {/*  Buttons: Speichern & Abbrechen */}
             <div className="flex justify-between mt-3">
                 <button 
                     onClick={handleSave} 
@@ -291,7 +287,7 @@ const AccountDetails = () => {
         <div className="flex justify-between mt-3">
             <p className="text-gray-600">{user?.email || "Keine E-Mail angegeben"}</p>
 
-            {/* ✅ Bearbeiten-Button angepasst */}
+            {/*  Bearbeiten-Button angepasst */}
             <button 
                 onClick={() => setEditingFields({ email: true })} 
                 className="text-[#0e5756] hover:text-[#116769] font-medium transition duration-200 cursor-pointer hover:underline"
@@ -303,7 +299,7 @@ const AccountDetails = () => {
 </div>
 
     
-{/* 4️⃣ Telefonnummer */}
+{/* 4 Telefonnummer */}
 <div className="p-6 bg-gray-50 shadow-md rounded-xl">
     <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>
         Telefonnummer
@@ -312,21 +308,22 @@ const AccountDetails = () => {
     {editingFields.telefonnummer ? (
         <>
             <div className="flex space-x-3 mt-3">
-                {/* ✅ Landesvorwahl Dropdown */}
+                {/*  Landesvorwahl Dropdown */}
                 <select
                     name="landesvorwahl"
                     value={formData.landesvorwahl}
                     onChange={handleChange}
                     className="w-1/3 bg-white p-3 text-gray-600 rounded-md border border-gray-300 focus:border-[#116769] focus:outline-none shadow-sm"
                 >
-                    {countryCodes.map((country) => (
-                        <option key={country.code} value={country.code}>
-                            {country.name} ({country.code})
-                        </option>
+                     <option value="">Landes Vorwahl auswählen...</option>
+                    {countryData.countryCodes.map((country) => (
+                     <option key={country.code} value={country.code} className=" bg-white text-[#0e5756]">
+                    {country.name} ({country.code})
+                     </option>
                     ))}
                 </select>
 
-                {/* ✅ Telefonnummer Input */}
+                {/*  Telefonnummer Input */}
                 <input
                     type="text"
                     name="telefonnummer"
@@ -337,10 +334,10 @@ const AccountDetails = () => {
                 />
             </div>
 
-            {/* ✅ Fehlermeldung */}
+            {/*  Fehlermeldung */}
             {errors.telefonnummer && <p className="text-[#9C785E] text-sm mt-1">{errors.telefonnummer}</p>}
 
-            {/* ✅ Buttons: Speichern & Abbrechen */}
+            {/*  Buttons: Speichern & Abbrechen */}
             <div className="flex justify-between mt-3">
                 <button 
                     onClick={handleSave} 
@@ -360,7 +357,7 @@ const AccountDetails = () => {
         <div className="flex justify-between mt-3">
             <p className="text-gray-600">{user?.landesvorwahl} {user?.telefonnummer || "Keine Nummer hinterlegt"}</p>
 
-            {/* ✅ Bearbeiten-Button angepasst */}
+            {/*  Bearbeiten-Button angepasst */}
             <button 
                 onClick={() => setEditingFields({ telefonnummer: true })} 
                 className="text-[#0e5756] hover:text-[#116769] font-medium transition duration-200 cursor-pointer hover:underline"
@@ -371,7 +368,7 @@ const AccountDetails = () => {
     )}
 </div>
 
-{/* 5️⃣ Adresse */}
+{/* 5️ Adresse */}
 <div className="p-6 bg-gray-50 shadow-md rounded-xl">
     <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>
         Adresse
@@ -379,35 +376,21 @@ const AccountDetails = () => {
 
     {editingFields.address ? (
         <>
-            {/* ✅ Landesauswahl mit sanfter Hintergrundfarbe */}
+            {/*  Landesauswahl mit sanfter Hintergrundfarbe */}
             <select
                 name="address.land"
                 value={formData.address.land}
                 onChange={handleChange}
-                className="w-full bg-[#e6f2f1] p-3 text-gray-700 rounded-md border border-gray-300 mt-2 focus:border-[#116769] focus:outline-none shadow-sm"
+                className="w-full bg-[#e6f2f1] p-3 text-gray-600 rounded-md border border-gray-300 mt-2 focus:border-[#116769] focus:outline-none shadow-sm"
             >
                 <option value="">Land auswählen...</option>
-                {[
-                    { code: "DE", name: "Deutschland" },
-                    { code: "US", name: "USA" },
-                    { code: "FR", name: "Frankreich" },
-                    { code: "GB", name: "Großbritannien" },
-                    { code: "IT", name: "Italien" },
-                    { code: "ES", name: "Spanien" },
-                    { code: "CN", name: "China" },
-                    { code: "IN", name: "Indien" },
-                    { code: "BR", name: "Brasilien" },
-                    { code: "JP", name: "Japan" },
-                    { code: "AU", name: "Australien" },
-                    { code: "CA", name: "Kanada" }
-                ].map((country) => (
-                    <option key={country.code} value={country.name} className="bg-white text-[#0e5756]">
-                        {country.name}
-                    </option>
+               {countryData.countries.map((country) => (
+               <option key={country.code} value={country.name} className=" bg-white text-[#0e5756]">
+               {country.name}
+               </option>
                 ))}
             </select>
-
-            {/* ✅ Adressfelder mit schönem Design */}
+            {/*  Adressfelder mit schönem Design */}
             <input
                 type="text"
                 name="address.straße"
@@ -441,7 +424,7 @@ const AccountDetails = () => {
                 className="w-full bg-white p-3 text-gray-600 rounded-md border border-gray-300 mt-2 focus:border-[#116769] focus:outline-none shadow-sm"
             />
 
-            {/* ✅ Buttons: Speichern & Abbrechen */}
+            {/*  Buttons: Speichern & Abbrechen */}
             <div className="flex justify-between mt-3">
                 <button 
                     onClick={handleSave} 
@@ -467,7 +450,7 @@ const AccountDetails = () => {
                 {user?.address?.postleitzahl ? `${user.address.postleitzahl}` : ""}
             </p>
 
-            {/* ✅ Bearbeiten-Button angepasst */}
+            {/*  Bearbeiten-Button angepasst */}
             <button 
                 onClick={() => setEditingFields({ address: true })} 
                 className="text-[#0e5756] hover:text-[#116769] font-medium transition duration-200 cursor-pointer hover:underline"
@@ -480,7 +463,7 @@ const AccountDetails = () => {
 
         {successMessage && (
             <div className="fixed bottom-5 left-5 bg-green-100 text-green-800 px-4 py-2 rounded-lg shadow-md">
-                ✅ {successMessage}
+                 {successMessage}
             </div>
         )}
     </div>
