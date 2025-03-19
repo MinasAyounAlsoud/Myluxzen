@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
+import "../../styles/extra.css";
 
 const Footer = () => {
   return (
@@ -9,7 +10,7 @@ const Footer = () => {
         
         {/* 📌 Colonne 1 : À propos */}
         <div>
-          <h3 className="text-xl font-semibold mb-3 text-sand">Über MyLuxZen</h3>
+          <h3 className="text-xl font-semibold mb-3 text-sand">Über MyLuXZeN</h3>
           <p className="text-off-white text-sm">
             MyLuxZen ist eine exklusive Plattform für die Buchung von Luxusferienwohnungen.
             Genießen Sie einen luxuriösen Aufenthalt an den schönsten Reisezielen.
@@ -19,27 +20,27 @@ const Footer = () => {
         {/* 📌 Colonne 2 : Liens rapides */}
         <div>
           <h3 className="text-xl font-semibold mb-3 text-caramel">Schnellzugriff</h3>
-          <ul className="text-off-white space-y-2">
+          <ul className="text-off-white space-y-2 ">
             <li>
-              <Link to="/" className="hover:text-peach transition">Home</Link>
+              <Link to="/" className="hover:text-[var(--caramel)] transition">Home</Link>
             </li>
             <li>
-              <Link to="/booking" className="hover:text-peach transition">Buchen</Link>
+              <Link to="/booking" className="hover:text-[var(--caramel)] transition">Buchen</Link>
             </li>
             <li>
-              <Link to="/gallerie" className="hover:text-peach transition">Galerie</Link>
+              <Link to="/gallerie" className="hover:text-[var(--caramel)] transition">Galerie</Link>
             </li>
             <li>
-              <Link to="/HausBeschreibung" className="hover:text-peach transition">Unsere Villen</Link>
+              <Link to="/HausBeschreibung" className="hover:text-[var(--caramel)] transition">Unsere Villen</Link>
             </li>
             <li>
-              <Link to="/about" className="hover:text-peach transition">Über uns</Link>
+              <Link to="/about" className="hover:text-[var(--caramel)] transition">Über uns</Link>
             </li>
             <li>
-              <Link to="/reviews" className="hover:text-peach transition">Reviews</Link>
+              <Link to="/reviews" className="hover:text-[var(--caramel)] transition">Reviews</Link>
             </li>
             <li>
-              <Link to="/agb" className="hover:text-peach transition">AGB</Link>
+              <Link to="/agb" className="hover:text-[var(--caramel)] transition">AGB</Link>
             </li>
           </ul>
         </div>
@@ -71,7 +72,7 @@ const Footer = () => {
 
       {/* 📌 Barre en bas */}
       <div className="border-t border-caramel mt-8 pt-4 text-center -off-white text-sm">
-        © {new Date().getFullYear()} MyLuxZen - Alle Rechte vorbehalten.
+        © {new Date().getFullYear()} MyLuXZeN - Alle Rechte vorbehalten.
       </div>
     </footer>
   );

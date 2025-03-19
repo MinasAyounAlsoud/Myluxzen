@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
-import { FaUserCircle, FaTachometerAlt, FaSignInAlt, FaSignOutAlt, FaUserPlus } from "react-icons/fa";
+import { FaUserCircle, FaTachometerAlt, FaSignInAlt, FaSignOutAlt, FaUserPlus, FaCalendarCheck} from "react-icons/fa";
 //import { HiOutlineMenu } from "react-icons/hi"; 
 
 const ProfileButton = () => {
@@ -41,11 +41,11 @@ const ProfileButton = () => {
         ref={buttonRef}
         onClick={() => setIsMenuOpen((prev) => !prev)}
         className="button button-secondary flex items-center justify-center w-13 h-13
-                   rounded-full md:rounded-4xl transition-all px-1"
+                   rounded-full md:rounded-4xl transition-all px-1 cursor-pointer"
       >
         
         {user ? (
-          <div className="w-8 h-8 flex items-center justify-center bg-[#116769] text-white font-semibold rounded-full ml-2">
+          <div className="w-8 h-8 flex items-center justify-center  bg-[#116769] text-white font-semibold rounded-full ">
             {user.vorname ? user.vorname.charAt(0).toUpperCase() : "?"}
           </div>
         ) : (
@@ -59,19 +59,19 @@ const ProfileButton = () => {
           <ul>
             {user ? (
               <>
-                <li className="py-2 px-4 flex items-center space-x-2 hover:bg-gray-100 cursor-pointer">
+                <li className="py-2 px-4 flex items-center space-x-2 text-[#116869] hover:bg-[#1168692b] cursor-pointer">
                   <FaTachometerAlt />
                   <button onClick={() => handleNavigation("/account-booking?view=account")}>
                     Konto
                   </button>
                 </li>
-                <li className="py-2 px-4 flex items-center space-x-2 hover:bg-gray-100 cursor-pointer">
-                  <FaTachometerAlt />
+                <li className="py-2 px-4 flex items-center space-x-2 text-[#116869] hover:bg-[#1168692b] cursor-pointer">
+                  <FaCalendarCheck />
                   <button onClick={() => handleNavigation("/account-booking?view=booking")}>
                     Buchung
                   </button>
                 </li>
-                <li className="py-2 px-4 flex items-center space-x-2 hover:bg-gray-100 cursor-pointer text-red-600">
+                <li className="py-2 px-4 flex items-center space-x-2 cursor-pointer text-[#b58d6e] hover:bg-[#1168692b]">
                   <FaSignOutAlt />
                   <button
                     onClick={() => {
