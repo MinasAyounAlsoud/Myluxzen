@@ -46,12 +46,6 @@ const hausBeschreibungSchema = new Schema(
       type: Number,
       required: true,
     },
-    availability: [
-      {
-        date: String,
-        isAvailable: Boolean,
-      },
-    ],
   },
   { timestamps: true }
 );
