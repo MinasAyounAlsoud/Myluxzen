@@ -19,7 +19,7 @@ const Gallerie = () => {
   // 📌 Charger les images depuis le backend
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/images")
+      .get("http://localhost:3000/api/images")
       .then((response) => {
         setImages(response.data);
       })
@@ -31,8 +31,6 @@ const Gallerie = () => {
   return (
     <>
       <div className="pt-20 max-w-[1200px] mx-auto px-4">
-   
-
         {/* 🔹 Masonry Grid avec Tailwind */}
         <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 px-4">
           {images.map((image, idx) => (
@@ -43,13 +41,13 @@ const Gallerie = () => {
             >
               {/* 🔹 Image principale */}
               <img
-                src={`http://localhost:5000${image.url}`}
+                src={image.url} // ✅ Correction ici
                 alt={image.description}
                 className="w-full h-auto object-cover rounded-none"
               />
-              
+
               {/* 🔹 Overlay pour la description au hover */}
-              <div className="absolute inset-0 bg-ivory-75  bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="absolute inset-0 bg-ivory-75 bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <p className="text-white text-lg font-semibold px-4 text-center">
                   {image.description}
                 </p>
@@ -66,22 +64,23 @@ const Gallerie = () => {
         open={index >= 0}
         close={() => setIndex(-1)}
         slides={images.map((image) => ({
-          src: `http://localhost:5000${image.url}`,
+          src: image.url, // ✅ Correction ici aussi
           width: 1200,
           height: 800,
-          //title: image.description, // 🔹 Ajout de la description
+          // title: image.description, // 🔹 Ajout de la description
         }))}
         thumbnails={{
           position: "bottom",
           width: 100,
           height: 70,
           border: 2,
-          borderRadius: 5,
+          borderRadius:0,
           gap: 5,
         }}
         styles={{
           container: { backgroundColor: "rgba(222, 222, 222, 1)" },
           image: { objectFit: "contain", maxHeight: "90vh" },
+          icon: { color: "white" }, // Toutes les icônes en blanc
           
         }}
       />
@@ -90,6 +89,3 @@ const Gallerie = () => {
 };
 
 export default Gallerie;
-
-
-

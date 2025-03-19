@@ -1,9 +1,10 @@
 import { GiHamburgerMenu } from "react-icons/gi"; // Hamburger icon
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../../utils/state/navbarSlice"; // Utilisation du chemin relatif
 
 const NavbarToggler = () => {
   const dispatch = useDispatch();
+  const { isMenuOpen } = useSelector((state) => state.navbar);
 
   const setToggleMenu = () => {
     dispatch(toggleMenu()); // Déclenche l'action Redux pour basculer l'état du menu
@@ -11,7 +12,9 @@ const NavbarToggler = () => {
 
   return (
     <button
-      className="lg:hidden text-2xl p-3 border rounded-full"
+      className={`lg:hidden text-2xl p-3 border rounded-full transition-all duration-300 ${
+        isMenuOpen ? "text-[#064236]" : "text-[#064236] hover:text-[#064236]"
+      }`}
       onClick={setToggleMenu}
     >
       <GiHamburgerMenu />

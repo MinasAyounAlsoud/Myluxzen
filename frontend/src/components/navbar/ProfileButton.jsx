@@ -1,41 +1,105 @@
-import React, { useState } from 'react';
+
+import React, { useState, useRef, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../../context/AuthContext";
 import { FaUserCircle, FaTachometerAlt, FaSignInAlt, FaSignOutAlt, FaUserPlus } from "react-icons/fa";
+//import { HiOutlineMenu } from "react-icons/hi"; 
 
 const ProfileButton = () => {
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const buttonRef = useRef(null);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
+
+  // Fonction pour naviguer et fermer le menu proprement
+  const handleNavigation = (path) => {
+    setIsMenuOpen(false);
+    setTimeout(() => navigate(path), 150);
+  };
 
   return (
     <div className="relative">
-      {/* Bouton Profil (même taille, icône toujours visible) */}
+      {/* Bouton Profil */}
       <button
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="button button-secondary flex items-center justify-center w-15 h-15 md:w-44 md:h-12 
-                   rounded-full md:rounded-4xl transition-all px-1 "
+        ref={buttonRef}
+        onClick={() => setIsMenuOpen((prev) => !prev)}
+        className="button button-secondary flex items-center justify-center w-13 h-13
+                   rounded-full md:rounded-4xl transition-all px-1"
       >
-        <FaUserCircle size={28} className="text-current" /> {/* Garde la couleur du texte */}
-        <span className="hidden md:inline ml-2">Login</span> {/* Texte caché sur mobile */}
+        
+        {user ? (
+          <div className="w-8 h-8 flex items-center justify-center bg-[#116769] text-white font-semibold rounded-full ml-2">
+            {user.vorname ? user.vorname.charAt(0).toUpperCase() : "?"}
+          </div>
+        ) : (
+          <FaUserCircle size={28} className="text-current" />
+        )}
       </button>
 
-      {/* Menu déroulant sous le bouton */}
+      {/* Menu déroulant */}
       {isMenuOpen && (
-        <div className="absolute top-full right-0 w-48 bg-white p-4 shadow-lg mt-2 rounded-md">
+        <div ref={menuRef} className="absolute top-full right-0 w-48 bg-white p-4 shadow-lg mt-2 rounded-md">
           <ul>
-            <li className="py-2 px-4 flex items-center space-x-2 hover:bg-gray-100 cursor-pointer">
-              <FaTachometerAlt />
-              <span>Dashboard</span>
-            </li>
-            <li className="py-2 px-4 flex items-center space-x-2 hover:bg-gray-100 cursor-pointer">
-              <FaUserPlus />
-              <span>Regestrieren</span>
-            </li>
-            <li className="py-2 px-4 flex items-center space-x-2 hover:bg-gray-100 cursor-pointer">
-              <FaSignInAlt />
-              <span>Login</span>
-            </li>
-            <li className="py-2 px-4 flex items-center space-x-2 hover:bg-gray-100 cursor-pointer">
-              <FaSignOutAlt />
-              <span>Logout</span>
-            </li>
+            {user ? (
+              <>
+                <li className="py-2 px-4 flex items-center space-x-2 hover:bg-gray-100 cursor-pointer">
+                  <FaTachometerAlt />
+                  <button onClick={() => handleNavigation("/account-booking?view=account")}>
+                    Konto
+                  </button>
+                </li>
+                <li className="py-2 px-4 flex items-center space-x-2 hover:bg-gray-100 cursor-pointer">
+                  <FaTachometerAlt />
+                  <button onClick={() => handleNavigation("/account-booking?view=booking")}>
+                    Buchung
+                  </button>
+                </li>
+                <li className="py-2 px-4 flex items-center space-x-2 hover:bg-gray-100 cursor-pointer text-red-600">
+                  <FaSignOutAlt />
+                  <button
+                    onClick={() => {
+                      logout();
+                      navigate("/auth?register=false");
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    Abmelden
+                  </button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li className="py-2 px-4 flex items-center space-x-2 hover:bg-gray-100 cursor-pointer">
+                  <FaUserPlus />
+                  <button onClick={() => handleNavigation("/auth?register=true")}>
+                    Registrieren
+                  </button>
+                </li>
+                <li className="py-2 px-4 flex items-center space-x-2 hover:bg-gray-100 cursor-pointer">
+                  <FaSignInAlt />
+                  <button onClick={() => handleNavigation("/auth?register=false")}>
+                    Einlogen
+                  </button>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       )}
@@ -44,25 +108,3 @@ const ProfileButton = () => {
 };
 
 export default ProfileButton;
-
-
-
-
-
-/*import { Link } from "react-scroll";
-import { LuArrowDownRight } from "react-icons/lu";
-
-const NavbarBtn = () => {
-  return (
-    <button className=" px-4 py-2 rounded-full text-xl font-bold font-body text-white border-cyan border flex items-center gap-1 bg-gradient-to-r  from-darkCyan to-orange transition-all duration-500 hover:scale-110 hover:border-orange cursor-pointer hover:shadow-cyanShadow">
-      <Link spy={true} smooth={true} duration={500} offset={-120} to="contact">
-        Hire Me
-      </Link>
-      <div className="sm:hidden md:block">
-        <LuArrowDownRight />
-      </div>
-    </button>
-  );
-};
-
-export default NavbarBtn;*/

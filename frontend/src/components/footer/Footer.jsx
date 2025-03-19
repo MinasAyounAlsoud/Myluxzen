@@ -21,16 +21,22 @@ const Footer = () => {
           <h3 className="text-xl font-semibold mb-3 text-caramel">Schnellzugriff</h3>
           <ul className="text-off-white space-y-2">
             <li>
-              <Link to="/" className="hover:text-peach transition">Startseite</Link>
+              <Link to="/" className="hover:text-peach transition">Home</Link>
+            </li>
+            <li>
+              <Link to="/booking" className="hover:text-peach transition">Buchen</Link>
             </li>
             <li>
               <Link to="/gallerie" className="hover:text-peach transition">Galerie</Link>
             </li>
             <li>
+              <Link to="/HausBeschreibung" className="hover:text-peach transition">Unsere Villen</Link>
+            </li>
+            <li>
               <Link to="/about" className="hover:text-peach transition">Über uns</Link>
             </li>
             <li>
-              <Link to="/contact" className="hover:text-peach transition">Kontakt</Link>
+              <Link to="/reviews" className="hover:text-peach transition">Reviews</Link>
             </li>
             <li>
               <Link to="/agb" className="hover:text-peach transition">AGB</Link>
