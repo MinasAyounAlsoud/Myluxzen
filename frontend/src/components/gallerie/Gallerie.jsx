@@ -19,7 +19,7 @@ const Gallerie = () => {
   // 📌 Charger les images depuis le backend
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/images")
+      .get("http://localhost:3000/api/images")
       .then((response) => {
         setImages(response.data);
       })
