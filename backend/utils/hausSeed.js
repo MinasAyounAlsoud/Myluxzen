@@ -11,8 +11,6 @@ const houses = [
     _id: new mongoose.Types.ObjectId("67c6b643d89f6f26b2a91b93"),
     houseType: "HouseType1",
     title: "Strandhaus mit direktem Meerzugang",
-    houseType: "HouseType4",
-    title: "Moderne Strandvilla mit Pool",
     images: [
       "http://localhost:3000/images/Apartment04.jpg",
       "http://localhost:3000/images/Apartment04-01.jpg",
@@ -26,7 +24,7 @@ const houses = [
     ],
     description:
       "Wunderschönes Strandhaus mit großer Sonnenterrasse, privatem Zugang zum Meer und traumhaftem Ausblick. Genießen Sie Ihren Morgenkaffee mit Blick auf den Ozean oder verbringen Sie entspannte Nachmittage in der Hängematte. Das Haus bietet großzügige Wohnbereiche, eine offene Küche und komfortable Schlafzimmer für die ganze Familie.",
-    guests: 5,
+    guests: 8,
     bedrooms: 4,
     livingRoom: 1,
     terrace: 2,
@@ -46,6 +44,7 @@ const houses = [
   {
     _id: new mongoose.Types.ObjectId("67c6b643d89f6f26b2a91b95"),
     title: "Gemütliche Berghütte mit Sauna",
+    houseType: "HouseType2",
     images: [
       "http://localhost:3000/images/Apartment02.jpg",
       "http://localhost:3000/images/Apartment02-01.jpg",
