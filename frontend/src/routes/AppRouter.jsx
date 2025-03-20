@@ -59,8 +59,7 @@ const createAuthRouter = (authContext) =>
       path: "/HausBeschreibung",
       element: <ApartmentsList></ApartmentsList>,
     }, //Minas
-
-    // Zahra  
+// Zahra  
     {
       path: "/gallery",
       element: <AdminGallery />,
