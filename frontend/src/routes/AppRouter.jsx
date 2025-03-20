@@ -60,10 +60,11 @@ const createAuthRouter = (authContext) =>
       element: <ApartmentsList></ApartmentsList>,
     }, //Minas
 
+    // Zahra  
     {
-      path: "gallery",
+      path: "/gallery",
       element: <AdminGallery />,
-    }, // Zahra    
+    },   
     // {
 
     // page router, end

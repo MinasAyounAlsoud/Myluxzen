@@ -6,7 +6,7 @@ import ProfileButton from "../navbar/ProfileButton";
 
 const MiniNavbar = () => {
   return (
-    <header className="top-0 left-0 z-50 w-full h-25 p-2 shadow-md bg-white opacity-95">
+    <header className="top-0 left-0 z-50 w-full h-35 p-2 shadow-md bg-white opacity-95">
       <nav className="max-w-[90%] mx-auto flex justify-between items-center">
         {/* Logo Mini */}
         <LogoMini />

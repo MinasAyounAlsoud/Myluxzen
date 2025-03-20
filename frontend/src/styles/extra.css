@@ -158,4 +158,79 @@
   .text-white { color: var(--white); }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
+.animate-fade-in {
+  animation: fade-in 1s ease-out;
+}
+
+@keyframes bounce-on-hover {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.animate-bounce-on-hover:hover {
+  animation: bounce-on-hover 0.5s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  /* 📌 Réduit la hauteur du footer et l'espacement sur mobile */
+  footer {
+    padding: 16px 0;
+  }
+
+  /* 📌 Réduit l'espacement entre les colonnes */
+  footer .grid {
+    gap: 12px;
+  }
+
+  /* 📌 Réduit la taille des titres */
+  footer h3 {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+
+  /* 📌 Réduit la taille des paragraphes */
+  footer p {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  /* 📌 Réduit la taille des liens */
+  footer a {
+    font-size: 13px;
+  }
+
+  /* 📌 Icônes sociales plus petites */
+  footer .space-x-4 {
+    gap: 6px;
+  }
+
+  footer .p-3 {
+    padding: 5px;
+  }
+
+  footer .text-xl {
+    font-size: 16px;
+  }
+
+  /* 📌 Espacement réduit pour la barre du bas */
+  footer .border-t {
+    margin-top: 8px;
+    padding-top: 6px;
+    font-size: 11px;
+  }
+}

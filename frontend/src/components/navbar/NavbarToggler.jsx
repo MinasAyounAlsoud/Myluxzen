@@ -12,9 +12,11 @@ const NavbarToggler = () => {
 
   return (
     <button
-      className={`lg:hidden text-2xl p-3 border rounded-full transition-all duration-300 ${
-        isMenuOpen ? "text-[#064236]" : "text-[#064236] hover:text-[#064236]"
-      }`}
+      className={`lg:hidden text-2xl p-3 border rounded-full 
+                  transition-all duration-300 ease-in-out
+                  transform hover:scale-110 hover:bg-[#064236]/20 
+                  active:scale-95
+                  ${isMenuOpen ? "text-[#064236] bg-[#064236]/20" : "text-[#064236]"}`}
       onClick={setToggleMenu}
     >
       <GiHamburgerMenu />
@@ -23,4 +25,3 @@ const NavbarToggler = () => {
 };
 
 export default NavbarToggler;
-

@@ -11,7 +11,7 @@ const Hero = () => {
   const [parallaxEnabled, setParallaxEnabled] = useState(false);
   const hasAnimated = useRef(false);
 
-  // ✅ Fonction pour initialiser les positions des éléments avant animation
+  // Fonction pour initialiser les positions des éléments avant animation
   const initializeParallax = () => {
     const heroSection = heroRef.current;
     if (!heroSection) return;
@@ -31,7 +31,7 @@ const Hero = () => {
     });
   };
 
-  // ✅ Fonction qui met à jour l'effet parallaxe en fonction du mouvement de la souris
+  // Fonction qui met à jour l'effet parallaxe en fonction du mouvement de la souris
   const updateParallax = (e) => {
     if (!parallaxEnabled) return;
 
@@ -78,10 +78,10 @@ const Hero = () => {
       return;
     }
 
-    // ✅ Initialiser le parallaxe avant animation
+    // Initialiser le parallaxe avant animation
     initializeParallax();
 
-    // ✅ Cacher les titres au départ (mais PAS les images)
+    // Cacher les titres au départ (mais PAS les images)
     gsap.set([h1, h2], { opacity: 0 });
 
     gsap.fromTo(

@@ -47,7 +47,7 @@ const NavbarLinks = ({ isMenuOpen, closeMenu }) => {
               smooth={true}
               duration={500}
               offset={-130}
-              className="cursor-pointer hover:text-cyan transition-all duration-500"
+              
               onClick={closeMenu} // Ferme le menu après clic sur un lien
             >
               {link.link}
