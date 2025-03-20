@@ -6,10 +6,10 @@ console.log("React Router Version:", createBrowserRouter);
 import { useContext } from "react"; //Naheeda
 import AuthContext from "../context/AuthContext"; //Naheeda
 import { BookingPage } from "../pages/BookingPage";//Xiangyu
-import HomePage from "../pages/HomePage";
+import HomePage from "../pages/HomePage";//zahra
 import { AdminPage } from "../pages/AdminPage";//Xiangyu
 import { AdminBookingQueryPage } from "../pages/AdminBookingQueryPage";//Xiangyu
-import Gallerie from "../pages/GalleriePage";
+import Gallerie from "../pages/GalleriePage";//zahra
 import AuthPage from "../pages/AuthPage"; //Naheeda
 import AccountBookingInfoPage from "../pages/AccountBookingInfoPage"; //Naheeda
 import AccountDetails from "../components/User/AccountDetails"; //Naheeda
@@ -19,6 +19,8 @@ import { AdminReviewPage } from "../pages/AdminReviewPage"; //Minas
 import { ApartmentsList } from "../pages/hausBeschreibung"; //Minas
 import { AdminSingleHouseQueryPage } from '../pages/AdminSingleHouseQueryPage';//Xiangyu
 import { AdminBookingTicketPage } from "../pages/AdminBookingTicketPage";//Xiangyu
+import AdminGallery from "../pages/AdminGallery";//zahra
+
 
 const userIsLogin = {
   isAuthenticated: true,
@@ -57,6 +59,11 @@ const createAuthRouter = (authContext) =>
       path: "/HausBeschreibung",
       element: <ApartmentsList></ApartmentsList>,
     }, //Minas
+
+    {
+      path: "gallery",
+      element: <AdminGallery />,
+    }, // Zahra    
     // {
 
     // page router, end
