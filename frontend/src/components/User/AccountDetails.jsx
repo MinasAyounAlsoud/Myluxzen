@@ -22,33 +22,28 @@ const AccountDetails = () => {
             postleitzahl: "",
         },
     });
-
+ 
     // **Daten beim Start aus Backend laden**
    
+    // **Beim Laden `formData` mit `user` befüllen**
     useEffect(() => {
-        const fetchUserProfile = async () => {
-            try {
-                const response = await fetch("http://localhost:3000/api/auth/me", {
-                    method: "GET",
-                    credentials: "include",
-                });
-
-                if (response.ok) {
-                    const userData = await response.json();
-                    setUser(userData);
-                    setFormData(userData);
-                } else {
-                    console.error("Fehler beim Laden der Benutzerdaten.");
-                }
-            } catch (error) {
-                console.error("Fehler beim Abrufen der Benutzerdaten:", error);
-            }
-        };
-
-        if (!user?.vorname || !user?.nachname || !user?.telefonnummer) {
-            fetchUserProfile();
+        if (user) {
+            setFormData({
+                vorname: user.vorname || "",
+                nachname: user.nachname || "",
+                email: user.email || "",
+                telefonnummer: user.telefonnummer || "",
+                landesvorwahl: user.landesvorwahl || "+49",
+                address: {
+                    land: user.address?.land || "",
+                    straße: user.address?.straße || "",
+                    snummer: user.address?.snummer || "",
+                    stadt: user.address?.stadt || "",
+                    postleitzahl: user.address?.postleitzahl || "",
+                },
+            });
         }
-    }, [setUser]);
+    }, [user]);
 
     
     const handleChange = (e) => {
@@ -133,65 +128,64 @@ const AccountDetails = () => {
         }
     };
 
-    
-    const handleCancel = (field) => {
-        setFormData(user); // ✅ Ursprüngliche Werte aus `user` wiederherstellen
-        setEditingFields((prev) => ({ ...prev, [field]: false })); // Bearbeitungsfeld schließen
+
+    // **Sofort Daten setzen, wenn auf "Bearbeiten" geklickt wird**
+    const handleEditClick = (field) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            [field]: user[field] || "",
+        }));
+        setEditingFields({ [field]: true });
     };
-    
+
+    // **Abbrechen-Button setzt Originaldaten zurück**
+    const handleCancel = (field) => {
+        setFormData((prevData) => ({
+            ...prevData,
+            [field]: user[field] || "",
+        }));
+        setEditingFields((prev) => ({ ...prev, [field]: false }));
+    };
+
 
     return (
         /*
         <div className="max-w-4xl mx-auto px-8 md:px-12 lg:px-16 py-8 bg-white shadow-lg rounded-2xl space-y-4">
         */
-        <div className="max-w-5xl mx-auto p-8 bg-white shadow-md rounded-lg space-y-4">
+        <div className="max-w-5xl mx-auto p-8  bg-transparent space-y-4">
+        <h2 className="text-4xl font-semibold mb-10 text-[#0e5756] text-center"
+            style={{ fontFamily: 'Merriweather, serif' }}>
+            Persönliche Daten
+        </h2>
 
-        
-      
-    <h2 className="text-4xl font-semibold mb-15  text-[#0e5756] text-center"
-        style={{ fontFamily: 'Merriweather, serif' }} >
-         Persönliche Daten
-         </h2>
-  {/* 1 Vorname */}
- <div className="p-6 bg-gray-50 shadow-md rounded-xl">
-    <h2 className="text-xl font-semibold text-[#0e5756]"  style={{ fontFamily: 'Merriweather, serif' }}>Vorname</h2>
 
+{/* Vorname */}
+<div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none mb-6">
+    <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>Vorname</h2>
     {editingFields.vorname ? (
         <>
             <input
                 type="text"
                 name="vorname"
-                placeholder="Vorname"
                 value={formData.vorname}
                 onChange={handleChange}
-                className="w-full bg-white p-3 text-gray-600 rounded-md border border-gray-300 mt-2 focus:border-[#116769] focus:outline-none shadow-sm"
+                className="w-full bg-white p-3 text-gray-600 border border-gray-300 mt-2 focus:border-[#116769] focus:outline-none shadow-sm"
             />
-            {errors.vorname && <p className="text-[#9C785E] text-sm mt-1">{errors.vorname}</p>}
-
-            {/* Buttons: Speichern angepasst, Abbrechen bleibt unverändert */}
             <div className="flex justify-between mt-3">
-                <button 
-                    onClick={handleSave} 
-                    className="px-4 py-2 bg-[#116769] text-white border border-[#0e5756] rounded-md hover:bg-[#0e5756] transition duration-200"
-                >
+                <button onClick={handleSave} className="px-4 py-2 bg-[#116769] cursor-pointer text-white border border-[#0e5756] rounded-md hover:bg-[#0e5756] transition duration-200">
                     Speichern
                 </button>
-                <button 
-                    onClick={() => handleCancel("vorname")} 
-                    className="text-gray-600 hover:underline"
-                >
+                <button onClick={() => handleCancel("vorname")} className="text-gray-600 cursor-pointer hover:underline">
                     Abbrechen
                 </button>
             </div>
         </>
     ) : (
-        <div className="flex justify-between mt-3">
-            <p className="text-gray-600">{user?.vorname || "Kein Benutzername angegeben"}</p>
-
-            {/*  Bearbeiten-Button jetzt in der gleichen Farbe wie h2 in der Buchungsseite */}
+        <div className="flex justify-between items-center mt-3">
+            <p className="text-gray-600 text-lg">{user?.vorname || "Kein Vorname angegeben"}</p>
             <button 
-                onClick={() => setEditingFields({ vorname: true })} 
-                 className="text-[#0e5756] hover:text-[#116769] font-medium transition duration-200 cursor-pointer hover:underline "
+                onClick={() => handleEditClick("vorname")} 
+                className="text-[#0e5756] hover:text-[#116769] font-medium transition-all duration-200 cursor-pointer hover:underline"
             >
                 Bearbeiten
             </button>
@@ -199,267 +193,187 @@ const AccountDetails = () => {
     )}
 </div>
 
-    {/*  Name (Nachname) */}
-<div className="p-6 bg-gray-50 shadow-md rounded-xl">
-    <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>
-        Nachname
-    </h2>
 
-    {editingFields.nachname ? (
-        <>
-            <input
-                type="text"
-                name="nachname"
-                placeholder="Nachname"
-                value={formData.nachname}
-                onChange={handleChange}
-                className="w-full bg-white p-3 text-gray-600 rounded-md border border-gray-300 mt-2 focus:border-[#116769] focus:outline-none shadow-sm"
-            />
-            {errors.nachname && <p className="text-[#9C785E] text-sm mt-1">{errors.nachname}</p>}
 
-            {/*  Buttons: Speichern & Abbrechen */}
-            <div className="flex justify-between mt-3">
-                <button 
-                    onClick={handleSave} 
-                    className="px-4 py-2 bg-[#116769] text-white border border-[#0e5756] rounded-md hover:bg-[#0e5756] transition duration-200"
-                >
-                    Speichern
-                </button>
-                <button 
-                    onClick={() => handleCancel("nachname")} 
-                    className="text-gray-600 hover:underline"
-                >
-                    Abbrechen
-                </button>
+   {/* Nachname */}
+   <div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none">
+                <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>Nachname</h2>
+                {editingFields.nachname ? (
+                    <>
+                        <input
+                            type="text"
+                            name="nachname"
+                            value={formData.nachname}
+                            onChange={handleChange}
+                            className="w-full bg-white p-3 text-gray-600 border border-gray-300 mt-2 focus:border-[#116769] focus:outline-none shadow-sm"
+                        />
+                        <div className="flex justify-between mt-3">
+                            <button onClick={handleSave} className="px-4 py-2 bg-[#116769] cursor-pointer text-white border border-[#0e5756] rounded-md hover:bg-[#0e5756] transition duration-200">
+                                Speichern
+                            </button>
+                            <button onClick={() => handleCancel("nachname")} className="text-gray-600 cursor-pointer hover:underline">
+                                Abbrechen
+                            </button>
+                        </div>
+                    </>
+                ) : (
+                    <div className="flex justify-between mt-3">
+                        <p className="text-gray-600">{user?.nachname || "Kein Nachname angegeben"}</p>
+                        <button onClick={() => handleEditClick("nachname")} className="text-[#0e5756] hover:text-[#116769] font-medium transition duration-200 cursor-pointer hover:underline">
+                            Bearbeiten
+                        </button>
+                    </div>
+                )}
             </div>
-        </>
-    ) : (
-        <div className="flex justify-between mt-3">
-            <p className="text-gray-600">{user?.nachname || "Kein Nachname angegeben"}</p>
-
-            {/*  Bearbeiten-Button angepasst */}
-            <button 
-                onClick={() => setEditingFields({ nachname: true })} 
-                className="text-[#0e5756] hover:text-[#116769] font-medium transition duration-200 cursor-pointer hover:underline"
-            >
-                Bearbeiten
-            </button>
-        </div>
-    )}
-</div>
 
     
-      {/* 3E-Mail Adresse */}
-<div className="p-6 bg-gray-50 shadow-md rounded-xl">
-    <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>
-        E-Mail Adresse
-    </h2>
-
-    {editingFields.email ? (
-        <>
-            <input
-                type="email"
-                name="email"
-                placeholder="E-Mail eingeben"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full bg-white p-3 text-gray-600 rounded-md border border-gray-300 mt-2 focus:border-[#116769] focus:outline-none shadow-sm"
-            />
-            {errors.email && <p className="text-[#9C785E] text-sm mt-1">{errors.email}</p>}
-
-            {/*  Buttons: Speichern & Abbrechen */}
-            <div className="flex justify-between mt-3">
-                <button 
-                    onClick={handleSave} 
-                    className="px-4 py-2 bg-[#116769] text-white border border-[#0e5756] rounded-md hover:bg-[#0e5756] transition duration-200"
-                >
-                    Speichern
-                </button>
-                <button 
-                    onClick={() => handleCancel("email")} 
-                    className="text-gray-600 hover:underline"
-                >
-                    Abbrechen
-                </button>
-            </div>
-        </>
-    ) : (
-        <div className="flex justify-between mt-3">
-            <p className="text-gray-600">{user?.email || "Keine E-Mail angegeben"}</p>
-
-            {/*  Bearbeiten-Button angepasst */}
-            <button 
-                onClick={() => setEditingFields({ email: true })} 
-                className="text-[#0e5756] hover:text-[#116769] font-medium transition duration-200 cursor-pointer hover:underline"
-            >
-                Bearbeiten
-            </button>
-        </div>
-    )}
-</div>
 
     
-{/* 4 Telefonnummer */}
-<div className="p-6 bg-gray-50 shadow-md rounded-xl">
-    <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>
-        Telefonnummer
-    </h2>
-
-    {editingFields.telefonnummer ? (
-        <>
-            <div className="flex space-x-3 mt-3">
-                {/*  Landesvorwahl Dropdown */}
-                <select
-                    name="landesvorwahl"
-                    value={formData.landesvorwahl}
-                    onChange={handleChange}
-                    className="w-1/3 bg-white p-3 text-gray-600 rounded-md border border-gray-300 focus:border-[#116769] focus:outline-none shadow-sm"
-                >
-                     <option value="">Landes Vorwahl auswählen...</option>
-                    {countryData.countryCodes.map((country) => (
-                     <option key={country.code} value={country.code} className=" bg-white text-[#0e5756]">
-                    {country.name} ({country.code})
-                     </option>
-                    ))}
-                </select>
-
-                {/*  Telefonnummer Input */}
-                <input
-                    type="text"
-                    name="telefonnummer"
-                    placeholder="Telefonnummer"
-                    value={formData.telefonnummer}
-                    onChange={handleChange}
-                    className="w-2/3 bg-white p-3 text-gray-600 rounded-md border border-gray-300 focus:border-[#116769] focus:outline-none shadow-sm"
-                />
+      {/* E-Mail (nur Anzeige, keine Bearbeitung) */}
+      <div className="p-6 bg-white shadow-lg border-gray-200 rounded-none">
+                <h2 className="text-xl font-semibold text-[#0e5756]">E-Mail Adresse</h2>
+                <p className="text-gray-600 mt-3">{user?.email || "Keine E-Mail angegeben"}</p>
             </div>
 
-            {/*  Fehlermeldung */}
-            {errors.telefonnummer && <p className="text-[#9C785E] text-sm mt-1">{errors.telefonnummer}</p>}
+                       {/* Telefonnummer mit Vorwahl */}
+                       <div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none">
+                <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>Telefonnummer</h2>
+                {editingFields.telefonnummer ? (
+                    <>
+                        <div className="flex space-x-3 mt-3">
+                            {/* Landesvorwahl Dropdown */}
+                            <select
+                                name="landesvorwahl"
+                                value={formData.landesvorwahl}
+                                onChange={handleChange}
+                                className="w-1/3 bg-[#e6f2f1] p-3 text-gray-600 border border-gray-300 focus:border-[#116769] focus:outline-none shadow-sm"
+                            >
+                                <option value="">Landes Vorwahl auswählen...</option>
+                                {countryData.countryCodes.map((country, index) => (
+                                    <option key={`${country.code}-${index}`} value={country.code} className="bg-white text-[#0e5756]">
+                                        {country.name} ({country.code})
+                                    </option>
+                                ))}
+                            </select>
 
-            {/*  Buttons: Speichern & Abbrechen */}
-            <div className="flex justify-between mt-3">
-                <button 
-                    onClick={handleSave} 
-                    className="px-4 py-2 bg-[#116769] text-white border border-[#0e5756] rounded-md hover:bg-[#0e5756] transition duration-200"
-                >
-                    Speichern
-                </button>
-                <button 
-                    onClick={() => handleCancel("telefonnummer")} 
-                    className="text-gray-600 hover:underline"
-                >
-                    Abbrechen
-                </button>
+                            {/* Telefonnummer Input */}
+                            <input
+                                type="text"
+                                name="telefonnummer"
+                                placeholder="Telefonnummer"
+                                value={formData.telefonnummer}
+                                onChange={handleChange}
+                                className="w-2/3 bg-white p-3 text-gray-600 border border-gray-300 focus:border-[#116769] focus:outline-none shadow-sm"
+                            />
+                        </div>
+
+                        {/* Fehlermeldung */}
+                        {errors.telefonnummer && <p className="text-[#9C785E] text-sm mt-1">{errors.telefonnummer}</p>}
+
+                        <div className="flex justify-between mt-3">
+                            <button onClick={handleSave} className="px-4 py-2 bg-[#116769] cursor-pointer text-white border border-[#0e5756] rounded-md hover:bg-[#0e5756] transition duration-200">
+                                Speichern
+                            </button>
+                            <button onClick={() => handleCancel("telefonnummer")} className="text-gray-600 cursor-pointer hover:underline">
+                                Abbrechen
+                            </button>
+                        </div>
+                    </>
+                ) : (
+                    <div className="flex justify-between mt-3">
+                        <p className="text-gray-600">{user?.landesvorwahl} {user?.telefonnummer || "Keine Nummer hinterlegt"}</p>
+                        <button onClick={() => handleEditClick("telefonnummer")} className="text-[#0e5756] hover:text-[#116769] font-medium transition duration-200 cursor-pointer hover:underline">
+                            Bearbeiten
+                        </button>
+                    </div>
+                )}
             </div>
-        </>
-    ) : (
-        <div className="flex justify-between mt-3">
-            <p className="text-gray-600">{user?.landesvorwahl} {user?.telefonnummer || "Keine Nummer hinterlegt"}</p>
 
-            {/*  Bearbeiten-Button angepasst */}
-            <button 
-                onClick={() => setEditingFields({ telefonnummer: true })} 
-                className="text-[#0e5756] hover:text-[#116769] font-medium transition duration-200 cursor-pointer hover:underline"
-            >
-                Bearbeiten
-            </button>
-        </div>
-    )}
-</div>
+{/* Adresse */}
+<div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none">
+                <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>Adresse</h2>
+                {editingFields.address ? (
+                    <>
+                        {/* Landesauswahl */}
+                        <select
+                            name="address.land"
+                            value={formData.address.land}
+                            onChange={handleChange}
+                            className="w-full bg-[#e6f2f1] p-3 text-gray-600 border border-gray-300 mt-2 focus:border-[#116769] focus:outline-none shadow-sm"
+                        >
+                            <option value="">Land auswählen...</option>
+                            {countryData.countries.map((country) => (
+                                <option key={country.code} value={country.name} className="bg-white text-[#0e5756]">
+                                    {country.name}
+                                </option>
+                            ))}
+                        </select>
 
-{/* 5️ Adresse */}
-<div className="p-6 bg-gray-50 shadow-md rounded-xl">
-    <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>
-        Adresse
-    </h2>
+                        {/* Straße & Hausnummer */}
+                        <div className="flex space-x-3 mt-2">
+                            <input
+                                type="text"
+                                name="address.straße"
+                                placeholder="Straße"
+                                value={formData.address.straße}
+                                onChange={handleChange}
+                                className="w-3/4 bg-white p-3 text-gray-600 border border-gray-300 focus:border-[#116769] focus:outline-none shadow-sm"
+                            />
+                            <input
+                                type="text"
+                                name="address.snummer"
+                                placeholder="Hausnr."
+                                value={formData.address.snummer}
+                                onChange={handleChange}
+                                className="w-1/4 bg-white p-3 text-gray-600 border border-gray-300 focus:border-[#116769] focus:outline-none shadow-sm"
+                            />
+                        </div>
 
-    {editingFields.address ? (
-        <>
-            {/*  Landesauswahl mit sanfter Hintergrundfarbe */}
-            <select
-                name="address.land"
-                value={formData.address.land}
-                onChange={handleChange}
-                className="w-full bg-[#e6f2f1] p-3 text-gray-600 rounded-md border border-gray-300 mt-2 focus:border-[#116769] focus:outline-none shadow-sm"
-            >
-                <option value="">Land auswählen...</option>
-               {countryData.countries.map((country) => (
-               <option key={country.code} value={country.name} className=" bg-white text-[#0e5756]">
-               {country.name}
-               </option>
-                ))}
-            </select>
-            {/*  Adressfelder mit schönem Design */}
-            <input
-                type="text"
-                name="address.straße"
-                placeholder="Straße"
-                value={formData.address.straße}
-                onChange={handleChange}
-                className="w-full bg-white p-3 text-gray-600 rounded-md border border-gray-300 mt-2 focus:border-[#116769] focus:outline-none shadow-sm"
-            />
-            <input
-                type="text"
-                name="address.snummer"
-                placeholder="Straße Nummer"
-                value={formData.address.snummer}
-                onChange={handleChange}
-                className="w-full bg-white p-3 text-gray-600 rounded-md border border-gray-300 mt-2 focus:border-[#116769] focus:outline-none shadow-sm"
-            />
-            <input
-                type="text"
-                name="address.stadt"
-                placeholder="Stadt"
-                value={formData.address.stadt}
-                onChange={handleChange}
-                className="w-full bg-white p-3 text-gray-600 rounded-md border border-gray-300 mt-2 focus:border-[#116769] focus:outline-none shadow-sm"
-            />
-            <input
-                type="text"
-                name="address.postleitzahl"
-                placeholder="Postleitzahl"
-                value={formData.address.postleitzahl}
-                onChange={handleChange}
-                className="w-full bg-white p-3 text-gray-600 rounded-md border border-gray-300 mt-2 focus:border-[#116769] focus:outline-none shadow-sm"
-            />
+                        {/* Stadt & Postleitzahl */}
+                        <div className="flex space-x-3 mt-2">
+                            <input
+                                type="text"
+                                name="address.stadt"
+                                placeholder="Stadt"
+                                value={formData.address.stadt}
+                                onChange={handleChange}
+                                className="w-3/4 bg-white p-3 text-gray-600 border border-gray-300 focus:border-[#116769] focus:outline-none shadow-sm"
+                            />
+                            <input
+                                type="text"
+                                name="address.postleitzahl"
+                                placeholder="PLZ"
+                                value={formData.address.postleitzahl}
+                                onChange={handleChange}
+                                className="w-1/4 bg-white p-3 text-gray-600 border border-gray-300 focus:border-[#116769] focus:outline-none shadow-sm"
+                            />
+                        </div>
 
-            {/*  Buttons: Speichern & Abbrechen */}
-            <div className="flex justify-between mt-3">
-                <button 
-                    onClick={handleSave} 
-                    className="px-4 py-2 bg-[#116769] text-white border border-[#0e5756] rounded-md hover:bg-[#0e5756] transition duration-200"
-                >
-                    Speichern
-                </button>
-                <button 
-                    onClick={() => handleCancel("address")} 
-                    className="text-gray-600 hover:underline"
-                >
-                    Abbrechen
-                </button>
+                        <div className="flex justify-between mt-3">
+                            <button onClick={handleSave} className="px-4 py-2 bg-[#116769] cursor-pointer text-white border border-[#0e5756] rounded-md hover:bg-[#0e5756] transition duration-200">
+                                Speichern
+                            </button>
+                            <button onClick={() => handleCancel("address")} className="text-gray-600  cursor-pointer hover:underline">
+                                Abbrechen
+                            </button>
+                        </div>
+                    </>
+                ) : (
+                    <div className="flex justify-between mt-3">
+                        <p className="text-gray-600">
+                            {user?.address?.land ? `${user.address.land}, ` : ""}
+                            {user?.address?.straße ? `${user.address.straße} ` : ""}
+                            {user?.address?.snummer ? `${user.address.snummer}, ` : ""}
+                            {user?.address?.stadt ? `${user.address.stadt}, ` : ""}
+                            {user?.address?.postleitzahl ? `${user.address.postleitzahl}` : ""}
+                        </p>
+                        <button onClick={() => handleEditClick("address")} className="text-[#0e5756] hover:text-[#116769] font-medium transition duration-200 cursor-pointer hover:underline">
+                            Bearbeiten
+                        </button>
+                    </div>
+                )}
             </div>
-        </>
-    ) : (
-        <div className="flex justify-between mt-3">
-            <p className="text-gray-600">
-                {user?.address?.land ? `${user.address.land}, ` : ""}
-                {user?.address?.straße ? `${user.address.straße} ` : ""}
-                {user?.address?.snummer ? `${user.address.snummer}, ` : ""}
-                {user?.address?.stadt ? `${user.address.stadt}, ` : ""}
-                {user?.address?.postleitzahl ? `${user.address.postleitzahl}` : ""}
-            </p>
 
-            {/*  Bearbeiten-Button angepasst */}
-            <button 
-                onClick={() => setEditingFields({ address: true })} 
-                className="text-[#0e5756] hover:text-[#116769] font-medium transition duration-200 cursor-pointer hover:underline"
-            >
-                Bearbeiten
-            </button>
-        </div>
-    )}
-</div>
 
         {successMessage && (
             <div className="fixed bottom-5 left-5 bg-green-100 text-green-800 px-4 py-2 rounded-lg shadow-md">

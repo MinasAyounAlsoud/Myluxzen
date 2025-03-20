@@ -11,9 +11,9 @@ const seedAdmin = async () => {
         // Vermeidet doppelte Verbindungen zu MongoDB
         await connect();
 
-        //  Admin-Daten
+        //  Admin-Daten 
         const adminEmail = "tom.schneider@gmail.com";
-        const adminPassword = "Tom2024!";
+        const adminPassword = "Tom2024!"; 
 
         // 🔎 Prüfen, ob der Admin bereits existiert
         const existingAdmin = await User.findOne({ email: adminEmail });
@@ -26,7 +26,7 @@ const seedAdmin = async () => {
                 vorname: "Tom",
                 nachname: "Schneider",
                 email: adminEmail,
-                password:  adminPassword, 
+                password:  adminPassword,   
                 isAdmin: true, // ✅ Setzt den Benutzer als Admin
             });
 

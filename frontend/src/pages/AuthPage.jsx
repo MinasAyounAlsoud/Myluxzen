@@ -3,8 +3,9 @@ import { useNavigate, useLocation } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import { BiUser, BiEnvelope, BiLock, BiShow, BiHide } from "react-icons/bi";
 import loginImage from "../assets/imageNaheeda/login-image.jpg"; 
-import { Link } from "react-router-dom";
-import LoginRegestrieren from "../components/User/LoginRegestrieren"; 
+//import NavbarMini from "../components/navbarMini/NavbarMini";
+import Navbar from "../components/navbar/Navbar";
+
 
 const AuthPage = () => {
     const location = useLocation();
@@ -23,7 +24,7 @@ const AuthPage = () => {
     const [nachname, setNachname] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [error, setError] = useState("");
+    const [error, setError] = useState(""); 
     const [passwordError, setPasswordError] = useState("");
 
     const passwordRequirements = "Passwort muss mindestens 8 Zeichen lang sein, einen Großbuchstaben, einen Kleinbuchstaben, eine Zahl und ein Sonderzeichen enthalten.";
@@ -124,26 +125,11 @@ useEffect(() => {
         document.documentElement.style.overflow = "auto"; // Scroll wieder aktivieren, falls nötig
     };
 }, []);
-const Header = () => {
-    return (
-        <header className="sticky top-0 w-full bg-white shadow-md flex justify-between items-center px-6 py-3 z-50">
-            {/* Links: Logo */}
-            <h1 className="text-xl font-semibold text-green-800">MeinDashboard</h1>
-
-            {/* Rechts: Home-Link + Profil-Menü */}
-            <div className="flex items-center space-x-6">
-                <Link to="/" className="text-gray-700 text-lg hover:text-gray-500 transition">
-                    Home
-                </Link>
-                <LoginRegestrieren />
-            </div>
-        </header>
-    );
-};
 
 return (
     <div>
-        <Header />
+       {/* <NavbarMini />   */}
+        <Navbar />
         <div className="h-screen w-screen flex">
             {/* Linke Seite: Bild */}
             <div className="hidden lg:block w-1/2 h-full">
