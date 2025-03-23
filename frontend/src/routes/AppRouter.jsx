@@ -1,15 +1,12 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 console.log("React Router Version:", createBrowserRouter);
 import { useContext } from "react"; //Naheeda
 import AuthContext from "../context/AuthContext"; //Naheeda
-import { BookingPage } from "../pages/BookingPage";//Xiangyu
-import HomePage from "../pages/HomePage";//zahra
-import { AdminPage } from "../pages/AdminPage";//Xiangyu
-import { AdminBookingQueryPage } from "../pages/AdminBookingQueryPage";//Xiangyu
-import Gallerie from "../pages/GalleriePage";//zahra
+import { BookingPage } from "../pages/BookingPage"; //Xiangyu
+import HomePage from "../pages/HomePage"; //zahra
+import { AdminPage } from "../pages/AdminPage"; //Xiangyu
+import { AdminBookingQueryPage } from "../pages/AdminBookingQueryPage"; //Xiangyu
+import Gallerie from "../pages/GalleriePage"; //zahra
 import AuthPage from "../pages/AuthPage"; //Naheeda
 import AccountBookingInfoPage from "../pages/AccountBookingInfoPage"; //Naheeda
 import AccountDetails from "../components/User/AccountDetails"; //Naheeda
@@ -17,10 +14,10 @@ import BookingDetails from "../components/User/BookingDetails"; //Naheeda
 import { ReviewPage } from "../pages/ReviewPage"; // Minas
 import { AdminReviewPage } from "../pages/AdminReviewPage"; //Minas
 import { ApartmentsList } from "../pages/hausBeschreibung"; //Minas
-import { AdminSingleHouseQueryPage } from '../pages/AdminSingleHouseQueryPage';//Xiangyu
-import { AdminBookingTicketPage } from "../pages/AdminBookingTicketPage";//Xiangyu
-import AdminGallery from "../pages/AdminGallery";//zahra
-
+import { AdminSingleHouseQueryPage } from "../pages/AdminSingleHouseQueryPage"; //Xiangyu
+import { AdminBookingTicketPage } from "../pages/AdminBookingTicketPage"; //Xiangyu
+import AdminGallery from "../pages/AdminGallery"; //zahra
+import AboutUs from "../pages/aboutUsPage";
 
 const userIsLogin = {
   isAuthenticated: true,
@@ -59,11 +56,15 @@ const createAuthRouter = (authContext) =>
       path: "/HausBeschreibung",
       element: <ApartmentsList></ApartmentsList>,
     }, //Minas
-// Zahra  
+    {
+      path: "/about",
+      element: <AboutUs></AboutUs>,
+    }, //Minas
+    // Zahra
     {
       path: "/gallery",
       element: <AdminGallery />,
-    },   
+    },
     // {
 
     // page router, end
@@ -90,18 +91,23 @@ const createAuthRouter = (authContext) =>
         // },
         // admin page, begin
         { path: "reviews", element: <AdminReviewPage /> }, //Minas
-        { path: "singleHouse-query", element: <AdminSingleHouseQueryPage></AdminSingleHouseQueryPage>}, // Xiangyu
-        { path: "booking-edit", element: <AdminBookingTicketPage></AdminBookingTicketPage>}, // Xiangyu
+        {
+          path: "singleHouse-query",
+          element: <AdminSingleHouseQueryPage></AdminSingleHouseQueryPage>,
+        }, // Xiangyu
+        {
+          path: "booking-edit",
+          element: <AdminBookingTicketPage></AdminBookingTicketPage>,
+        }, // Xiangyu
 
         // admin page, end
       ],
     },
   ]);
-  export function AppRouter() {
-    const authContext = useContext(AuthContext);
-    // Warten, bis die Benutzerdaten geladen sind
-    console.log("Aktueller Benutzer im AuthContext:", authContext.user);
-    const router = createAuthRouter(authContext);
-    return <RouterProvider router={router} />;
-  }
-  
+export function AppRouter() {
+  const authContext = useContext(AuthContext);
+  // Warten, bis die Benutzerdaten geladen sind
+  console.log("Aktueller Benutzer im AuthContext:", authContext.user);
+  const router = createAuthRouter(authContext);
+  return <RouterProvider router={router} />;
+}
