@@ -59,11 +59,7 @@ const createAuthRouter = (authContext) =>
       path: "/HausBeschreibung",
       element: <ApartmentsList></ApartmentsList>,
     }, //Minas
-// Zahra  
-    {
-      path: "/gallery",
-      element: <AdminGallery />,
-    },   
+
     // {
 
     // page router, end
@@ -90,18 +86,22 @@ const createAuthRouter = (authContext) =>
         // },
         // admin page, begin
         { path: "reviews", element: <AdminReviewPage /> }, //Minas
-        { path: "singleHouse-query", element: <AdminSingleHouseQueryPage></AdminSingleHouseQueryPage>}, // Xiangyu
-        { path: "booking-edit", element: <AdminBookingTicketPage></AdminBookingTicketPage>}, // Xiangyu
+        { path: "singleHouse-query", element: <AdminSingleHouseQueryPage></AdminSingleHouseQueryPage> }, // Xiangyu
+        { path: "booking-edit", element: <AdminBookingTicketPage></AdminBookingTicketPage> }, // Xiangyu
+        // Zahra  
+        {
+          path: "gallery",
+          element: <AdminGallery />,
+        },
 
         // admin page, end
       ],
     },
   ]);
-  export function AppRouter() {
-    const authContext = useContext(AuthContext);
-    // Warten, bis die Benutzerdaten geladen sind
-    console.log("Aktueller Benutzer im AuthContext:", authContext.user);
-    const router = createAuthRouter(authContext);
-    return <RouterProvider router={router} />;
-  }
-  
+export function AppRouter() {
+  const authContext = useContext(AuthContext);
+  // Warten, bis die Benutzerdaten geladen sind
+  console.log("Aktueller Benutzer im AuthContext:", authContext.user);
+  const router = createAuthRouter(authContext);
+  return <RouterProvider router={router} />;
+}
