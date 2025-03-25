@@ -24,28 +24,51 @@ export function AdminReviewPage() {
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold">Admin Review Page</h2>
-      {reviews.map((review) => (
-        <div key={review._id} className="p-4 bg-white rounded">
-          <p>{review.name}</p>
-          <p>{review.email}</p>
-          <p>{review.title}</p>
-          <p>{review.comment}</p>
-          <button
-            onClick={() => updateReview(review._id, true)}
-            className="bg-green-400 p-2 m-2 rounded"
-          >
-            Approve
-          </button>
-          <button
-            onClick={() => handleReject(review._id)}
-            className="bg-gray-400 p-2 m-2 rounded"
-          >
-            Reject
-          </button>
-        </div>
-      ))}
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <h2 className="text-2xl font-bold text-center mb-6">Admin Review Page</h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {reviews.length > 0 ? (
+          reviews.map((review) => (
+            <div
+              key={review._id}
+              className="bg-white p-6 rounded-lg shadow-md flex flex-col h-full"
+            >
+              <div className="flex-grow">
+                <h3 className="text-lg font-semibold text-gray-800">
+                  {review.title}
+                </h3>
+                <p className="text-gray-600 mt-2">
+                  <strong>Name:</strong> {review.name}
+                </p>
+                <p className="text-gray-600">
+                  <strong>Email:</strong> {review.email}
+                </p>
+                <p className="text-gray-700 mt-2">{review.comment}</p>
+              </div>
+
+              <div className="mt-4 flex justify-between">
+                <button
+                  onClick={() => updateReview(review._id, true)}
+                  className="mt-3 bg-gray-800 text-white px-4 py-2 rounded-md "
+                >
+                  Approve
+                </button>
+                <button
+                  onClick={() => handleReject(review._id)}
+                  className="mt-3 bg-gray-400 text-white px-4 py-2 rounded-md "
+                >
+                  Reject
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="text-center text-gray-500 col-span-full">
+            Keine Bewertungen gefunden.
+          </p>
+        )}
+      </div>
     </div>
   );
 }

@@ -17,6 +17,9 @@ export function AdminPage() {
           <li className="cursor-pointer hover:text-[#FAE1A8]">
             <NavLink to="reviews">Reviews</NavLink>
           </li>
+          <li className="cursor-pointer hover:text-[#FAE1A8]">
+            <NavLink to="HausBeschreibung">HausBeschreibung</NavLink>
+          </li>
         </ul>
       </nav>
     );

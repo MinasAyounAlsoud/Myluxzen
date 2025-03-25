@@ -18,7 +18,7 @@ import { AdminSingleHouseQueryPage } from "../pages/AdminSingleHouseQueryPage"; 
 import { AdminBookingTicketPage } from "../pages/AdminBookingTicketPage"; //Xiangyu
 import AdminGallery from "../pages/AdminGallery"; //zahra
 import AboutUs from "../pages/aboutUsPage";
-
+import { AdminHausBeschreibung } from "../pages/AdminHausBeschreibung";
 const userIsLogin = {
   isAuthenticated: true,
   isAdmin: true,
@@ -91,6 +91,8 @@ const createAuthRouter = (authContext) =>
         // },
         // admin page, begin
         { path: "reviews", element: <AdminReviewPage /> }, //Minas
+        { path: "HausBeschreibung", element: <AdminHausBeschreibung /> }, //Minas
+
         {
           path: "singleHouse-query",
           element: <AdminSingleHouseQueryPage></AdminSingleHouseQueryPage>,
