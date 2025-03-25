@@ -1,15 +1,12 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 console.log("React Router Version:", createBrowserRouter);
 import { useContext } from "react"; //Naheeda
 import AuthContext from "../context/AuthContext"; //Naheeda
-import { BookingPage } from "../pages/BookingPage";//Xiangyu
-import HomePage from "../pages/HomePage";//zahra
-import { AdminPage } from "../pages/AdminPage";//Xiangyu
-import { AdminBookingQueryPage } from "../pages/AdminBookingQueryPage";//Xiangyu
-import Gallerie from "../pages/GalleriePage";//zahra
+import { BookingPage } from "../pages/BookingPage"; //Xiangyu
+import HomePage from "../pages/HomePage"; //zahra
+import { AdminPage } from "../pages/AdminPage"; //Xiangyu
+import { AdminBookingQueryPage } from "../pages/AdminBookingQueryPage"; //Xiangyu
+import Gallerie from "../pages/GalleriePage"; //zahra
 import AuthPage from "../pages/AuthPage"; //Naheeda
 import AccountBookingInfoPage from "../pages/AccountBookingInfoPage"; //Naheeda
 import AccountDetails from "../components/User/AccountDetails"; //Naheeda
@@ -17,10 +14,10 @@ import BookingDetails from "../components/User/BookingDetails"; //Naheeda
 import { ReviewPage } from "../pages/ReviewPage"; // Minas
 import { AdminReviewPage } from "../pages/AdminReviewPage"; //Minas
 import { ApartmentsList } from "../pages/hausBeschreibung"; //Minas
-import { AdminSingleHouseQueryPage } from '../pages/AdminSingleHouseQueryPage';//Xiangyu
-import { AdminBookingTicketPage } from "../pages/AdminBookingTicketPage";//Xiangyu
-import AdminGallery from "../pages/AdminGallery";//zahra
-
+import { AdminSingleHouseQueryPage } from "../pages/AdminSingleHouseQueryPage"; //Xiangyu
+import { AdminBookingTicketPage } from "../pages/AdminBookingTicketPage"; //Xiangyu
+import AdminGallery from "../pages/AdminGallery"; //zahra
+import AboutUs from "../pages/aboutUsPage";
 
 const userIsLogin = {
   isAuthenticated: true,
@@ -59,7 +56,11 @@ const createAuthRouter = (authContext) =>
       path: "/HausBeschreibung",
       element: <ApartmentsList></ApartmentsList>,
     }, //Minas
-
+    {
+      path: "/about",
+      element: <AboutUs></AboutUs>,
+    }, //Minas
+    
     // {
 
     // page router, end
