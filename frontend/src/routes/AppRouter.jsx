@@ -60,11 +60,7 @@ const createAuthRouter = (authContext) =>
       path: "/about",
       element: <AboutUs></AboutUs>,
     }, //Minas
-    // Zahra
-    {
-      path: "/gallery",
-      element: <AdminGallery />,
-    },
+
     // {
 
     // page router, end
@@ -91,6 +87,7 @@ const createAuthRouter = (authContext) =>
         // },
         // admin page, begin
         { path: "reviews", element: <AdminReviewPage /> }, //Minas
+
         { path: "HausBeschreibung", element: <AdminHausBeschreibung /> }, //Minas
 
         {
@@ -101,6 +98,11 @@ const createAuthRouter = (authContext) =>
           path: "booking-edit",
           element: <AdminBookingTicketPage></AdminBookingTicketPage>,
         }, // Xiangyu
+        // Zahra
+        {
+          path: "gallery",
+          element: <AdminGallery />,
+        },
 
         // admin page, end
       ],

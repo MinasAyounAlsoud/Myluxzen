@@ -1,5 +1,5 @@
 //zahra
-import multer from "multer";
+/*import multer from "multer";
 
 const storage = multer.diskStorage({
   destination: "uploads/",
@@ -10,6 +10,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-export default upload;
+export default upload;*/
+import multer from "multer";
 
+// Stockage en mémoire (pas sur le disque)
+const storage = multer.memoryStorage();
+
+const upload = multer({ storage });
+
+export default upload;
 
