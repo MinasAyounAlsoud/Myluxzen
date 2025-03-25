@@ -3,11 +3,16 @@ import { HouseTypeCard,HouseTypeModal } from "./HouseTypeCard";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { FaArrowTurnUp } from "react-icons/fa6";
+import { SingleBookingTicket } from '../admin/SingleBookingTicket';
+import { SingleHousesList } from "./SingleHousesList";
 export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompleted,setGotoNextStep})=>{
   const [availableRooms, setAvailableRooms] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedApartment, setSelectedApartment] = useState(null);
-  
+  const [selectedHouseType, setSelectedHouseType] = useState(null);
+  const [houses, setHouses] = useState([]);
+  const [showHouses, setShowHouses] = useState(false);
+
   useEffect(()=>{
       if(gotoNextStep=== true){
           //varify if important information has been inputed
@@ -22,6 +27,13 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
           }
       }
   },[gotoNextStep]);
+  useEffect(()=>{
+    setNewBooking(prev=>({
+      ...prev,
+      houseNum:""
+    }));
+  },[newBooking.houseType]);
+
   useEffect(()=>{
     console.log("selectedApartment",selectedApartment)
   },[selectedApartment]);
@@ -64,16 +76,20 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
           }
           const data = await response.json();
           if (data.length > 0) {
+
             const sortedData = data.sort((a, b) => a.guests - b.guests);
-            console.log("sortedData[0]",sortedData[0])
+            console.log("fetchAvailableRooms",sortedData)
             setAvailableRooms(sortedData);
-            if(sortedData.length>0){  setNewBooking((prev) => ({ ...prev, 
-              houseType: sortedData[0].houseType,
-              price: sortedData[0].pricePerNight,
-              houseTitle: sortedData[0].title,
-              totalPrice: calculateTotalPrice(prev, sortedData[0].pricePerNight),
-              // totalDays:calculateTotalDays(prev)
-            }));}
+            if(sortedData.length>0){  
+              setNewBooking((prev) => ({ ...prev, 
+                houseType: sortedData[0].houseType,
+                price: sortedData[0].pricePerNight,
+                houseTitle: sortedData[0].title,
+                totalPrice: calculateTotalPrice(prev, sortedData[0].pricePerNight),
+                // totalDays:calculateTotalDays(prev)
+              }));
+              setSelectedHouseType(sortedData[0].houseType);// for choose a special house
+          }
             setErrorMessage("");
             console.log("available houses", data)
           } else {
@@ -86,7 +102,45 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
       fetchAvailableRooms();
     }, [newBooking.guestCount,newBooking.startDate,newBooking.endDate]); 
 
-    const handleSelectHouse = (houseType, price, title) => {
+    useEffect(() => {
+      console.log("showHouses", showHouses);
+  
+      if (showHouses) {
+          const handleGetHousesForReserve = async () => {
+              try {
+                  const requestBody = {
+                      startDate: newBooking.startDate,
+                      endDate: newBooking.endDate,
+                      bookingNum: newBooking.bookingNumber,
+                      houseNum: newBooking.houseNum
+                  };
+                  console.log("handleGetHousesForReserve, requestBody", requestBody);
+  
+                  const response = await fetch(`http://localhost:3000/singleHouse/reserve-get-houses/${selectedHouseType}`, {
+                      method: "POST",
+                      headers: {
+                          "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify(requestBody)
+                  });
+                  if (!response.ok) throw new Error('no available houses.');
+  
+                  const data = await response.json();
+                  console.log("handleGetHousesForReserve, received houses", data);
+                  if (data === null) throw new Error('no available houses.');
+                  
+                  setHouses(data);
+              } catch (err) {
+                  console.log("Error:", err.message);
+                  setHouses([]);
+              }
+          };
+
+          handleGetHousesForReserve();
+      }
+  }, [showHouses,selectedHouseType]);
+
+      const handleSelectHouse = (houseType, price, title) => {
       setNewBooking((prev) => ({ ...prev, 
                                   houseType: houseType,
                                   price: price,
@@ -94,7 +148,9 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
                                   totalPrice: calculateTotalPrice(prev, price),
                                   // totalDays:calculateTotalDays(prev)
         }));
+        setSelectedHouseType(houseType);// for choose a special house
     };
+
     return (
     <>
       <div className="text-2xl py-2 text-gray-700 font-bold">
@@ -106,26 +162,32 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
       {availableRooms.length > 0 ? (
       <ul className="flex flex-col gap-6 items-center pb-10">
           {availableRooms.map((room, index) => (
-              // <li key={index} style={{ padding: "10px", border: "1px solid black", marginBottom: "5px",
-              //     backgroundColor: newBooking.houseType === room.houseType ? "#cce5ff" : "white" }}>
-              // <h3>{room.houseType}</h3>
-              // <p>Available Rooms: {room.availableCount}</p>
-              // <p>Price: {room.price}</p>
-              // <button onClick={() => handleSelectHouse(room.houseType, room.price)}>
-              //     {newBooking.houseType === room.houseType ? "Selected" : "Select"}
-              // </button>
-              // </li>
               <div key={index} >
               <HouseTypeCard
                 house={room} onClick={() => handleSelectHouse(room.houseType, room.pricePerNight, room.title)}  selected={newBooking.houseType === room.houseType}
               />
                 <div className='flex items-center text-sm space-x-3'>
                   <p>noch <span className='text-base font-bold text-[#064236]'>{room.availableCount} </span>verfügbar</p>
-                <button onClick={() => setSelectedApartment(room)} 
-                className="px-2 py-2 rounded border border-gray-300 text-xs flex space-x-2 cursor-pointer hover:scale-120">
-                  <p>More details </p></button>
-                  <FaArrowTurnUp />
+                  <button onClick={() => setSelectedApartment(room)} 
+                  className="px-2 py-2 rounded border border-gray-300 text-xs flex space-x-2 cursor-pointer hover:scale-120 hover:border-[#fae1a8] hover:text-[#116769]">
+                    <p>More details </p></button>
+                    <FaArrowTurnUp />
+             
                 </div>
+                {/* for choose a special house */}
+                {selectedHouseType === room.houseType && 
+                <div className='flex text-sm space-x-6 items-center pt-2'>
+                  <p className='text-gray-600'>Gibt es eine bevorzugte Unterkunft? Wir buchen gerne wieder für Sie!</p>
+                  <button className='hover:scale-120 hover:text-[#116769] cursor-pointer border-b hover:border-[#fae1a8]' onClick={() => setShowHouses(prev => !prev)}><p>Click hier</p></button>
+                </div>}
+                {((showHouses && selectedHouseType === room.houseType) || (newBooking.houseNum !== ""  && selectedHouseType === room.houseType)) && (<>
+                    {(houses.length === 0)?
+                      <p>Keine Häuser zu resevieren.</p>
+                      : (<SingleHousesList houses={houses} setNewBooking={setNewBooking} newBooking={newBooking}></SingleHousesList>)
+                    }
+                    </>)
+                }
+              
               </div>
 
           ))}

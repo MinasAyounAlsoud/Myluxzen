@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Summery } from './Summery';
 import { useNavigate } from 'react-router-dom';
+import { convertUtcToLocal } from '../../utils/commenBookFunc';
 
 export const SuccessBooking = ({successBookingNumber})=>{
   console.log("SuccessBooking",successBookingNumber)
@@ -14,7 +15,7 @@ export const SuccessBooking = ({successBookingNumber})=>{
           return;
         }
         try {
-          const response = await fetch(`http://localhost:3000/booking/byBookingNum/${successBookingNumber}`, {
+          const response = await fetch(`http://localhost:3000/booking/bybookingnum/${successBookingNumber}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -23,9 +24,12 @@ export const SuccessBooking = ({successBookingNumber})=>{
           if (!response.ok) {
             throw new Error("Failed to fetch this booking ticket");
           }
-          const data = await response.json();
+          const booking = await response.json();
           // console.log("received booking ticket" ,data);
-          setBookingTicket(data);
+          //add convert UTC(from server) to local
+          booking.startDate = convertUtcToLocal(booking.startDate);
+          booking.endDate = convertUtcToLocal(booking.endDate);
+          setBookingTicket(booking);
           setErrorMessage("");
             // console.log("received booking ticket" ,data);
         } catch (error) {
@@ -54,7 +58,7 @@ export const SuccessBooking = ({successBookingNumber})=>{
             <p>Wir freuen uns darauf, Sie bald willkommen zu heißen und stehen Ihnen jederzeit gerne zur Verfügung, um Ihren Aufenthalt so angenehm wie möglich zu gestalten.</p><br></br>
         </div>
         <button onClick={handleClose}
-        className="bg-[#116769] text-[#FAE1A8] text-lg py-2 px-10 cursor-pointer rounded-md hover:text-white">
+        className="bg-[#116769] text-[#FAE1A8] text-lg py-2 px-10 cursor-pointKer rounded-md hover:text-white">
             schließen
         </button>
     </div>

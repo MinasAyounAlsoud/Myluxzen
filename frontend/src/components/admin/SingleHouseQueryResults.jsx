@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 
-export function SingleHouseQueryResults({ results, hasMore, onLoadMore}) {
+export function SingleHouseQueryResults({ results, hasMore, onLoadMore, fetchHouse}) {
     const [sortKey, setSortKey] = useState('houseType'); 
 
     const sortedResults = useMemo(() => {
@@ -16,7 +16,7 @@ export function SingleHouseQueryResults({ results, hasMore, onLoadMore}) {
 
     return (
         <div className='lg:w-3/5 mx-auto my-10 px-10'>
-            <div className='mb-4'>
+            {/* <div className='mb-4'>
                 <p>Anzahl der Suchergebnisse: {results.length}</p>
                 <div className='flex justify-between items-center mb-4'>
                     <label htmlFor="sort">Sortierung:</label>
@@ -25,18 +25,18 @@ export function SingleHouseQueryResults({ results, hasMore, onLoadMore}) {
                         <option value="isAvailable">Verfügbar</option>
                     </select>
                 </div>
-            </div>
+            </div> */}
             {results.length === 0 ? (
                 <p>Keine gefunden</p>
             ) : (
                 <ul className='flex flex-col space-y-2'>
                     {sortedResults.map((result, index) => (
-                        <li key={index} className= {`border border-gray-300 py-1 px-1 rounded-md cursor-pointer ${result.isAvailable ? "text-gray-800" :"text-gray-500 "}`}
-                        // onClick={()=>fetchSingleHouses(result.bookingNumber)}
+                        <li key={index} className= {`border border-gray-300 py-1 px-1 rounded-md cursor-pointer `}
+                        onClick={()=>fetchHouse(result.houseNum)}
                         >
                             <p><span className='text-sm text-gray-500'>Haus Nummer: </span>{result.houseNum}</p>
                             <p><span className='text-sm text-gray-500'>Haus Type: </span>{result.houseType}</p>
-                            <p><span className='text-sm text-gray-500'>Verfügbar: </span>{result.isAvailable?"Ja":"Nein"}</p>
+                            {/* <p><span className='text-sm text-gray-500'>Verfügbar: </span>{result.isAvailable?"Ja":"Nein"}</p> */}
                             {result.bookingNum && <p><span className='text-sm text-gray-500'>Buchung Nummer: </span>{result.bookingNum}</p>}
                             {result.guestName.length>0 &&<p><span className='text-sm text-gray-500'>Gast Name: </span>{result.guestName}</p>}
                         </li>

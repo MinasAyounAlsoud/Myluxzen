@@ -1,6 +1,17 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { useContext,useEffect } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
 
 export function AdminPage() {
+  const navigate = useNavigate();
+  const {user} = useContext(AuthContext);
+
+  useEffect(() => {
+    if (user === null || !user.isAuthenticated || !user.isAdmin) {
+      navigate('/');
+    }
+  }, [user]);
+
   const Navbar = () => {
     const getLinkClass = ({ isActive }) =>
       isActive
@@ -15,9 +26,15 @@ export function AdminPage() {
               BuchungsVerhandlung
             </NavLink>
           </li>
+          {/* Xiangyu */}
+          <li className="cursor-pointer">
+            <NavLink to="booking-timeline" className={getLinkClass}>
+            Reservierungszeitlinie
+            </NavLink>
+          </li>
           <li className="cursor-pointer">
             <NavLink to="singleHouse-query" className={getLinkClass}>
-              Häuseranfrage
+            Häuseranfrage
             </NavLink>
           </li>
           <li className="cursor-pointer">

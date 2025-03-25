@@ -59,12 +59,12 @@ export const HouseTypeModal = ({ house, onClose }) => {
 
   return (
     <div
-      className="fixed inset-0 flex justify-center items-center p-4 z-50"
+      className="fixed inset-0 flex justify-center items-center p-6 z-50"
       style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
       onClick={handleCloseOnBackgroundClick}
     >
       <div
-        className="bg-white bg-opacity-90 rounded-xl shadow-2xl w-220 h-200 relative p-6"
+        className="bg-white bg-opacity-90 rounded-xl shadow-2xl w-220 h-200 relative p-1 "
         onClick={handleModalClick}
       >
         <div className="bg-gray-100 p-4 flex justify-between items-center border-b border-[#064236]">
@@ -135,7 +135,7 @@ export const HouseTypeModal = ({ house, onClose }) => {
               </div>
             ) : (
               <p className="text-gray-600 mt-4 text-center">
-                Keine Ausstattung verfügbar
+                {/* Keine Ausstattung verfügbar */}
               </p>
             )}
           </div>

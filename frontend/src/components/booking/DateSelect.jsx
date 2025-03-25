@@ -27,7 +27,7 @@ export const DateSelect = ({newBooking, setNewBooking,gotoNextStep,setStepComple
     },[gotoNextStep]);
     return (
     <div>
-        <div class="text-2xl py-2 text-gray-700 font-bold">
+        <div className="text-2xl py-2 text-gray-700 font-bold">
             Daten
         </div>
         <div className="w-full space-y-4">

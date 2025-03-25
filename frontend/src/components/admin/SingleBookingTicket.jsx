@@ -1,52 +1,58 @@
 import { useState } from 'react';
-import { fetchRequestNoRes } from "../../utils/fetchRequestNoRes.js";
+import { fetchRequestNoRes } from "../../utils/commenBookFunc.js";
 export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) {
     const [houses, setHouses] = useState([]);
     const [selectedHouse,setSelectedHouse] = useState(null);
     const [showHouses,setShowHouses] = useState(false);
     console.log("SingleBookingTicket SingleBookingTicket",singleBooking)
-    const handleEditStatus = async (inputStatus) => {
+    const handleCancel = async()=>{
         try {
-            const response = await fetch(`http://localhost:3000/booking/editStatus/${singleBooking.bookingNumber}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ status: inputStatus })  
-            });
-            const data = await response.json();
-            if (!response.ok) {
-                throw new Error(data.message || 'Failed to update booking status');
-            }
-            setBookingData((prev)=>({
-                ...prev,
-                houseNum: "",
+            const requestBody = {
+                houseNum: singleBooking.houseNum,
                 status: "Canceled"
-            }));  
-            setShowHouses(false);
-
-            console.log("data",data)
-        } catch (error) {
-            console.error('Error updating booking status:', error.message);
-        }
-    };
-    //when click "checkin", fetch singlehouses to choose
-    const handleCheckIn = async()=>{
-        try {
-            const response = await fetch(`http://localhost:3000/singleHouse/getHouses/${singleBooking.houseType}`, {
-                method: "GET",
+            };
+            console.log("handleCancel,requestBody", requestBody)
+            const response = await fetch(`http://localhost:3000/booking/cancel-or-checkout/${singleBooking.bookingNumber}`, {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
+                body: JSON.stringify(requestBody)
+            });
+            if (!response.ok) throw new Error('canceled failed');
+        } catch (err) {
+            // setError("VerFügbar Häuser nicht gefunden.");
+            console.log("handleCancel, error", err)
+        }
+    };
+
+    //when click "checkin", fetch singlehouses to choose
+    const handleCheckIn = async()=>{
+        try {
+            const requestBody = {
+                startDate: singleBooking.startDate,
+                endDate: singleBooking.endDate,
+                bookingNum: singleBooking.bookingNumber,
+                houseNum: singleBooking.houseNum
+            };
+            console.log("handleCheckIn,requestBody", requestBody)
+            const response = await fetch(`http://localhost:3000/singleHouse/checkin-get-houses/${singleBooking.houseType}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(requestBody)
             });
             if (!response.ok) throw new Error('no available houses.');
             const data = await response.json();
             if(data === null) throw new Error('no available houses.');
-            const housesSort = data.sort((a, b) => {
-                return (b.isAvailable - a.isAvailable);
-            });// isAvailable true are on the top
-            setHouses(housesSort);
-            setShowHouses(true);
+            if (data.returnHouses === false){
+                setHouses([]);
+            }else{
+
+                setHouses(data);
+                setShowHouses(true);            
+            }
         } catch (err) {
             // setError("VerFügbar Häuser nicht gefunden.");
             setHouses([]);
@@ -54,10 +60,12 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
     };
     const handleCheckInConfirm = async()=>{
         if(selectedHouse=== null) return;
-        const url = `http://localhost:3000/singleHouse/houseCheckin/${selectedHouse.houseNum}`; 
+        const url = `http://localhost:3000/singleHouse/house-checkin/${selectedHouse.houseNum}`; 
         const requestBody = {
-            isAvailable: false,
+            houseNum: selectedHouse.houseNum,
             bookingNum: singleBooking.bookingNumber,
+            startDate: singleBooking.startDate,
+            endDate: singleBooking.endDate,
             guestName: []
         };
         console.log("selectedHouse.houseNum",selectedHouse.houseNum);
@@ -75,29 +83,26 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
         } catch (error) {
             console.error('Error in handleCheckInConfirm:', error);
         }
- 
     }
     const handleCheckOut = async()=>{
-        const url = `http://localhost:3000/singleHouse/houseCheckOut/${singleBooking.houseNum}`; 
-        const requestBody = {
-            isAvailable: true,
-            bookingNum:singleBooking.bookingNumber,
-            guestName:[]
-        };
         try {
-            const data = await fetchRequestNoRes(url, 'PUT', requestBody);  
-            setBookingData((prev)=>({
-                ...prev,
-                houseNum: "",
+            const requestBody = {
+                houseNum: singleBooking.houseNum,
                 status: "CheckedOut"
-            }));  
-            setShowHouses(false);
-        } catch (error) {
-            console.error('Error in handleCheckInConfirm:', error);
+            };
+            console.log("handleCheckOut,requestBody", requestBody)
+            const response = await fetch(`http://localhost:3000/booking/cancel-or-checkout/${singleBooking.bookingNumber}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(requestBody)
+            });
+            if (!response.ok) throw new Error('canceled failed');
+        } catch (err) {
+            // setError("VerFügbar Häuser nicht gefunden.");
+            console.log("handleCancel, error", err)
         }
-        // setShowDetails(false);
-        // setShowHouses(false);
-        setSelectedHouse(null);
     }
     const handleSelectHouse = (house)=>{
         // setBookingData(prev=>({
@@ -108,7 +113,7 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
         //     ...prev,
         //     houseNumber: house.houseNum,
         //   }));
-          setSelectedHouse(house);
+        setSelectedHouse(house);
     };
     const handleDelete = async () => {
         if (window.confirm('Sind Sie sicher, dass Sie diese Buchung löschen möchten?')){
@@ -151,11 +156,11 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
         ) : (
             <p>Buchung Number nicht gefunden.</p>
         )}
-        <div className='my-20 flex space-x-6'>
+        <div className='mt-10 mb-4 flex space-x-6'>
             {singleBooking.status === "Active" && 
             <button onClick={handleCheckIn} className='bg-gray-800 text-white px-4 rounded-sm cursor-pointer hover:text-[#FAE1A8]'>Check in</button>}
             {singleBooking.status === "Active" && 
-            <button onClick={()=>handleEditStatus("Canceled")} className='bg-gray-800 text-white px-4 rounded-sm cursor-pointer hover:text-[#FAE1A8]'>Cancel</button>}
+            <button onClick={handleCancel} className='bg-gray-800 text-white px-4 rounded-sm cursor-pointer hover:text-[#FAE1A8]'>Cancel</button>}
             {singleBooking.status === "CheckedIn" && 
             <button onClick={handleCheckOut} className='bg-gray-800 text-white px-4 rounded-sm cursor-pointer hover:text-[#FAE1A8]'>Check out</button>}
             {singleBooking.status !== "CheckedIn" && 
@@ -177,17 +182,18 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
         ) : (
             <ul className='flex flex-col space-y-2 '>
                 {houses.map((house, index) => (
-                    <li key={index} className={`border border-gray-300 py-1 px-1 rounded-md flex justify-between px-4 ${!house.isAvailable ? "text-gray-300" : "text-gray-600"}`}
+                    <li key={index} className={`border border-gray-300 py-1 px-1 rounded-md flex justify-between px-4 text-gray-600 `}
                     >
                         <div>
                             <p>Hause Nummer: {house.houseNum}</p>
                             <p>House Type: {house.houseType}</p>
+                            <p>House Status: {house.status}</p>
                         </div>
                         {/* <p>Gast Name: {house.guestFirstName} {house.guestFamilyName}</p>
                         <p>Date: {house.startDate} to {house.endDate}</p> */}
-                        <button className={`text-white  py-1 px-1 h-8 rounded-md  text-sm ${house.isAvailable ? "bg-gray-600 cursor-pointer" : "bg-gray-300 disabled"}` }
+                        <button className={`text-white  py-1 px-1 h-8 rounded-md  text-sm bg-gray-600 ` }
                         onClick={() => handleSelectHouse(house)}
-                        disabled={!house.isAvailable}>
+                        >
                             Auswahlen
                         </button>
                     </li>

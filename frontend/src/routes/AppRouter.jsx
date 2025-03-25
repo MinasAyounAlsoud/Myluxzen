@@ -15,14 +15,11 @@ import { ReviewPage } from "../pages/ReviewPage"; // Minas
 import { AdminReviewPage } from "../pages/AdminReviewPage"; //Minas
 import { ApartmentsList } from "../pages/hausBeschreibung"; //Minas
 import { AdminSingleHouseQueryPage } from "../pages/AdminSingleHouseQueryPage"; //Xiangyu
-import { AdminBookingTicketPage } from "../pages/AdminBookingTicketPage"; //Xiangyu
+import { AdminBookTimelinePage } from "../pages/AdminBookTimelinePage"; //Xiangyu
 import AdminGallery from "../pages/AdminGallery"; //zahra
 import AboutUs from "../pages/aboutUsPage";
 import { AdminHausBeschreibung } from "../pages/AdminHausBeschreibung";
-const userIsLogin = {
-  isAuthenticated: true,
-  isAdmin: true,
-};
+
 const createAuthRouter = (authContext) =>
   createBrowserRouter([
     {
@@ -94,10 +91,8 @@ const createAuthRouter = (authContext) =>
           path: "singleHouse-query",
           element: <AdminSingleHouseQueryPage></AdminSingleHouseQueryPage>,
         }, // Xiangyu
-        {
-          path: "booking-edit",
-          element: <AdminBookingTicketPage></AdminBookingTicketPage>,
-        }, // Xiangyu
+        { path: "booking-timeline", element: <AdminBookTimelinePage></AdminBookTimelinePage>}, // Xiangyu
+
         // Zahra
         {
           path: "gallery",

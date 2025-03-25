@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -13,7 +14,10 @@ export function DateRangePicker({ newBooking, setNewBooking, errStartDate, errEn
     const days = Math.round((end - start) / msPerDay); 
     return days; 
   };
-  const handleStartDateChange = (date) => {
+  const handleStartDateChange = (date) => {    
+    if (date) {
+      date.setHours(14, 0, 0, 0);  // Set time to 14:00:00
+    }
     setNewBooking(prev => {
       const newBooking = {
         ...prev,
@@ -22,10 +26,22 @@ export function DateRangePicker({ newBooking, setNewBooking, errStartDate, errEn
       return {
         ...newBooking,
         totalDays: calculateTotalDays(newBooking) 
+
       };
     });
   };
+  useEffect(()=>{
+    if(newBooking.startDate > newBooking.endDate)
+    setNewBooking(prev => ({
+      ...prev,
+      endDate: null,
+      totalDays : 0
+    }));
+  },[newBooking.startDate])
   const handleEndDateChange = (date) => {
+    if (date) {
+      date.setHours(11, 0, 0, 0);  // Set time to 11:00:00
+    }
     setNewBooking(prev => {
       const newBooking = {
         ...prev,
@@ -48,6 +64,7 @@ export function DateRangePicker({ newBooking, setNewBooking, errStartDate, errEn
           startDate={parseDate(newBooking.startDate) || new Date()}
           endDate={parseDate(newBooking.endDate)}
           minDate={new Date()}
+          // maxDate={parseDate(newBooking.endDate)}
           placeholderText="--"
           className="text-black font-bold text-xl"
           calendarClassName="datePickerCalendar"

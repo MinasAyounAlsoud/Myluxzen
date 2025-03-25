@@ -1,9 +1,26 @@
 import fs from "fs";
 import { ObjectId } from 'mongodb';
-import { connect } from "../utils/connect.js";
+// import { connect } from "../utils/connect.js";
 import { Booking } from "../models/bookingSchema.js";
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+// dotenv.config();
+dotenv.config();
+
+export async function connect() {
+  const MONGODB_URL = process.env.MONGODB_URL || "mongodb+srv://zahra:myluxzen2025@myluxzen.t3kl8.mongodb.net/myluxzen?retryWrites=true&w=majority&appName=MyLuXZeN"; 
+  // const MONGODB_URL = "mongodb://localhost:27017";
+  console.log(" connect  MONGODB_URL", MONGODB_URL)
+  const DB_NAME = process.env.DB_NAME || "myluxzen"; 
+  if (MONGODB_URL) {
+    await mongoose.connect(`${MONGODB_URL}/${DB_NAME}`);
+    console.log(`✅ Connected to MongoDB: ${MONGODB_URL}/${DB_NAME}`);
+  } else {
+    throw new Error("Error: MONGODB_URL not found");
+  }
+}
 connect();
+
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -23,21 +40,23 @@ const guestInfo = [
 ];
 
 const houseDetails = {
-  'HouseType1': { guests: 8, pricePerNight: 1600, houseNums: [1010, 1020], houseTitle : "Strandhaus mit direktem Meerzugang" },
-  'HouseType2': { guests: 6, pricePerNight: 1350, houseNums: [2010, 2020, 2030, 2040, 2050], houseTitle : "Gemütliche Berghütte mit Sauna"  },
-  'HouseType3': { guests: 4, pricePerNight: 950, houseNums: [3010, 3020, 3030, 3040, 3050], houseTitle : "Luxuriöses Penthouse mit Dachterrasse"  },
-  'HouseType4': { guests: 4, pricePerNight: 745, houseNums: [4010, 4020, 4030, 4040, 4050], houseTitle : "Moderne Strandvilla mit Pool"  },
-  'HouseType5': { guests: 2, pricePerNight: 565, houseNums: [5010, 5020, 5030, 5040, 5050, 5060, 5070, 5080, 5090, 5100], houseTitle : "Modernes Loft"  }
+  'HouseType1': { guests: 8, pricePerNight: 1600, houseNums: [1001, 1002], houseTitle : "Strandhaus mit direktem Meerzugang" },
+  'HouseType2': { guests: 6, pricePerNight: 1350, houseNums: [2001, 2002, 2003, 2004, 2005], houseTitle : "Gemütliche Berghütte mit Sauna"  },
+  'HouseType3': { guests: 4, pricePerNight: 950, houseNums: [3001, 3002, 3003, 3004, 3005], houseTitle : "Luxuriöses Penthouse mit Dachterrasse"  },
+  'HouseType4': { guests: 4, pricePerNight: 745, houseNums: [4001, 4002, 4003, 4004, 4005], houseTitle : "Moderne Strandvilla mit Pool"  },
+  'HouseType5': { guests: 2, pricePerNight: 565, houseNums: [5001, 5002, 5003, 5004, 5005, 5006, 5007, 5008, 5009, 5010], houseTitle : "Modernes Loft"  }
 };
 
 const bookings = [];
 const today = new Date();
 
-for (let i = 0; i < 40; i++) {
-  const startOffset = getRandomInt(-400, 90); // Random start date from 30 days ago to 30 days in the future
+for (let i = 0; i < 80; i++) {
+  const startOffset = getRandomInt(-200, 200); 
   const duration = getRandomInt(1, 28); // Duration between 1 to 14 days
   const startDate = new Date(today.getTime() + startOffset * 24 * 60 * 60 * 1000);
+  startDate.setHours(14, 0, 0, 0); // 设置 startDate 为下午 2 点
   const endDate = new Date(startDate.getTime() + duration * 24 * 60 * 60 * 1000);
+  endDate.setHours(11, 0, 0, 0); // 设置 endDate 为上午 11 点
   const totalDays = duration;
 
   const houseType = Object.keys(houseDetails)[getRandomInt(0, Object.keys(houseDetails).length - 1)];
@@ -78,13 +97,14 @@ for (let i = 0; i < 40; i++) {
     totalDays,
     createdAt: creationDate,
     updatedAt: updateDate,
+    extraInfo: "",
     __v: 0
   };
 
   bookings.push(booking);
 }
 
-fs.writeFileSync('bookings.json', JSON.stringify(bookings, null, 2));
+// fs.writeFileSync('bookings.json', JSON.stringify(bookings, null, 2));
 const seedDB = async () => {
     try {
       await Booking.deleteMany();
@@ -92,7 +112,9 @@ const seedDB = async () => {
       console.log("✅ Seed-Daten erfolgreich eingefügt!");
     } catch (error) {
       console.error("❌ Fehler beim Seeding:", error);
-      mongoose.connection.close();
+
+    }finally {
+            mongoose.disconnect();
     }
   };
   
