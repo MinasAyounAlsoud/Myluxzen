@@ -1,0 +1,68 @@
+[
+    {
+      "title": "💆 Luxus-Spa & Massage",
+      "description": "Erleben Sie pure Entspannung in unserem exklusiven Spa. Individuelle Massagen, heilende Öle und beruhigende Klänge bringen Körper und Geist in Einklang.",
+      "image": "/src/assets/imageNaheeda/massage2.webp"
+    },
+    {
+      "title": "🧘 Yoga & Meditation",
+      "description": "Beginnen Sie den Tag mit Yoga bei Sonnenaufgang. Unsere Kurse bieten eine tiefe Verbindung zur Natur, Ruhe und Erneuerung.",
+      "image": "/src/assets/imageNaheeda/yoga1.jpeg"
+    },
+    {
+      "title": "🏊 Infinity-Pool mit Meerblick",
+      "description": "Der atemberaubende Infinity-Pool mit Blick auf das weite Meer lädt zum Verweilen und Träumen ein – ein Highlight für jeden Gast.",
+      "image": "/src/assets/imageNaheeda/meerview1.jpeg"
+    },
+    {
+      "title": "🥾 Wanderungen & Naturtouren",
+      "description": "Entdecken Sie die Schönheit unberührter Landschaften mit geführten Touren durch Berge, Wälder und atemberaubende Aussichtspunkte.",
+      "image": "/src/assets/imageNaheeda/wandern1.avif"
+    },
+    {
+      "title": "🐴 Reiten am Strand",
+      "description": "Romantische Ausritte am Strand oder Abenteuer-Trails durch die Natur – für Anfänger und Fortgeschrittene ein unvergessliches Erlebnis.",
+      "image": "/src/assets/imageNaheeda/horsriding1.avif"
+    },
+    {
+      "title": "🚴 Fahrrad- & E-Bike-Touren",
+      "description": "Mit modernen Bikes erkunden Sie traumhafte Routen entlang der Küste oder durch das Inland – mit Guide oder auf eigene Faust.",
+      "image": "/src/assets/imageNaheeda/cycling1.jpeg"
+    },
+    {
+      "title": "🚤 Bootstouren & Yachting",
+      "description": "Luxuriöse Bootstouren, Sonnenuntergang auf einer Yacht oder private Inselausflüge – entdecken Sie die Küste vom Wasser aus.",
+      "image": "/src/assets/imageNaheeda/boat1.avif"
+    },
+    {
+      "title": "🤿 Schnorcheln & Tauchen",
+      "description": "Kristallklares Wasser und farbenfrohe Korallenriffe – erleben Sie die faszinierende Unterwasserwelt mit professioneller Ausrüstung.",
+      "image": "/src/assets/imageNaheeda/tauchen1.avif"
+    },
+    {
+      "title": "🛶 Kajak & Stand-Up-Paddling",
+      "description": "Gleiten Sie lautlos über das Wasser – alleine oder in Gruppen – ideal für Abenteuerlustige und Naturliebhaber.",
+      "image": "/src/assets/imageNaheeda/kayak1.avif"
+    },
+    {
+      "title": "🏌️‍♂️ Golf",
+      "description": "Top-gepflegte Greens, Meerblick und zwei Weltklasse-Plätze – ob Anfänger oder Profi, bei uns schlagen Golferherzen höher.",
+      "image": "/src/assets/imageNaheeda/golf1.avif"
+    },
+    {
+      "title": "🍷 Weinverkostung & Bar",
+      "description": "Edle Tropfen aus der Region, stilvolle Bars und ausgewählte Cocktails mit Aussicht – ein Fest für die Sinne.",
+      "image": "/src/assets/imageNaheeda/wein1.webp"
+    },
+    {
+      "title": "🥘 Regionale & nachhaltige Küche",
+      "description": "Unsere Küche verwöhnt Sie mit lokalen Spezialitäten, frischen Zutaten und nachhaltigen Konzepten für bewussten Genuss.",
+      "image": "/src/assets/imageNaheeda/restaurant1.avif"
+    },
+    {
+      "title": "🛩️ Helikopter & Privatjet-Erlebnisse",
+      "description": "Erleben Sie Luxus von oben: Panorama-Flüge, VIP-Shuttles oder ein einmaliger Rundflug über die Küste.",
+      "image": "/src/assets/imageNaheeda/helokopter.avif"
+    }
+  ]
+  

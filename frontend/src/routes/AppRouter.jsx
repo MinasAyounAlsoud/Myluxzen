@@ -20,6 +20,7 @@ import { ApartmentsList } from "../pages/hausBeschreibung"; //Minas
 import { AdminSingleHouseQueryPage } from '../pages/AdminSingleHouseQueryPage';//Xiangyu
 import { AdminBookingTicketPage } from "../pages/AdminBookingTicketPage";//Xiangyu
 import AdminGallery from "../pages/AdminGallery";//zahra
+import ActivitiesPage from '../pages/ActivitiesPage';  //Naheeda
 
 
 const userIsLogin = {
@@ -64,6 +65,10 @@ const createAuthRouter = (authContext) =>
       path: "/gallery",
       element: <AdminGallery />,
     },   
+
+    {path:"/activities",
+    element:<ActivitiesPage />
+    },
     // {
 
     // page router, end

@@ -91,7 +91,7 @@ const BookingDetails = () => {
         <div className="max-w-5xl mx-auto p-8 ">
             <h2 className="text-4xl font-semibold mb-10 text-[#0e5756] text-center"
                 style={{ fontFamily: 'Merriweather, serif' }}>
-                Ihre Buchungen
+                IHRE BUCHUNGEN
             </h2>
 
             {loading ? (
@@ -118,10 +118,11 @@ const BookingDetails = () => {
                                 </p>
                                 <p className="text-gray-600" style={{ fontFamily: 'Merriweather, serif' }}><strong>Unterkunft:</strong> {booking.houseType}</p>
                                 <p className="text-gray-600" style={{ fontFamily: 'Merriweather, serif' }}><strong>Gästeanzahl:</strong> {booking.guestCount}</p>
+                                <p className="text-gray-600" style={{ fontFamily: 'Merriweather, serif' }}><strong>Tagen:</strong> {booking.totalDays}</p>
                                 <p className="text-gray-600" style={{ fontFamily: 'Merriweather, serif' }}><strong>Startdatum:</strong> {formatDate(booking.startDate)}</p>
                                 <p className="text-gray-600" style={{ fontFamily: 'Merriweather, serif' }}><strong>Enddatum:</strong> {formatDate(booking.endDate)}</p>
                                 <p className="text-gray-600" style={{ fontFamily: 'Merriweather, serif' }}><strong>Preis:</strong> {booking.price} €</p>
-                                <p className="font-medium text-gray-600" style={{ fontFamily: 'Merriweather, serif' }}><strong>Status:</strong> {booking.status}</p>
+                                <p className="text-gray-600" style={{ fontFamily: 'Merriweather, serif' }}><strong>Status:</strong> {booking.status}</p>
                             </div>
 
                             {booking.status !== "Canceled" && (

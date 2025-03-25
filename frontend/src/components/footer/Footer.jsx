@@ -37,7 +37,7 @@ const Footer = () => {
               <li key={index}>
                 <Link
                   to={link.path}
-                  className="hover:text-caramel transition duration-300 ease-in-out transform hover:scale-105 inline-block relative group"
+                  className="hover:text-caramel transition duration-300 ease-in-out transform hover:scale-105 inline-block relative group underline-sand"
                 >
                   {link.name}
                   <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-caramel transition-all duration-300 group-hover:w-full"></span>

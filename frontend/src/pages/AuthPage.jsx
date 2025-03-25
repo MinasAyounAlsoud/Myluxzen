@@ -3,8 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import { BiUser, BiEnvelope, BiLock, BiShow, BiHide } from "react-icons/bi";
 import loginImage from "../assets/imageNaheeda/login-image.jpg"; 
-//import NavbarMini from "../components/navbarMini/NavbarMini";
-import Navbar from "../components/navbar/Navbar";
+import NavbarMini from "../components/navbarMini/NavbarMini";
+//import Navbar from "../components/navbar/Navbar";
 
 
 const AuthPage = () => {
@@ -128,8 +128,8 @@ useEffect(() => {
 
 return (
     <div>
-       {/* <NavbarMini />   */}
-        <Navbar />
+       {/* <Navbar />   */}
+        <NavbarMini />
         <div className="h-screen w-screen flex">
             {/* Linke Seite: Bild */}
             <div className="hidden lg:block w-1/2 h-full">
