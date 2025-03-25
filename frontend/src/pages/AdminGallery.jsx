@@ -28,7 +28,7 @@ const AdminGallery = () => {
         }
 
         if (file.size > 10 * 1024 * 1024) {
-            alert("❌ Bild zu groß (max. 10 MB erlaubt)");
+            alert(" Bild zu groß (max. 10 MB erlaubt)");
             return;
         }
 
@@ -43,7 +43,7 @@ const AdminGallery = () => {
             setPreview(null);
             fetchImages();
         } catch (err) {
-            console.error("❌ Fehler beim Hochladen:", err);
+            console.error("Fehler beim Hochladen:", err);
             if (err.response?.data?.message) {
                 alert("Fehler: " + err.response.data.message);
             } else {
@@ -60,7 +60,7 @@ const AdminGallery = () => {
             fetchImages();
         } catch (err) {
             console.error("Fehler beim Löschen:", err);
-            alert("❌ Fehler beim Löschen");
+            alert("Fehler beim Löschen");
         }
     };
 
