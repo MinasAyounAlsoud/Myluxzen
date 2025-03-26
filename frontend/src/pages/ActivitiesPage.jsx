@@ -10,7 +10,7 @@ import NavbarMini from "../components/navbarMini/NavbarMini";
 import "../styles/extra.css";
 
 
-const HeroSection = () => {
+const MainSection = () => {
   return (
     <div className="relative h-[86vh] w-full overflow-hidden">
       {/* Hintergrundbild */}
@@ -159,7 +159,7 @@ const ActivitiesPage = () => {
   return (
     <div className="w-full">
        <NavbarMini />
-      <HeroSection />
+       <MainSection />
       {activities.map((act, idx) => (
         <ActivitySection
           key={idx}

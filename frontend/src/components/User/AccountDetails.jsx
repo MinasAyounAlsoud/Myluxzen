@@ -1,13 +1,15 @@
 import { useState, useContext, useEffect } from "react";
 import AuthContext from "../../context/AuthContext";
 import countryData from "../../dataJson/CountryCodes.json";
+import useServerErrorHandler from "./ErrorHandler";
+
 
 const AccountDetails = () => {
     const { user, setUser } = useContext(AuthContext);
     const [editingFields, setEditingFields] = useState({}); 
     const [errors, setErrors] = useState({});
     const [successMessage, setSuccessMessage] = useState("");
-
+    const errorHandler = useServerErrorHandler(setErrors);
     const [formData, setFormData] = useState({
         vorname: "",
         nachname: "",
@@ -66,41 +68,9 @@ const AccountDetails = () => {
         }
     };
     
-    const validateFields = () => {
-        let newErrors = {};
-
-        // Vorname & Nachname: nur Buchstaben erlaubt
-        const nameRegex = /^[A-Za-zÄÖÜäöüß\s-]+$/;
-        if (!nameRegex.test(formData.vorname)) {
-            newErrors.vorname = "Vorname darf nur Buchstaben enthalten.";
-        }
-        if (!nameRegex.test(formData.nachname)) {
-            newErrors.nachname = "Nachname darf nur Buchstaben enthalten.";
-        }
-
-        // Telefonnummer: nur Zahlen erlaubt
-        const phoneRegex = /^\d{6,15}$/;
-        if (!phoneRegex.test(formData.telefonnummer)) {
-            newErrors.telefonnummer = "Telefonnummer darf nur Zahlen enthalten.";
-        }
-
-        // E-Mail Validierung
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(formData.email)) {
-            newErrors.email = "Bitte eine gültige E-Mail-Adresse eingeben.";
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
     const handleSave = async () => {
         setErrors({});
         setSuccessMessage("");
-        if (!validateFields()) {
-            console.error(" Validierungsfehler:", errors);
-            return; // Stoppe das Speichern, wenn Fehler vorhanden sind
-        }
 
         try {
             const response = await fetch("http://localhost:3000/api/auth/profile", {
@@ -120,7 +90,7 @@ const AccountDetails = () => {
 
                 setTimeout(() => setSuccessMessage(""), 3000);
             } else {
-                setErrors(data.errors || { general: data.message || "Fehler beim Speichern." });
+                errorHandler(data);
             }
         } catch (error) {
             console.error("Fehler beim Speichern:", error);
@@ -153,14 +123,14 @@ const AccountDetails = () => {
         <div className="max-w-4xl mx-auto px-8 md:px-12 lg:px-16 py-8 bg-white shadow-lg rounded-2xl space-y-4">
         */
         <div className="max-w-5xl mx-auto p-8  bg-transparent space-y-4">
-        <h2 className="text-4xl font-semibold mb-10 text-[#0e5756] text-center"
+        <h2 className="text-4xl font-semibold mb-15 mt-5 text-[#0e5756] text-center"
             style={{ fontFamily: 'Merriweather, serif' }}>
             Persönliche Daten
         </h2>
 
 
 {/* Vorname */}
-<div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none mb-6">
+<div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none mb-6" style={{ fontFamily: 'Merriweather, serif' }}>
     <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>Vorname</h2>
     {editingFields.vorname ? (
         <>
@@ -171,11 +141,12 @@ const AccountDetails = () => {
                 onChange={handleChange}
                 className="w-full bg-white p-3 text-gray-600 border border-gray-300 mt-2 focus:border-[#116769] focus:outline-none shadow-sm"
             />
+             {errors.vorname && <p className="text-[#9C785E] text-sm mt-1">{errors.vorname}</p>}
             <div className="flex justify-between mt-3">
                 <button onClick={handleSave} className="px-4 py-2 bg-[#116769] cursor-pointer text-white border border-[#0e5756] rounded-md hover:bg-[#0e5756] transition duration-200">
                     Speichern
                 </button>
-                <button onClick={() => handleCancel("vorname")} className="text-gray-600 cursor-pointer hover:underline">
+                <button onClick={() => handleCancel("vorname")} className="text-gray-600 font-bold cursor-pointer hover:underline">
                     Abbrechen
                 </button>
             </div>
@@ -185,7 +156,7 @@ const AccountDetails = () => {
             <p className="text-gray-600 text-lg">{user?.vorname || "Kein Vorname angegeben"}</p>
             <button 
                 onClick={() => handleEditClick("vorname")} 
-                className="text-[#0e5756] hover:text-[#116769] font-medium transition-all duration-200 cursor-pointer hover:underline"
+                className="text-[#0e5756] hover:text-[#116769] font-bold transition-all duration-200 cursor-pointer hover:underline"
             >
                 Bearbeiten
             </button>
@@ -196,7 +167,7 @@ const AccountDetails = () => {
 
 
    {/* Nachname */}
-   <div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none">
+   <div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none" style={{ fontFamily: 'Merriweather, serif' }}>
                 <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>Nachname</h2>
                 {editingFields.nachname ? (
                     <>
@@ -207,11 +178,12 @@ const AccountDetails = () => {
                             onChange={handleChange}
                             className="w-full bg-white p-3 text-gray-600 border border-gray-300 mt-2 focus:border-[#116769] focus:outline-none shadow-sm"
                         />
+                        {errors.nachname && <p className="text-[#9C785E] text-sm mt-1">{errors.nachname}</p>}
                         <div className="flex justify-between mt-3">
                             <button onClick={handleSave} className="px-4 py-2 bg-[#116769] cursor-pointer text-white border border-[#0e5756] rounded-md hover:bg-[#0e5756] transition duration-200">
                                 Speichern
                             </button>
-                            <button onClick={() => handleCancel("nachname")} className="text-gray-600 cursor-pointer hover:underline">
+                            <button onClick={() => handleCancel("nachname")} className="text-gray-600 font-bold cursor-pointer hover:underline">
                                 Abbrechen
                             </button>
                         </div>
@@ -219,7 +191,7 @@ const AccountDetails = () => {
                 ) : (
                     <div className="flex justify-between mt-3">
                         <p className="text-gray-600">{user?.nachname || "Kein Nachname angegeben"}</p>
-                        <button onClick={() => handleEditClick("nachname")} className="text-[#0e5756] hover:text-[#116769] font-medium transition duration-200 cursor-pointer hover:underline">
+                        <button onClick={() => handleEditClick("nachname")} className="text-[#0e5756] font-bold hover:text-[#116769] transition duration-200 cursor-pointer hover:underline">
                             Bearbeiten
                         </button>
                     </div>
@@ -230,13 +202,13 @@ const AccountDetails = () => {
 
     
       {/* E-Mail (nur Anzeige, keine Bearbeitung) */}
-      <div className="p-6 bg-white shadow-lg border-gray-200 rounded-none">
+      <div className="p-6 bg-white shadow-lg border-gray-200 rounded-none" style={{ fontFamily: 'Merriweather, serif' }}>
                 <h2 className="text-xl font-semibold text-[#0e5756]">E-Mail Adresse</h2>
                 <p className="text-gray-600 mt-3">{user?.email || "Keine E-Mail angegeben"}</p>
             </div>
 
                        {/* Telefonnummer mit Vorwahl */}
-                       <div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none">
+                       <div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none" style={{ fontFamily: 'Merriweather, serif' }}>
                 <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>Telefonnummer</h2>
                 {editingFields.telefonnummer ? (
                     <>
@@ -274,15 +246,15 @@ const AccountDetails = () => {
                             <button onClick={handleSave} className="px-4 py-2 bg-[#116769] cursor-pointer text-white border border-[#0e5756] rounded-md hover:bg-[#0e5756] transition duration-200">
                                 Speichern
                             </button>
-                            <button onClick={() => handleCancel("telefonnummer")} className="text-gray-600 cursor-pointer hover:underline">
+                            <button onClick={() => handleCancel("telefonnummer")} className="text-gray-600 font-bold cursor-pointer hover:underline">
                                 Abbrechen
                             </button>
                         </div>
                     </>
                 ) : (
                     <div className="flex justify-between mt-3">
-                        <p className="text-gray-600">{user?.landesvorwahl} {user?.telefonnummer || "Keine Nummer hinterlegt"}</p>
-                        <button onClick={() => handleEditClick("telefonnummer")} className="text-[#0e5756] hover:text-[#116769] font-medium transition duration-200 cursor-pointer hover:underline">
+                        <p className="text-gray-600">{user?.landesvorwahl} {user?.telefonnummer || " "}</p>
+                        <button onClick={() => handleEditClick("telefonnummer")} className="text-[#0e5756] font-bold hover:text-[#116769]  transition duration-200 cursor-pointer hover:underline">
                             Bearbeiten
                         </button>
                     </div>
@@ -290,7 +262,7 @@ const AccountDetails = () => {
             </div>
 
 {/* Adresse */}
-<div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none">
+<div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none" style={{ fontFamily: 'Merriweather, serif' }}>
                 <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>Adresse</h2>
                 {editingFields.address ? (
                     <>
@@ -353,7 +325,7 @@ const AccountDetails = () => {
                             <button onClick={handleSave} className="px-4 py-2 bg-[#116769] cursor-pointer text-white border border-[#0e5756] rounded-md hover:bg-[#0e5756] transition duration-200">
                                 Speichern
                             </button>
-                            <button onClick={() => handleCancel("address")} className="text-gray-600  cursor-pointer hover:underline">
+                            <button onClick={() => handleCancel("address")} className="text-gray-600  font-bold cursor-pointer hover:underline">
                                 Abbrechen
                             </button>
                         </div>
@@ -367,14 +339,18 @@ const AccountDetails = () => {
                             {user?.address?.stadt ? `${user.address.stadt}, ` : ""}
                             {user?.address?.postleitzahl ? `${user.address.postleitzahl}` : ""}
                         </p>
-                        <button onClick={() => handleEditClick("address")} className="text-[#0e5756] hover:text-[#116769] font-medium transition duration-200 cursor-pointer hover:underline">
+                        <button onClick={() => handleEditClick("address")} className="text-[#0e5756] hover:text-[#116769] font-bold transition duration-200 cursor-pointer hover:underline">
                             Bearbeiten
                         </button>
                     </div>
                 )}
             </div>
 
-
+            {errors.general && (
+            <div className="mt-4 text-red-600 text-sm text-center">
+                {errors.general}
+            </div>
+        )}
         {successMessage && (
             <div className="fixed bottom-5 left-5 bg-green-100 text-green-800 px-4 py-2 rounded-lg shadow-md">
                  {successMessage}

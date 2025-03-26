@@ -4,8 +4,7 @@ import AuthContext from "../context/AuthContext";
 import { BiUser, BiEnvelope, BiLock, BiShow, BiHide } from "react-icons/bi";
 import loginImage from "../assets/imageNaheeda/login-image.jpg"; 
 import NavbarMini from "../components/navbarMini/NavbarMini";
-//import Navbar from "../components/navbar/Navbar";
-
+import useServerErrorHandler from "../components/User/ErrorHandler";
 
 const AuthPage = () => {
     const location = useLocation();
@@ -24,43 +23,25 @@ const AuthPage = () => {
     const [nachname, setNachname] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [error, setError] = useState(""); 
+    const [errors, setErrors] = useState({});
     const [passwordError, setPasswordError] = useState("");
-
-    const passwordRequirements = "Passwort muss mindestens 8 Zeichen lang sein, einen Großbuchstaben, einen Kleinbuchstaben, eine Zahl und ein Sonderzeichen enthalten.";
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const errorHandler = useServerErrorHandler(setErrors);
 
     useEffect(() => {
         setIsRegister(initialIsRegister);
-        setError(""); // Fehler zurücksetzen, wenn sich die Seite ändert
+        setErrors({}); // Fehler zurücksetzen, wenn sich die Seite ändert
     }, [initialIsRegister]);
-
-    const handlePasswordChange = (e) => {
-        const value = e.target.value;
-        setPassword(value);
-        
-        if (!passwordRegex.test(value)) {
-            setPasswordError(passwordRequirements);
-        } else {
-            setPasswordError("");
-        }
-    };
 
     const handleAuth = async (e) => {
         e.preventDefault();
-        setError("");
-        if (!email || !password) {
-            setError("Bitte fülle alle Felder aus.");
+        setErrors({});
+        if (!email || !password || (isRegister && (!vorname || !nachname))) {
+            setErrors({ general: "Bitte fülle alle erforderlichen Felder aus." });
             return;
         }
     
-
-        if (isRegister && (!vorname || !nachname)) {
-            setError("Bitte Vorname und Nachname eingeben.");
-            return;
-        }
         if (isRegister && password !== confirmPassword) {
-            setError("Passwörter stimmen nicht überein.");
+            setErrors({ confirmPassword: "Passwörter stimmen nicht überein." });
             return;
         }
 
@@ -82,13 +63,17 @@ const AuthPage = () => {
 
             const data = await response.json();
             if (!response.ok) {
-                if (data.message.includes("existiert bereits")) {
-                    setError("Diese E-Mail-Adresse wird bereits verwendet.");
+                if (data.errors) {
+                  // z. B. { email: "Ungültig", password: "Zu kurz" }
+                  errorHandler(data);
+                } else if (data.message) {
+                  // z. B. "Diese E-Mail-Adresse wird bereits verwendet."
+                  setErrors({ general: data.message });
                 } else {
-                    setError(data.message || "E-Mail oder Passwort ist falsch.");
+                  setErrors({ general: "Unbekannter Fehler. Bitte erneut versuchen." });
                 }
                 return;
-            }
+              }
 
             if (isRegister) {
                 //  Registrierung war erfolgreich, setze alle Eingaben auf leer!
@@ -112,7 +97,7 @@ const AuthPage = () => {
             }
         } catch (error) {
             console.error("Fehler bei der Authentifizierung:", error);
-            setError("E-Mail oder Passwort ist falsch");
+            setErrors({ general: "Serverfehler, bitte später erneut versuchen." });
         }
     };
 
@@ -130,7 +115,7 @@ return (
     <div>
        {/* <Navbar />   */}
         <NavbarMini />
-        <div className="h-screen w-screen flex">
+        <div className="h-screen w-screen flex -mt-20">
             {/* Linke Seite: Bild */}
             <div className="hidden lg:block w-1/2 h-full">
                 <img src={loginImage} alt="Login Illustration"
@@ -140,7 +125,7 @@ return (
             {/* Rechte Seite: Formular */}
             <div className="w-full lg:w-1/2 h-full flex justify-center items-center bg-white px-16">
                 <div className="w-full max-w-[500px]">
-                    <h1 className="text-4xl font-semibold text-[#0e5756] text-center mb-14" 
+                    <h1 className="text-4xl font-semibold text-[#0e5756] text-center mb-16" 
                         style={{ fontFamily: 'Merriweather, serif' }}>
                         {isRegister ? "Willkommen" : "Willkommen zurück!"}
                     </h1>
@@ -153,19 +138,22 @@ return (
                                     <input type="text" placeholder="Vorname" value={vorname} onChange={(e) => setVorname(e.target.value)}
                                         className="w-full text-gray-600 pl-8 py-3 bg-transparent focus:outline-none" />
                                 </div>
+                                {errors.vorname && <p className="text-[#9C785E] text-sm">{errors.vorname}</p>}
                                 <div className="relative flex items-center border-b border-gray-400">
                                     <BiUser className="absolute left-2 text-gray-500" size={20} />
                                     <input type="text" placeholder="Nachname" value={nachname} onChange={(e) => setNachname(e.target.value)}
                                         className="w-full text-gray-600 pl-8 py-3 bg-transparent focus:outline-none" />
                                 </div>
+                                {errors.nachname && <p className="text-[#9C785E] text-sm">{errors.nachname}</p>}
                             </>
                         )}
 
                         <div className="relative flex items-center border-b border-gray-400">
                             <BiEnvelope className="absolute left-2 text-gray-500" size={20} />
-                            <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}
+                            <input type="text" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}
                                 className="w-full text-gray-600 pl-8 py-3 bg-transparent focus:outline-none" />
                         </div>
+                        {errors.email && <p className="text-[#9C785E] text-sm">{errors.email}</p>}
 
                         <div className="relative flex items-center border-b border-gray-400">
                             <BiLock className="absolute left-2 text-gray-500" size={20} />
@@ -175,7 +163,7 @@ return (
                                 {showPassword ? <BiHide size={20} /> : <BiShow size={20} />}
                             </button>
                         </div>
-
+                        {errors.password && <p className="text-[#9C785E] text-sm">{errors.password}</p>}                
                         {isRegister && (
                             <div className="relative flex items-center border-b border-gray-400">
                                 <BiLock className="absolute left-2 text-gray-500" size={20} />
@@ -186,8 +174,10 @@ return (
                                 </button>
                             </div>
                         )}
-
-                        {error && <p className="text-red-500 text-sm">{error}</p>}
+                           {errors.confirmPassword && (
+                           <p className="text-[#9C785E] text-sm">{errors.confirmPassword}</p>
+                        )}
+                         {errors.general && <p className="text-[#9C785E] text-sm">{errors.general}</p>}
 
                         <button type="submit"
                             className="bg-[#116769] text-white py-2.5 px-6 mt-8 rounded-full hover:bg-[#0e5756] transition shadow-md">

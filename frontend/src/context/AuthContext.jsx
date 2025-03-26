@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
         checkUserSession();
     }, []);
 
-    // 📌 Logout-Funktion
+    //  Logout-Funktion
     const logout = async () => {
         try {
             await fetch("http://localhost:3000/api/auth/logout", {

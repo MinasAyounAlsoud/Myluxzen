@@ -89,19 +89,19 @@ const BookingDetails = () => {
 
     return (
         <div className="max-w-5xl mx-auto p-8 ">
-            <h2 className="text-4xl font-semibold mb-10 text-[#0e5756] text-center"
+            <h2 className="text-4xl font-semibold mb-10 mt-5 text-[#0e5756] text-center"
                 style={{ fontFamily: 'Merriweather, serif' }}>
-                IHRE BUCHUNGEN
+                Ihre Buchungen
             </h2>
 
             {loading ? (
                 <p className="text-gray-600 text-center">⏳ Lade Buchungen...</p>
             ) : error ? (
                 <div className="p-6 bg-gray-100 text-center rounded-lg shadow-md">
-                    <p className="text-gray-700 text-lg font-medium">{error}</p>
+                    <p className="text-gray-700 text-lg font-medium" style={{ fontFamily: 'Merriweather, serif' }}>{error}</p>
                     {error.includes("noch keine Buchungen") && (
                         <button 
-                            className="mt-4 px-5 py-2 bg-[#116769] text-white rounded-md hover:bg-[#0e5756] transition duration-200"
+                            className="mt-4 px-5 py-2 bg-[#116769] text-white rounded-md hover:bg-[#0e5756] transition duration-200" style={{ fontFamily: 'Merriweather, serif' }}
                             onClick={() => window.location.href = "/booking"}
                         >
                             Jetzt eine Unterkunft buchen 🏡

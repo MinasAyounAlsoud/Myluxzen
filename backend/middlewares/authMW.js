@@ -4,27 +4,37 @@ import { Booking } from "../models/bookingSchema.js";
 import { generateToken } from "../utils/generateToken.js";
 
 //  Hilfsfunktionen zur Validierung
-const formatAndValidateName = (name) => {
-    const regex = /^[A-Za-zÄÖÜäöüß\s-]+$/;  //Erlaubt nur Buchstaben, Leerzeichen & Bindestriche
-    if (!regex.test(name)){
-         throw new Error("Vorname und Nachname dürfen nur Buchstaben enthalten.");
-    }
-    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();  //  Erster Buchstabe groß
+const formatAndValidateName = (name, field) => {
+    const regex = /^[A-Za-zÄÖÜäöüß\s-]+$/;
+    if (!regex.test(name)) {
+        throw {
+            field,
+            message: `${field === "vorname" ? "Vorname" : "Nachname"} darf nur Buchstaben enthalten.`,
+          };
+        }
+    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 };
 
 const isValidPassword = (password) => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return regex.test(password);
+    if (!regex.test(password)) {
+        throw { field: "password", message: "Passwort muss mindestens 8 Zeichen lang sein und mindestens einen Großbuchstaben, einen Kleinbuchstaben, eine Zahl und ein Sonderzeichen enthalten." };
+    }
 };
 
+
 const isValidPhoneNumber = (phoneNumber) => {
-    const regex = /^\d{6,15}$/;  //   Akzeptiert "+49..." oder "+123456789" (6-15 Ziffern nach "+")
-    return regex.test(phoneNumber);
+    const regex = /^\d{6,15}$/;
+    if (!regex.test(phoneNumber)) {
+        throw { field: "telefonnummer", message: "Ungültige Telefonnummer! Sie darf nur Zahlen enthalten." };
+    }
 };
 
 const isValidEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;   //Standard E-Mail-Format prüfen
-    return regex.test(email);
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regex.test(email)) {
+        throw { field: "email", message: "Ungültige E-Mail-Adresse." };
+    }
 };
 
 // Benutzer registrieren
@@ -38,20 +48,12 @@ const registerUser = async (req, res, next) => {
         }
 
         // Namen formatieren und validieren
-        vorname = formatAndValidateName(vorname);
-        nachname = formatAndValidateName(nachname);
+      // ✅ NEU
+         vorname = formatAndValidateName(vorname, "vorname");
+         nachname = formatAndValidateName(nachname, "nachname");
 
-        // E-Mail-Validierung
-        if (!isValidEmail(email)) {
-            return res.status(400).json({ message: "Ungültige E-Mail-Adresse. Bitte eine gültige Adresse eingeben." });
-        }
-
-        // Passwort-Validierung
-        if (!isValidPassword(password)) {
-            return res.status(400).json({ 
-                message: "Passwort muss mindestens 8 Zeichen lang sein und mindestens einen Großbuchstaben, einen Kleinbuchstaben, eine Zahl und ein Sonderzeichen enthalten."
-            });
-        }
+        isValidEmail(email);
+        isValidPassword(password);
 
         // Prüfen, ob der Benutzer bereits existiert
         const userExists = await User.findOne({ email });
@@ -69,7 +71,8 @@ const registerUser = async (req, res, next) => {
             // Cookie setzen
             res.cookie("jwt", token, { 
                 httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
+               // secure: process.env.NODE_ENV === "production",
+                secure: true,
                 sameSite: "strict",
                 maxAge: 30 * 24 * 60 * 60 * 1000 // 30 Tage
             });
@@ -106,14 +109,13 @@ const authUser = async (req, res, next) => {
         const user = await User.findOne({ email });
 
         if (!user || !(await user.matchPassword(password))) {
-            console.log("Falsche Login-Daten für:", email);
             return res.status(400).json({ message: "E-Mail oder Passwort ist falsch." });
         }
-        console.log("✅ Erfolgreicher Login:", user.email);
         const token = generateToken(user._id);
         res.cookie("jwt", token, {
         httpOnly: true, 
-        secure: process.env.NODE_ENV === "production", 
+        // secure: process.env.NODE_ENV === "production", 
+        secure:true,
         sameSite: "strict",
          maxAge: 30 * 24 * 60 * 60 * 1000
          });
@@ -146,8 +148,7 @@ const logoutUser = (req, res, next) => {
 const getUserProfile = async (req, res, next) => {
     try {
         if (!req.user) {
-            res.status(401);
-            throw new Error("Nicht autorisiert");
+            return res.status(401).json({ message: "Nicht autorisiert" });
         }
         res.json({
             _id: req.user._id,
@@ -175,22 +176,36 @@ const updateUserProfile = async (req, res, next) => {
         }
     
 
-      // Falls Vorname übergeben wird, validieren & formatieren
-      if (req.body.vorname) {
-        req.body.vorname = formatAndValidateName(req.body.vorname);
+ 
+        const validationErrors = {};
 
-    }
-    if (req.body.nachname) {
-        req.body.nachname = formatAndValidateName(req.body.nachname);
-    }
-    if (req.body.email && !isValidEmail(req.body.email)) {
-        res.status(400);
-        throw new Error("Ungültige E-Mail-Adresse! Bitte ein gültiges Format verwenden.");
-    }
-    if (req.body.telefonnummer && !isValidPhoneNumber(req.body.telefonnummer)) {
-        res.status(400);
-        throw new Error("Ungültige Telefonnummer! Sie darf nur Zahlen enthalten ");
-    }
+        try {
+            if (req.body.vorname) {
+                req.body.vorname = formatAndValidateName(req.body.vorname, "vorname");
+            }
+        } catch (err) {
+            validationErrors[err.field] = err.message;
+        }
+
+        try {
+            if (req.body.nachname) {
+                req.body.nachname = formatAndValidateName(req.body.nachname, "nachname");
+            }
+        } catch (err) {
+            validationErrors[err.field] = err.message;
+        }
+
+        try {
+            if (req.body.telefonnummer) {
+                isValidPhoneNumber(req.body.telefonnummer);
+            }
+        } catch (err) {
+            validationErrors[err.field] = err.message;
+        }
+
+        if (Object.keys(validationErrors).length > 0) {
+            return res.status(400).json({ errors: validationErrors });
+        }
 
         Object.assign(user, req.body);
         const updatedUser = await user.save();
