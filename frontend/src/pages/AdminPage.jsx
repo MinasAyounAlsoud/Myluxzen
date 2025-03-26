@@ -25,10 +25,22 @@ export function AdminPage() {
               Buchungsticket bearbeiten
             </NavLink>
           </li>
-          {/*Zahra*/ }
+          {/*Zahra*/}
           <li className="cursor-pointer">
             <NavLink to="gallery" className={getLinkClass}>
               Galerie
+            </NavLink>
+          </li>
+          {/*Zahra*/}
+          <li className="cursor-pointer">
+            <NavLink to="booking-dashboard" className={getLinkClass}>
+              Dashboard Buchungen
+            </NavLink>
+          </li>
+          {/*Zahra*/}
+          <li className="cursor-pointer">
+            <NavLink to="client-email-support" className={getLinkClass}>
+              E-Mail Support
             </NavLink>
           </li>
         </ul>

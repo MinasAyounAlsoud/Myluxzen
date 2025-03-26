@@ -18,6 +18,9 @@ import { AdminSingleHouseQueryPage } from "../pages/AdminSingleHouseQueryPage"; 
 import { AdminBookingTicketPage } from "../pages/AdminBookingTicketPage"; //Xiangyu
 import AdminGallery from "../pages/AdminGallery"; //zahra
 import AboutUs from "../pages/aboutUsPage";
+import AdminBookingDashboardPage from "../pages/AdminBookingDashboardPage"; // Zahra
+import AdminEmailSupportClient from "../pages/AdminEmailSupportClient"; // Zahra
+
 
 const userIsLogin = {
   isAuthenticated: true,
@@ -60,7 +63,7 @@ const createAuthRouter = (authContext) =>
       path: "/about",
       element: <AboutUs></AboutUs>,
     }, //Minas
-    
+
     // {
 
     // page router, end
@@ -93,6 +96,16 @@ const createAuthRouter = (authContext) =>
         {
           path: "gallery",
           element: <AdminGallery />,
+        },
+        // Zahra  
+        {
+          path: "booking-dashboard",
+          element: <AdminBookingDashboardPage />,
+        },
+        // Zahra 
+        {
+          path: "client-email-support",
+          element: <AdminEmailSupportClient />
         },
 
         // admin page, end

@@ -25,6 +25,10 @@
     --white: #f5f7f7;
   }
 
+body {
+  overflow-x: hidden;
+}
+
   /* Styles de base pour le body */
   /*body {
     
