@@ -3,16 +3,19 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
 export function AdminPage() {
-  const navigate = useNavigate();
-  const {user} = useContext(AuthContext);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (user === null || !user.isAuthenticated || !user.isAdmin) {
+  //     navigate('/');
+  //   }
+  // }, [user]);
+
+  const Navbar = () => {
+    const navigate = useNavigate();
+    const {user} = useContext(AuthContext);
     if (user === null || !user.isAuthenticated || !user.isAdmin) {
       navigate('/');
     }
-  }, [user]);
-
-  const Navbar = () => {
     const getLinkClass = ({ isActive }) =>
       isActive
         ? "text-[#FAE1A8] underline underline-offset-4"
