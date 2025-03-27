@@ -48,7 +48,7 @@ const registerUser = async (req, res, next) => {
         }
 
         // Namen formatieren und validieren
-      // ✅ NEU
+      //  NEU
          vorname = formatAndValidateName(vorname, "vorname");
          nachname = formatAndValidateName(nachname, "nachname");
 
@@ -98,7 +98,7 @@ const registerUser = async (req, res, next) => {
 
 //  Benutzer Login
 const authUser = async (req, res, next) => {
-    console.log(" Eingehende Login-Daten:", req.body); // ✅ Debugging
+    console.log(" Eingehende Login-Daten:", req.body); // Debugging
     try {
         const { email, password } = req.body;
         if (!email || !password) {
@@ -227,7 +227,7 @@ const getUserBookings = async (req, res, next) => {
         const bookings = await Booking.find({ email: req.user.email });
 
         if (!bookings.length) {
-            return res.status(200).json([]); // ✅ Leeres Array statt Fehler senden
+            return res.status(200).json([]); //  Leeres Array statt Fehler senden
         }
 
         res.status(200).json(bookings);
