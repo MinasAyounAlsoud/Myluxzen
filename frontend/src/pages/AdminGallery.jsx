@@ -1,76 +1,161 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Plus, X, ImagePlus } from "lucide-react";
 
-function AdminGalleryPage() {
-  const [images, setImages] = useState([]);
-  const [file, setFile] = useState(null);
-  const [description, setDescription] = useState("");
+const AdminGallery = () => {
+    const [images, setImages] = useState([]);
+    const [file, setFile] = useState(null);
+    const [description, setDescription] = useState("");
+    const [preview, setPreview] = useState(null);
 
-  useEffect(() => {
-    fetch("/api/images")
-      .then((res) => res.json())
-      .then((data) => setImages(data));
-  }, []);
+    useEffect(() => {
+        fetchImages();
+    }, []);
 
-  const handleUpload = async (e) => {
-    e.preventDefault();
-    if (!file) return alert("Sélectionne une image !");
+    const fetchImages = async () => {
+        try {
+            const res = await axios.get("http://localhost:3000/api/images");
+            setImages(res.data);
+        } catch (err) {
+            console.error("Fehler beim Laden der Bilder:", err);
+        }
+    };
 
-    const formData = new FormData();
-    formData.append("image", file);
-    formData.append("description", description);
+    const handleUpload = async () => {
+        if (!file) {
+            alert("Bitte wählen Sie ein Bild aus.");
+            return;
+        }
 
-    const res = await fetch("/api/images/upload", {
-      method: "POST",
-      body: formData,
-    });
+        if (file.size > 10 * 1024 * 1024) {
+            alert(" Bild zu groß (max. 10 MB erlaubt)");
+            return;
+        }
 
-    if (res.ok) {
-      const newImage = await res.json();
-      setImages([...images, newImage]);
-      setFile(null);
-      setDescription("");
-    }
-  };
+        const formData = new FormData();
+        formData.append("image", file);
+        formData.append("description", description);
 
-  const handleDelete = async (id) => {
-    const res = await fetch(`/api/images/${id}`, { method: "DELETE" });
+        try {
+            await axios.post("http://localhost:3000/api/images/upload", formData);
+            setFile(null);
+            setDescription("");
+            setPreview(null);
+            fetchImages();
+        } catch (err) {
+            console.error("Fehler beim Hochladen:", err);
+            if (err.response?.data?.message) {
+                alert("Fehler: " + err.response.data.message);
+            } else {
+                alert("Fehler beim Hochladen");
+            }
+        }
+    };
 
-    if (res.ok) {
-      setImages(images.filter((img) => img._id !== id));
-    }
-  };
+    const handleDelete = async (id) => {
+        if (!window.confirm("🗑️ Möchten Sie dieses Bild wirklich löschen?")) return;
 
-  return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-4">Admin Galerie</h1>
+        try {
+            await axios.delete(`http://localhost:3000/api/images/${id}`);
+            fetchImages();
+        } catch (err) {
+            console.error("Fehler beim Löschen:", err);
+            alert("Fehler beim Löschen");
+        }
+    };
 
-      <form onSubmit={handleUpload} className="mb-4">
-        <input type="file" onChange={(e) => setFile(e.target.files[0])} />
-        <input
-          type="text"
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="border p-2 ml-2"
-        />
-        <button type="submit" className="bg-blue-500 text-white p-2 ml-2">
-          Ajouter
-        </button>
-      </form>
+    return (
+        <div className="min-h-screen bg-gray-100 px-4 sm:px-6 lg:px-8 py-10">
+            <div className="max-w-7xl mx-auto">
+                <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">
+                    AdminGalerie
+                </h2>
 
-      <div className="grid grid-cols-3 gap-4">
-        {images.map((image) => (
-          <div key={image._id} className="border p-2">
-            <img src={image.url} alt={image.description} className="w-full h-32 object-cover" />
-            <p>{image.description}</p>
-            <button onClick={() => handleDelete(image._id)} className="bg-red-500 text-white p-2 mt-2">
-              Supprimer
-            </button>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+                <div className="bg-white p-6 rounded-3xl shadow-xl flex flex-col md:flex-row gap-8 items-start mb-10">
+                    {/* Spalte 1: Bild Upload und Vorschau */}
+                    <div className="w-full md:w-1/3 flex flex-col items-center">
+                        <label className="flex items-center justify-center gap-2 px-4 py-3 bg-teal-dark border border-forest-green text-white font-medium rounded-full cursor-pointer shadow-sm hover:bg-forest-green transition text-sm w-full text-center animate-bounce-on-hover">
+                            <ImagePlus className="w-5 h-5 text-white" />
+                            <span>Bild auswählen</span>
+                            <input
+                                type="file"
+                                onChange={(e) => {
+                                    setFile(e.target.files[0]);
+                                    setPreview(URL.createObjectURL(e.target.files[0]));
+                                }}
+                                className="hidden"
+                            />
+                        </label>
 
-export default AdminGalleryPage;
+
+                        {preview && (
+                            <img
+                                src={preview}
+                                alt="Vorschau"
+                                className="mt-4 w-full max-h-100 object-cover "
+                            />
+                        )}
+                    </div>
+
+                    {/* Spalte 2: Beschreibung + Button */}
+                    <div className="flex-1 w-full flex flex-col gap-4">
+                        <input
+                            type="text"
+                            placeholder="Bildbeschreibung..."
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            className="border border-caramel rounded-xl px-4 py-2 text-gray font-spectral focus:outline-none focus:ring-2 focus:ring-caramel"
+                        />
+
+                        <button
+                            onClick={handleUpload}
+                            className="self-start bg-caramel hover:bg-chocolate text-off-white px-6 py-3 rounded-full flex items-center gap-2 font-haute-couture shadow-lg animate-bounce-on-hover transition"
+                        >
+                            <Plus size={20} /> Hochladen
+                        </button>
+                    </div>
+                </div>
+
+                <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
+                    <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
+                            <tr>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Vorschau</th>
+                                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600">Beschreibung</th>
+                                <th className="px-6 py-4 text-center text-sm font-semibold text-gray-600">Aktion</th>
+                            </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                            {images.map((img) => (
+                                <tr key={img._id} className="hover:bg-gray-50">
+                                    <td className="px-6 py-4">
+                                        <img src={img.url} alt="preview" className="h-24 rounded-lg object-cover" />
+                                    </td>
+                                    <td className="px-6 py-4 text-gray-700">{img.description}</td>
+                                    <td className="px-6 py-4 text-center">
+                                        <button
+                                            onClick={() => handleDelete(img._id)}
+                                            className="text-red-600 hover:text-red-800"
+                                            title="Löschen"
+                                        >
+                                            <X size={22} />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                            {images.length === 0 && (
+                                <tr>
+                                    <td colSpan="3" className="px-6 py-6 text-center text-gray-400">
+                                        Keine Bilder vorhanden.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default AdminGallery;

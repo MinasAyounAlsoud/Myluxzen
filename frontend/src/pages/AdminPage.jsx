@@ -1,61 +1,66 @@
-/*import { NavLink } from 'react-router-dom';
-import { Outlet } from 'react-router-dom';
-export function AdminPage() {
-    const Navbar = () => {
-        return (
-          <nav className="bg-gray-800 text-white p-4">
-            <ul className="flex space-x-4">
-              <li className='cursor-pointer hover:text-[#FAE1A8]'>
-                  <NavLink to="bookings-manage">BuchungsVerhandlung</NavLink>
-              </li>
-              <li className='cursor-pointer hover:text-[#FAE1A8]'>
-                <NavLink to="singleHouse-query">Häuseranfrage</NavLink>  
-              </li>    
-              <li className='cursor-pointer hover:text-[#FAE1A8]'>
-                <NavLink to="booking-edit">Buchungsticket bearbeiten</NavLink>  
-              </li>         
-            </ul>
-          </nav>
-        );
-    }
-    return (
-        <div className=''>
-          <Navbar></Navbar>
-          <Outlet /> 
-        </div>
-    );
-}
-
-*/
-
-import { NavLink ,Navigate} from 'react-router-dom';
-import { Outlet } from 'react-router-dom';
+import { useContext,useEffect } from "react";
+import { NavLink, Outlet, useNavigate, Navigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import { useContext } from "react";
+
 export function AdminPage() {
-    const Navbar = () => {
-      const { user} = useContext(AuthContext);
-      if (!user || !user.isAuthenticated || !user.isAdmin) {
-        return <Navigate to="/" replace />;
-      }
-  
-        return (
-          <nav className="bg-gray-800 text-white p-4">
-            <ul className="flex space-x-4">
-              <li className='cursor-pointer hover:text-[#FAE1A8]'>
-                  <NavLink to="bookings-query">Buchungsanfrage</NavLink>
-                </li>
-              <li className='cursor-pointer hover:text-[#FAE1A8]'>
-                  <NavLink to="bookings-manage">Buchungsverwaltung</NavLink>  
-              </li>
-            </ul>
-          </nav>
-        );
-    }  
+
+  const Navbar = () => {
+    const navigate = useNavigate();
+    const {user} = useContext(AuthContext);
+    if (!user || !user.isAuthenticated || !user.isAdmin) {
+      return <Navigate to="/" replace />;
+    }
+      const getLinkClass = ({ isActive }) =>
+      isActive
+        ? "text-[#FAE1A8] underline underline-offset-4"
+        : "hover:text-[#FAE1A8]";
+
     return (
-        <div className=''>
-          <Navbar></Navbar>
-          <Outlet /> 
-        </div>
+      <nav className="bg-gray-800 text-white p-4">
+        <ul className="flex space-x-4">
+          <li className="cursor-pointer">
+            <NavLink to="bookings-manage" className={getLinkClass}>
+              BuchungsVerhandlung
+            </NavLink>
+          </li>
+          {/* Xiangyu */}
+          <li className="cursor-pointer">
+            <NavLink to="booking-timeline" className={getLinkClass}>
+            Reservierungszeitlinie
+            </NavLink>
+          </li>
+          <li className="cursor-pointer">
+            <NavLink to="singleHouse-query" className={getLinkClass}>
+            Häuseranfrage
+            </NavLink>
+          </li>
+          <li className="cursor-pointer">
+            <NavLink to="booking-edit" className={getLinkClass}>
+              Buchungsticket bearbeiten
+            </NavLink>
+          </li>
+          {/*Zahra*/}
+          <li className="cursor-pointer">
+            <NavLink to="gallery" className={getLinkClass}>
+              Galerie
+            </NavLink>
+          </li>
+          <li className="cursor-pointer hover:text-[#FAE1A8]">
+            <NavLink to="HausBeschreibung">HausBeschreibung</NavLink>
+          </li>
+          <li className="cursor-pointer hover:text-[#FAE1A8]">
+            <NavLink to="reviews">Reviews</NavLink>
+          </li>
+        </ul>
+      </nav>
     );
+  };
+
+  return (
+    <div>
+      <Navbar />
+      <Outlet />
+    </div>
+  );
 }
+

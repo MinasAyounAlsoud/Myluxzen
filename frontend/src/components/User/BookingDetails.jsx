@@ -137,8 +137,8 @@ const BookingDetails = () => {
                             )}
 
                             {booking.status === "Canceled" && (
-                                <div className="mt-4 p-2 bg-[#e6f2f1] text-[#0e5756] rounded-md">
-                                    <p className="font-medium" > Sie haben diese Buchung storniert.</p>
+                                <div className="mt-4 p-2 bg-[#e6f2f1] text-[#0e5756] rounded-md" style={{ fontFamily: 'Merriweather, serif' }}>
+                                    <p className="font-bold" > Sie haben diese Buchung storniert.</p>
                                 </div>
                             )}
                         </div>
@@ -148,7 +148,7 @@ const BookingDetails = () => {
 
              {/* ✅ Bestätigungs-Popup für Stornierung */}
              {showConfirm && selectedBooking && (
-                <div className="fixed inset-0 flex items-center justify-center p-5">
+                <div className="fixed inset-0 flex items-center justify-center p-5" style={{ fontFamily: 'Merriweather, serif' }}>
                     <div className="bg-[#e6f2f1] p-6 rounded-xl shadow-xl border border-gray-200 max-w-sm w-full text-center">
                         <h3 className="text-xl font-semibold text-gray-700">Buchung stornieren?</h3>
                         <p className="text-gray-600 mt-3">

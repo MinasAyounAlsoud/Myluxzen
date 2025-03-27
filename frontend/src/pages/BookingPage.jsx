@@ -22,6 +22,7 @@ export const BookingPage = ()=>{
     useEffect(()=>{
         if(user !== null){
             const initState = {
+                bookingNumber: `BOOK${Math.floor(1000 + Math.random() * 9000)}`, 
                 guestFirstName : user !== null ?user.vorname : "",
                 guestFamilyName: user !== null ?user.nachname : "",
                 email: user !== null ?user.email : "",
@@ -39,6 +40,7 @@ export const BookingPage = ()=>{
             setNewBooking(initState);
         }else{
             const initState = {
+                bookingNumber: `BOOK${Math.floor(1000 + Math.random() * 9000)}`, 
                 guestFirstName : "",
                 guestFamilyName: "",
                 email: "",

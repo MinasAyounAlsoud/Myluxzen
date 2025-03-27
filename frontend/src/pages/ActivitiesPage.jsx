@@ -2,8 +2,9 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FaChevronDown } from "react-icons/fa";
-import activities from "../dataJson/activitiesData1.json"; // Pfad anpassen
+import activities from "../dataJson/activitiesData.json"; // Pfad anpassen
 import mainBild from "../assets/imageNaheeda/main5.jpg"
+// import mainBild from "../assets/imageNaheeda/main2.avif"
 import contactImage from "../assets/imageNaheeda/rezeption4.jpg"; // dein Kontaktbild
 import { FaArrowLeft, FaArrowUp, FaEnvelope, FaPhone } from "react-icons/fa";
 import NavbarMini from "../components/navbarMini/NavbarMini";

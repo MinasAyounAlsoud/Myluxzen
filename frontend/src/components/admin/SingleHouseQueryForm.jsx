@@ -3,7 +3,8 @@ import DatePicker from 'react-datepicker';
 export function SingleHouseQueryForm({ handleSearch }) { 
     const [formData, setFormData] = useState({
         houseType: '',
-        isAvailable: '',
+        adminReservedInuse: '',
+        guestReserved: "",
         houseNum: '',
     });
     const handleChange = (e) => {
@@ -21,7 +22,7 @@ export function SingleHouseQueryForm({ handleSearch }) {
         console.log("SingleHouseQueryForm",formData)
     },[formData]);
     return (
-        <form onSubmit={handleSubmit} className="space-y-4 px-10 py-2 lg:w-3/5 mx-auto my-10 px-10">
+        <form onSubmit={handleSubmit} className="space-y-4 px-10 py-2 lg:w-4/5 mx-auto my-10 px-10">
             <div>
                 <label className="block text-sm font-medium text-gray-700">Haus Type:</label>
                 <select name="houseType" value={formData.houseType} onChange={handleChange}
@@ -35,37 +36,70 @@ export function SingleHouseQueryForm({ handleSearch }) {
                 </select>
             </div>
             <div>
-                <label className="block text-sm font-medium text-gray-700">Verfügbar:</label>
+                <label className="block text-sm font-medium text-gray-700">Admin Reseviert:</label>
                 <div className='flex space-x-4'>
                     <label>
                         <input
                             type="radio"
-                            name="isAvailable"
+                            name="adminReservedInuse"
                             value="true"
-                            checked={formData.isAvailable === 'true'}
+                            checked={formData.adminReservedInuse === 'true'}
                             onChange={handleChange}
                         /> Ja
                     </label>
                     <label>
                         <input
                             type="radio"
-                            name="isAvailable"
+                            name="adminReservedInuse"
                             value="false"
-                            checked={formData.isAvailable === 'false'}
+                            checked={formData.adminReservedInuse === 'false'}
                             onChange={handleChange}
                         /> Nein
                     </label>
                     <label>
                         <input
                             type="radio"
-                            name="isAvailable"
+                            name="adminReservedInuse"
                             value=""
-                            checked={formData.isAvailable === ''}
+                            checked={formData.adminReservedInuse === ''}
                             onChange={handleChange}
                         /> Alle
                     </label>
                 </div>
             </div>
+            <div>
+                <label className="block text-sm font-medium text-gray-700">Gäste Reseviert:</label>
+                <div className='flex space-x-4'>
+                    <label>
+                        <input
+                            type="radio"
+                            name="guestReserved"
+                            value="true"
+                            checked={formData.guestReserved === 'true'}
+                            onChange={handleChange}
+                        /> Ja
+                    </label>
+                    <label>
+                        <input
+                            type="radio"
+                            name="guestReserved"
+                            value="false"
+                            checked={formData.guestReserved === 'false'}
+                            onChange={handleChange}
+                        /> Nein
+                    </label>
+                    <label>
+                        <input
+                            type="radio"
+                            name="guestReserved"
+                            value=""
+                            checked={formData.guestReserved === ''}
+                            onChange={handleChange}
+                        /> Alle
+                    </label>
+                </div>
+            </div>
+
             <div>
                 <label className="block text-sm font-medium text-gray-700">Haus Nummer:</label>
                 <input

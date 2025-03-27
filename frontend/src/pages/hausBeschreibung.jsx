@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-
+import MiniNavbar from "../components/navbarMini/NavbarMini";
+import Footer from "../components/footer/Footer";
 const ApartmentCard = ({ apartment, onClick }) => {
   return (
     <div
@@ -158,25 +159,26 @@ export function ApartmentsList() {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <h1 className="text-3xl font-bold text-center text-[#116769] mb-6">
-        Verfügbare Apartments
-      </h1>
-      <div className="flex flex-col gap-6 items-center">
-        {apartments.map((apartment, index) => (
-          <ApartmentCard
-            key={index}
-            apartment={apartment}
-            onClick={setSelectedApartment}
+    <div>
+      <MiniNavbar />
+      <div className="max-w-6xl mx-auto p-6">
+        <div className="flex flex-col gap-6 items-center">
+          {apartments.map((apartment, index) => (
+            <ApartmentCard
+              key={index}
+              apartment={apartment}
+              onClick={setSelectedApartment}
+            />
+          ))}
+        </div>
+        {selectedApartment && (
+          <ApartmentModal
+            apartment={selectedApartment}
+            onClose={() => setSelectedApartment(null)}
           />
-        ))}
+        )}
       </div>
-      {selectedApartment && (
-        <ApartmentModal
-          apartment={selectedApartment}
-          onClose={() => setSelectedApartment(null)}
-        />
-      )}
+      <Footer />
     </div>
   );
 }

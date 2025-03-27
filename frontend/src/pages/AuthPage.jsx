@@ -9,7 +9,7 @@ import useServerErrorHandler from "../components/User/ErrorHandler";
 const AuthPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { setUser } = useContext(AuthContext);
+    const {user, setUser } = useContext(AuthContext);
 
     // Liest "register" Parameter aus der URL (true oder false)
     const queryParams = new URLSearchParams(location.search);
@@ -26,15 +26,37 @@ const AuthPage = () => {
     const [errors, setErrors] = useState({});
     const [passwordError, setPasswordError] = useState("");
     const errorHandler = useServerErrorHandler(setErrors);
-
+    
+    const resetForm = () => {
+        setVorname("");
+        setNachname("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+        setErrors({});
+    };
+    
     useEffect(() => {
         setIsRegister(initialIsRegister);
         setErrors({}); // Fehler zurücksetzen, wenn sich die Seite ändert
     }, [initialIsRegister]);
-
+    useEffect(() => {
+        if (user?.isAuthenticated) {
+            setErrors({
+                general: "Du bist bereits eingeloggt. Bitte melde dich ab, um einen anderen Account zu verwenden."
+            });
+        } else {
+            setErrors({});
+        }
+    }, [user]);
+    
     const handleAuth = async (e) => {
         e.preventDefault();
         setErrors({});
+        if (user?.isAuthenticated) {
+            setErrors({ general: "Du bist bereits eingeloggt. Bitte melde dich ab, um dich erneut anzumelden." });
+            return;
+        }
         if (!email || !password || (isRegister && (!vorname || !nachname))) {
             setErrors({ general: "Bitte fülle alle erforderlichen Felder aus." });
             return;
@@ -186,7 +208,10 @@ return (
                     </form>
 
                     <div className="text-center mt-10">
-                        <button onClick={() => navigate(`/auth?register=${!isRegister}`)}
+                    <button  onClick={() => {
+                        resetForm();
+                        navigate(`/auth?register=${!isRegister}`);
+                         }}
                             className="text-[#0e5756] font-medium hover:text-[#116769] transition">
                             {isRegister ? (
                                 <>Bereits ein Konto? <span className="font-bold underline">Hier einloggen</span></>

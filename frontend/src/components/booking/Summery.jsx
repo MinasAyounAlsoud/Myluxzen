@@ -25,6 +25,7 @@ export const Summery = ({newBooking, completed})=>{
             </div>)}
             <div className="flex justify-between items-center my-2">
                 <div>{newBooking.houseTitle}</div>
+                {newBooking.houseNum && <div className="flex space-x-2"><p>Hausnummer: </p><p>{newBooking.houseNum}</p></div>}
                 {/* <button className="px-4 py-2 rounded border border-gray-300 text-xs">More details</button> */}
             </div>
             <div className="border-t border-gray-200 my-4"></div>

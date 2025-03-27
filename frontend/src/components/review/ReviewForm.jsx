@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 
 export function ReviewForm({ onReviewAdded }) {
   const [review, setReview] = useState({
@@ -11,8 +12,18 @@ export function ReviewForm({ onReviewAdded }) {
     title: "",
     comment: "",
   });
-
   const [success, setSuccess] = useState(false);
+  const { user } = useContext(AuthContext);
+  useEffect(() => {
+    if (user) {
+      setReview((prevReview) => ({
+        ...prevReview,
+        name: `${user.vorname ?? ""} ${user.nachname ?? ""}`.trim(),
+        email: user.email || "",
+      }));
+    }
+  }, [user]);
+  console.log("Benutzerdaten aus useContext:", user);
 
   const handleChange = (e) => {
     setReview({ ...review, [e.target.name]: e.target.value });

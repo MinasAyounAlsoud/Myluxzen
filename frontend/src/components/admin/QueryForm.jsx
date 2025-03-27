@@ -1,14 +1,7 @@
 import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
-export function QueryForm({ handleSearch }) { 
-    const [formData, setFormData] = useState({
-        bookingNum: "",
-        email: '',
-        guestFirstName: '',
-        guestFamilyName: '',
-        queryStartDate: '',
-        queryEndDate: ''
-    });
+export function QueryForm({ handleSearch,formData, setFormData }) { 
+
     useEffect(()=>{
         console.log("query form data", formData)
     },[formData]);
@@ -23,17 +16,27 @@ export function QueryForm({ handleSearch }) {
         }));
     };
     const handleStartDateChange = (date) => {
+        if (date) {
+          date.setHours(14, 0, 0, 0);  // Set time to 14:00:00
+        }
         setFormData(prev => ({
             ...prev,
-            queryStartDate: date === null ? "": date
-        }));
-    };
-    const handleEndDateChange = (date) => {
+            queryStartDate: date ? date.toISOString() : null
+          }));
+      };
+      
+      const handleEndDateChange = (date) => {
+        if (date) {
+          date.setHours(11, 0, 0, 0);  // Set time to 11:00:00
+        }
         setFormData(prev => ({
             ...prev,
-            queryEndDate: date === null ? "": date 
-        }));
-    };
+            queryEndDate: date ? date.toISOString() : null
+          }));
+      
+      };
+      
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         handleSearch(formData); 
@@ -82,6 +85,39 @@ export function QueryForm({ handleSearch }) {
                 />
             </div>
         </div>
+            <div className="flex justify-between space-x-4">
+                <div className="w-1/2">
+                    <label className="block text-sm font-medium text-gray-700">Haus Type:</label>
+                    <select
+                        name="houseType"
+                        value={formData.houseType}
+                        onChange={handleChange}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    >
+                        <option value="">{""}</option>
+                        <option value="HouseType1">HouseType1</option>
+                        <option value="HouseType2">HouseType2</option>
+                        <option value="HouseType3">HouseType3</option>
+                        <option value="HouseType4">HouseType4</option>
+                        <option value="HouseType5">HouseType5</option>
+                    </select>
+                </div>
+                <div className="w-1/2">
+                    <label className="block text-sm font-medium text-gray-700">Zustand:</label>
+                    <select
+                        name="status"
+                        value={formData.status}
+                        onChange={handleChange}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    >
+                        <option value="">{""}</option>
+                        <option value="Active">Active</option>
+                        <option value="CheckedIn">CheckedIn</option>
+                        <option value="CheckedOut">CheckedOut</option>
+                        <option value="Canceled">Canceled</option>
+                    </select>
+                </div>
+            </div>
             <div className="flex flex-col lg:flex-row w-full justify-start lg:justify-between space-y-4 lg:space-y-0 lg:space-x-4">
                 <div className={`bg-white p-1 border rounded-lg shadow px-4 py-1 lg:flex-1 `}>
                 <p className="text-sm text-gray-500">Startdatum</p>
@@ -96,6 +132,8 @@ export function QueryForm({ handleSearch }) {
                     placeholderText="--"
                     className="text-black font-bold text-xl"
                     calendarClassName="datePickerCalendar"
+                    dateFormat="dd.MM.yyyy"
+
                 />
                 </div>
                 <div className={`bg-white p-1 border rounded-lg shadow px-4 py-1 lg:flex-1 `}>
@@ -110,6 +148,8 @@ export function QueryForm({ handleSearch }) {
                     placeholderText="--"
                     className="text-black font-bold text-xl"
                     calendarClassName="datePickerCalendar"
+                    dateFormat="dd.MM.yyyy"
+
                 />
                 </div>
             </div>
