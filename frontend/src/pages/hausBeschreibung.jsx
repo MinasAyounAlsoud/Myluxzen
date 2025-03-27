@@ -96,7 +96,7 @@ const ApartmentModal = ({ apartment, onClose }) => {
                 <img
                   src={image}
                   alt={`Apartment image ${index + 1}`}
-                  className="w-full h-120 object-cover rounded-lg"
+                  className="w-full h-130 object-cover rounded-lg"
                 />
               </div>
             ))}
@@ -162,7 +162,7 @@ export function ApartmentsList() {
     <div>
       <MiniNavbar />
       <div className="max-w-6xl mx-auto p-6">
-        <div className="flex flex-col gap-6 items-center">
+        <div className="flex flex-col gap-6 items-center mt-7">
           {apartments.map((apartment, index) => (
             <ApartmentCard
               key={index}

@@ -146,7 +146,7 @@ export function AdminHausBeschreibung() {
               <div className="mt-6 flex justify-between">
                 <button
                   onClick={() => handleEditClick(house)}
-                  className="bg-gray-800 text-white px-6 py-3 rounded-md hover:bg-gray-500 "
+                  className="bg-gray-800 text-white px-6 py-3 rounded-md cursor-pointer hover:text-[#fae1a8]"
                 >
                   Bearbeiten
                 </button>
@@ -294,7 +294,7 @@ export function AdminHausBeschreibung() {
 
           <button
             onClick={updateHouse}
-            className="mt-4 bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-500"
+            className="mt-4 bg-gray-800 text-white px-4 py-2 rounded-md cursor-pointer hover:text-[#fae1a8]"
           >
             Speichern
           </button>

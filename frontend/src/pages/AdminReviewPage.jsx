@@ -44,19 +44,21 @@ export function AdminReviewPage() {
                 <p className="text-gray-600">
                   <strong>Email:</strong> {review.email}
                 </p>
-                <p className="text-gray-700 mt-2">{review.comment}</p>
+                <p className="text-gray-700 mt-2  overflow-y-auto break-words">
+                  {review.comment}
+                </p>
               </div>
 
               <div className="mt-4 flex justify-between">
                 <button
                   onClick={() => updateReview(review._id, true)}
-                  className="mt-3 bg-gray-800 text-white px-4 py-2 rounded-md "
+                  className="mt-3 bg-gray-800 text-white px-4 py-2 rounded-md cursor-pointer hover:text-[#fae1a8] "
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => handleReject(review._id)}
-                  className="mt-3 bg-gray-400 text-white px-4 py-2 rounded-md "
+                  className="mt-3 bg-gray-400 text-white px-4 py-2 rounded-md cursor-pointer hover:text-[#fae1a8] "
                 >
                   Reject
                 </button>
