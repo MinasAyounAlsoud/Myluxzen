@@ -11,6 +11,7 @@ import {
 } from "yet-another-react-lightbox/plugins";
 import "yet-another-react-lightbox/plugins/captions.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
+import "../../styles/extra.css";
 
 const Gallerie = () => {
   const [index, setIndex] = useState(-1);
@@ -59,31 +60,45 @@ const Gallerie = () => {
 
       {/*  Lightbox avec miniatures (thumbnails) */}
       <Lightbox
-        plugins={[Captions, Download, Fullscreen, Zoom, Thumbnails]}
-        index={index}
-        open={index >= 0}
-        close={() => setIndex(-1)}
-        slides={images.map((image) => ({
-          src: image.url, 
-          width: 1200,
-          height: 800,
-          title: image.description, // Ajout de la description
-        }))}
-        thumbnails={{
-          position: "bottom",
-          width: 100,
-          height: 70,
-          border: 2,
-          borderRadius:0,
-          gap: 5,
-        }}
-        styles={{
-          container: { backgroundColor: "rgba(222, 222, 222, 1)" },
-          image: { objectFit: "contain", maxHeight: "90vh" },
-          icon: { color: "white" }, // Toutes les icônes en blanc
-          
-        }}
-      />
+  plugins={[Captions, Download, Fullscreen, Zoom, Thumbnails]}
+  index={index}
+  open={index >= 0}
+  close={() => setIndex(-1)}
+  slides={images.map((image) => ({
+    src: image.url,
+    width: 1200,
+    height: 800,
+    title: image.description,
+  }))}
+  thumbnails={{
+    position: "bottom",
+    width: 100,
+    height: 70,
+    border: 2,
+    borderRadius: 0,
+    gap: 5,
+  }}
+  styles={{
+    container: { backgroundColor: "rgba(222, 222, 222, 1)" },
+    image: { objectFit: "contain", maxHeight: "90vh" },
+    icon: {
+      color: "white",
+      transition: "transform 0.2s ease, filter 0.2s ease",
+    },
+    iconButton: {
+      className: "lightbox-icon-button",
+    },
+  }}
+  render={{
+    // 👉 Custom caption au-dessus de l’image
+    caption: ({ slide }) => (
+      <div className="absolute top-0 left-0 w-full text-center text-black text-xl font-semibold bg-white/80 py-3 z-50">
+        {slide.title}
+      </div>
+    ),
+  }}
+/>
+
     </>
   );
 };

@@ -5,57 +5,60 @@ import { sendEmailToClient } from "../utils/emailService.js";
 
 const router = express.Router();
 
-// ✅ 1. Route POST : client envoie un message (stocké dans MongoDB)
+// ✅ 1. POST-Route: Kunde sendet eine Nachricht (wird in MongoDB gespeichert)
 router.post("/", async (req, res) => {
   try {
     const { name, email, message } = req.body;
 
-    const newMsg = new EmailMessage({
+    const neueNachricht = new EmailMessage({
       name,
       email,
       message,
     });
 
-    await newMsg.save();
+    await neueNachricht.save();
 
-    res.status(201).json({ message: "Message enregistré en base de données" });
+    res.status(201).json({ message: "Nachricht erfolgreich gespeichert." });
   } catch (error) {
-    console.error("Erreur POST /api/contact :", error);
-    res.status(500).json({ error: "Erreur serveur lors de l'enregistrement" });
+    console.error("Fehler bei POST /api/contact:", error);
+    res.status(500).json({ error: "Serverfehler beim Speichern der Nachricht." });
   }
 });
 
-// ✅ 2. Route GET : admin récupère tous les messages
+// ✅ 2. GET-Route: Admin ruft alle Nachrichten ab
 router.get("/all", async (req, res) => {
   try {
-    const messages = await EmailMessage.find().sort({ createdAt: -1 });
-    res.status(200).json(messages);
+    const nachrichten = await EmailMessage.find().sort({ createdAt: -1 });
+    res.status(200).json(nachrichten);
   } catch (error) {
-    console.error("Erreur GET /api/contact/all :", error);
-    res.status(500).json({ error: "Erreur serveur lors de la récupération" });
+    console.error("Fehler bei GET /api/contact/all:", error);
+    res.status(500).json({ error: "Serverfehler beim Abrufen der Nachrichten." });
   }
 });
 
-// ✅ 3. Route POST : admin répond à un message
+// ✅ 3. POST-Route: Admin antwortet auf eine Nachricht
 router.post("/reply", async (req, res) => {
   const { id, email, responseText } = req.body;
 
   try {
+    // Antwort per E-Mail senden
     await sendEmailToClient({
       to: email,
       subject: "Antwort von MyLuxZen",
-      text: responseText
+      text: responseText,
     });
 
+    // Nachricht in der Datenbank aktualisieren
     await EmailMessage.findByIdAndUpdate(id, {
       status: "replied",
-      reply: responseText
+      reply: responseText,
+      repliedAt: new Date(), // Optional: Zeitpunkt der Antwort speichern
     });
 
-    res.status(200).json({ message: "Réponse envoyée et message mis à jour" });
+    res.status(200).json({ message: "Antwort erfolgreich gesendet und Nachricht aktualisiert." });
   } catch (error) {
-    console.error("Erreur POST /api/contact/reply :", error);
-    res.status(500).json({ error: "Erreur lors de l'envoi de la réponse" });
+    console.error("Fehler bei POST /api/contact/reply:", error);
+    res.status(500).json({ error: "Fehler beim Senden der Antwort." });
   }
 });
 
