@@ -1,5 +1,5 @@
 
-//NavbarLinks
+//zahra NavbarLinks
 import React, { useEffect, useRef } from "react";
 import { Link as ScrollLink } from "react-scroll";
 import { NavLink } from "react-router-dom";
@@ -31,13 +31,12 @@ const NavbarLinks = ({ isMenuOpen, closeMenu }) => {
 
   return (
     <ul
-      ref={menuRef}
-      className={`${
-        isMenuOpen
-          ? "flex flex-col items-center absolute top-full left-0 right-0 bg-white p-4 gap-4 sm:bg-cyan/30 backdrop-blur-lg z-10 w-full"
-          : "hidden"
-      } lg:flex lg:flex-row lg:gap-8 lg:bg-transparent lg:text-white font-body sm:w-full py-4 sm:text-xl lg:text-base text-center justify-center mx-auto`}
-    >
+    ref={menuRef}
+    className={`${
+      isMenuOpen ? "flex" : "hidden"
+    } flex-col items-center absolute top-full left-0 right-0 bg-white p-4 gap-4 sm:bg-cyan/30 backdrop-blur-lg z-10 w-full
+    lg:static lg:flex lg:flex-row lg:gap-8 lg:bg-transparent lg:text-white font-body sm:w-full py-4 sm:text-xl lg:text-base text-center justify-center mx-auto`}
+  >
       {links.map((link, index) => (
         <li key={index} className="group navbar-link">
           {link.type === "scroll" ? (
