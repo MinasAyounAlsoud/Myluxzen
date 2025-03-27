@@ -157,7 +157,7 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
           Häuser
       </div>
       <h2 className="pb-1">Wählen Sie das perfekte Zimmer für Ihren Aufenthalt.</h2>
-      {errorMessage !== "" ? <p className='text-red-500 text-sm'>{errorMessage}</p>
+      {errorMessage !== "" ? <p className='text-[#9C785E] text-sm'>{errorMessage}</p>
           : <p className="text-transparent text-sm">Placeholder</p>}
       {availableRooms.length > 0 ? (
       <ul className="flex flex-col gap-6 items-center pb-10">

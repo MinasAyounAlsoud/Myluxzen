@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { RxCrossCircled } from "react-icons/rx";
 
 export function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, errLastName}) {
+  
   const [focusedField, setFocusedField] = useState(null);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,8 +21,8 @@ export function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, 
   <div className="w-full">
     <form className="space-y-10">
       <div>
-          <div className={`relative border rounded-lg  ${focusedField === 'email' || newBooking.email ? 'border-gray-700' : 'border-gray-300'} p-2`}>
-            <label htmlFor="email" className={`absolute text-gray-700 transition-all ${focusedField === 'email' || newBooking.email ? 'text-sm top-0' : 'text-lg top-1/2 transform -translate-y-1/2'}`}>
+          <div className={`relative border rounded-lg ${focusedField === 'email'  ? 'border-gray-700' : (errEmail ? 'border-[#9C785E] ' : 'border-gray-300')} p-2`}>
+            <label htmlFor="email" className={`absolute text-gray-700 transition-all ${focusedField === 'email' || newBooking.email ? 'text-sm top-0' : 'text-lg top-1/2 transform -translate-y-1/2'} `}>
               Email:
             </label>
             <input
@@ -41,12 +42,12 @@ export function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, 
                 <RxCrossCircled />
             </button>
           </div>
-          {errEmail ? <p className='text-red-500 text-sm'>Provide your email address.</p>
+          {errEmail ? <p className='text-[#9C785E] text-sm'>Provide your email address.</p>
                     : <p className="text-transparent text-sm">Placeholder</p>}
       </div>
       <div className="flex space-x-4">
         <div className="flex-1">
-            <div className={`relative border rounded-lg  ${focusedField === 'guestFirstName' || newBooking.newBooking ? 'border-gray-700' : 'border-gray-300'} p-2`}>
+            <div className={`relative border rounded-lg  ${focusedField === 'guestFirstName'  ? 'border-gray-700' : (errFirstName? 'border-[#9C785E] ' : 'border-gray-300')} p-2`}>
               <label htmlFor="guestFirstName" className={`absolute text-gray-700 transition-all ${focusedField === 'guestFirstName' || newBooking.guestFirstName ? 'text-sm top-0' : 'text-lg top-1/2 transform -translate-y-1/2'}`}>
                 Vorname:
               </label>
@@ -68,11 +69,11 @@ export function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, 
                 <RxCrossCircled />
               </button>
             </div>
-            {errFirstName ? <p className='text-red-500 text-sm'>Provide your first name.</p>
+            {errFirstName ? <p className='text-[#9C785E] text-sm'>Provide your first name.</p>
                     : <p className="text-transparent text-sm">Placeholder</p>}
         </div>
         <div className="flex-1">
-          <div className={`relative border rounded-lg  ${focusedField === 'guestFamilyName' || newBooking.guestFamilyName ? 'border-gray-700' : 'border-gray-300'} p-2`}>
+          <div className={`relative border rounded-lg  ${focusedField === 'guestFamilyName'  ? 'border-gray-700' : (errLastName ? 'border-[#9C785E] ' : 'border-gray-300')} p-2`}>
             <label htmlFor="guestFamilyName" className={`absolute text-gray-700 transition-all ${focusedField === 'guestFamilyName' || newBooking.guestFamilyName ? 'text-sm top-0' : 'text-lg top-1/2 transform -translate-y-1/2'}`}>
               Nachname:
             </label>
@@ -94,11 +95,11 @@ export function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, 
               <RxCrossCircled />
             </button>
           </div>
-          {errLastName ? <p className='text-red-500 text-sm'>Provide your last name.</p>
+          {errLastName ? <p className='text-[#9C785E] text-sm'>Provide your last name.</p>
                       : <p className="text-transparent text-sm">Placeholder</p>}
         </div>
       </div>
-      <div className={`relative border rounded-lg  ${focusedField === 'mobileNumber' || newBooking.mobileNumber ? 'border-gray-700' : 'border-gray-300'} p-2`}>
+      <div className={`relative border rounded-lg  ${focusedField === 'mobileNumber'? 'border-gray-700' : 'border-gray-300'} p-2`}>
         <label htmlFor="mobileNumber" className={`absolute text-gray-700 transition-all ${focusedField === 'mobileNumber' || newBooking.mobileNumber ? 'text-sm top-0' : 'text-lg top-1/2 transform -translate-y-1/2'}`}>
           Telefonnummer:
         </label>
@@ -119,7 +120,7 @@ export function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, 
           <RxCrossCircled />
         </button>
       </div>
-      <div className={`relative border rounded-lg  ${focusedField === 'comments' || newBooking.comments ? 'border-gray-700' : 'border-gray-300'} p-2`}>
+      <div className={`relative border rounded-lg  ${focusedField === 'comments'? 'border-gray-700' : 'border-gray-300'} p-2`}>
         <label htmlFor="comments" className={`absolute text-gray-700 transition-all ${focusedField === 'comments' || newBooking.comments ? 'text-sm top-0' : 'text-lg top-1/2 transform -translate-y-1/2'}`}>
           Kommentare (optional):
         </label>

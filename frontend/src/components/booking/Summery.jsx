@@ -30,10 +30,10 @@ export const Summery = ({newBooking, completed})=>{
             </div>
             <div className="border-t border-gray-200 my-4"></div>
             <div className='text-gray-700'>Datum: </div>
-            <div className='flex justify-between'>
+            {(newBooking.startDate && newBooking.endDate )&&<div className='flex justify-between'>
                 <div>{formatDate(newBooking.startDate)} - {formatDate(newBooking.endDate)}</div>
                 {newBooking.totalDays} {newBooking.totalDays === 1 ? 'Tag' : 'Tage'}
-            </div>
+            </div>}
             <div>{newBooking.guestCount} Gast{newBooking.guestCount > 1 ? 'e' : ''}</div>
             <div className="border-t border-gray-200 my-4"></div>
             <div >

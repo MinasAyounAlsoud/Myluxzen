@@ -1,8 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import "../../styles/booking.css";
+import { RxCrossCircled } from "react-icons/rx";
 
-export function DateRangePicker({ newBooking, setNewBooking, errStartDate, errEndDate }) {
+export function DateRangePicker({ newBooking, setNewBooking, errStartDate, errEndDate, focusedField, setFocusedField }) {
   const parseDate = (date) => {
     return date && date !== "" ? new Date(date) : null;
   };
@@ -30,13 +32,21 @@ export function DateRangePicker({ newBooking, setNewBooking, errStartDate, errEn
       };
     });
   };
-  useEffect(()=>{
-    if(newBooking.startDate > newBooking.endDate)
+  const handleStartDateClear = ()=>{
     setNewBooking(prev => ({
-      ...prev,
-      endDate: null,
-      totalDays : 0
-    }));
+        ...prev,
+        startDate: null
+      }));
+  }
+  useEffect(()=>{
+    if(!newBooking.startDate || newBooking.startDate > newBooking.endDate){
+      setNewBooking(prev => ({
+        ...prev,
+        endDate: null,
+        totalDays : 0
+      }));
+    }
+
   },[newBooking.startDate])
   const handleEndDateChange = (date) => {
     if (date) {
@@ -53,36 +63,64 @@ export function DateRangePicker({ newBooking, setNewBooking, errStartDate, errEn
       };
     });
   };
+  const handleEndDateClear = ()=>{
+    setNewBooking(prev => ({
+        ...prev,
+        endDate: null,
+        totalDays: 0
+      }));
+  }
+  const handleFocus = (name) => {
+    setFocusedField(name);
+  };
+
   return (
     <div className="flex flex-col lg:flex-row w-full justify-start lg:justify-between space-y-4 lg:space-y-0 lg:space-x-4">
-      <div className={`bg-white p-1 border rounded-lg shadow px-4 py-1 lg:flex-1 ${errStartDate ? 'border-red-500' : 'border-gray-300'}`}>
+      <div className={`bg-white p-1 border rounded-lg shadow px-4 py-1 lg:flex-1 ${focusedField === 'startDate'  ? 'border-gray-700' : (errStartDate ? 'border-[#9C785E] ' : 'border-gray-300')}`} onFocus={() => handleFocus('startDate')}
+      >
         <p className="text-sm text-gray-500">Check-In</p>
-        <DatePicker
-          selected={parseDate(newBooking.startDate)}
-          onChange={handleStartDateChange}
-          selectsStart
-          startDate={parseDate(newBooking.startDate) || new Date()}
-          endDate={parseDate(newBooking.endDate)}
-          minDate={new Date()}
-          // maxDate={parseDate(newBooking.endDate)}
-          placeholderText="--"
-          className="text-black font-bold text-xl"
-          calendarClassName="datePickerCalendar"
-        />
+        <div className='flex justify-between gap-2'>
+          <DatePicker
+            selected={parseDate(newBooking.startDate)}
+            onChange={handleStartDateChange}
+            selectsStart
+            startDate={parseDate(newBooking.startDate) || new Date()}
+            endDate={parseDate(newBooking.endDate)}
+            minDate={new Date()}
+            // maxDate={parseDate(newBooking.endDate)}
+            placeholderText="--"
+            className="text-black font-bold text-xl w-full"
+            calendarClassName="datePickerCalendar"
+          />
+          <button
+            type="button"
+            onClick={handleStartDateClear}
+            className=" text-gray-300 hover:text-gray-500 focus:outline-none ">
+              <RxCrossCircled />
+          </button>
+        </div>
       </div>
-      <div className={`bg-white p-1 border rounded-lg shadow px-4 py-1 lg:flex-1 ${errEndDate ? 'border-red-500' : 'border-gray-300'}`}>
+      <div className={`bg-white p-1 border rounded-lg shadow px-4 py-1 lg:flex-1 ${focusedField === 'endDate'  ? 'border-gray-700' : (errEndDate ? 'border-[#9C785E] ' : 'border-gray-300')}`} onFocus={() => handleFocus('endDate')}>
         <p className="text-sm text-gray-500">Check-out</p>
-        <DatePicker
-          selected={parseDate(newBooking.endDate)}
-          onChange={handleEndDateChange}
-          selectsEnd
-          startDate={parseDate(newBooking.startDate)}
-          endDate={parseDate(newBooking.endDate)}
-          minDate={newBooking.startDate ? new Date(newBooking.startDate) : new Date()}
-          placeholderText="--"
-          className="text-black font-bold text-xl"
-          calendarClassName="datePickerCalendar"
-        />
+        <div className='flex justify-between gap-2'>
+          <DatePicker
+            selected={parseDate(newBooking.endDate)}
+            onChange={handleEndDateChange}
+            selectsEnd
+            startDate={parseDate(newBooking.startDate)}
+            endDate={parseDate(newBooking.endDate)}
+            minDate={newBooking.startDate ? new Date(newBooking.startDate) : new Date()}
+            placeholderText="--"
+            className="text-black font-bold text-xl w-full"
+            calendarClassName="datePickerCalendar"
+          />
+          <button
+            type="button"
+            onClick={handleEndDateClear}
+            className=" text-gray-300 hover:text-gray-500 focus:outline-none">
+              <RxCrossCircled />
+          </button>
+        </div>
       </div>
     </div>
   );

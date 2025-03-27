@@ -6,6 +6,7 @@ export const DateSelect = ({newBooking, setNewBooking,gotoNextStep,setStepComple
     const [dateErrorMsg, setDateErrorMsg] = useState("");
     const [errStartDate, setErrStartDate] = useState(false);
     const [errEndDate, setEndStartDate] = useState(false);
+    const [focusedField, setFocusedField] = useState(null);
     useEffect(()=>{
         if(gotoNextStep=== true){
             //varify if important information has been inputed
@@ -25,17 +26,20 @@ export const DateSelect = ({newBooking, setNewBooking,gotoNextStep,setStepComple
             }
         }
     },[gotoNextStep]);
+    useEffect(()=>{
+        console.log("focusedField",focusedField);
+    },[focusedField]);
     return (
     <div>
         <div className="text-2xl py-2 text-gray-700 font-bold">
             Daten
         </div>
         <div className="w-full space-y-4">
-            <DateRangePicker newBooking={newBooking} setNewBooking={setNewBooking} errStartDate={errStartDate} errEndDate={errEndDate}
+            <DateRangePicker newBooking={newBooking} setNewBooking={setNewBooking} errStartDate={errStartDate} errEndDate={errEndDate} focusedField={focusedField} setFocusedField={setFocusedField}
             className="flex-1"></DateRangePicker >
-            {dateErrorMsg !== "" ? <p className='text-red-500 text-sm'>{dateErrorMsg}</p>
+            {dateErrorMsg !== "" ? <p className='text-[#9C785E] text-sm'>{dateErrorMsg}</p>
             : <p className="text-transparent text-sm">Placeholder</p>}
-            <GuestPicker newBooking={newBooking} setNewBooking={setNewBooking} className="flex-1"></GuestPicker>
+            <GuestPicker newBooking={newBooking} setNewBooking={setNewBooking} focusedField={focusedField} setFocusedField={setFocusedField}className="flex-1"></GuestPicker>
         </div>
     </div>
     );
