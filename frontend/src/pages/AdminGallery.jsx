@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Plus, X, ImagePlus } from "lucide-react";
+import { Plus, Trash2, ImagePlus, X } from "lucide-react";
+import "../styles/extra.css"
 
 const AdminGallery = () => {
     const [images, setImages] = useState([]);
@@ -53,7 +54,7 @@ const AdminGallery = () => {
     };
 
     const handleDelete = async (id) => {
-        if (!window.confirm("🗑️ Möchten Sie dieses Bild wirklich löschen?")) return;
+        if (!window.confirm(" Möchten Sie dieses Bild wirklich löschen?")) return;
 
         try {
             await axios.delete(`http://localhost:3000/api/images/${id}`);
@@ -87,14 +88,26 @@ const AdminGallery = () => {
                             />
                         </label>
 
-
                         {preview && (
-                            <img
-                                src={preview}
-                                alt="Vorschau"
-                                className="mt-4 w-full max-h-100 object-cover "
-                            />
+                            <div className="relative mt-4 w-full">
+                                <img
+                                    src={preview}
+                                    alt="Vorschau"
+                                    className="w-full max-h-100 object-cover rounded-xl shadow"
+                                />
+                                <button
+                                    onClick={() => {
+                                        setFile(null);
+                                        setPreview(null);
+                                    }}
+                                    className="absolute top-2 right-2 bg-caramel hover:bg-chocolate text-white rounded-full p-1 shadow-md cursor-pointer"
+                                    title="Vorschau löschen"
+                                >
+                                    <X size={18} />
+                                </button>
+                            </div>
                         )}
+
                     </div>
 
                     {/* Spalte 2: Beschreibung + Button */}
@@ -104,7 +117,8 @@ const AdminGallery = () => {
                             placeholder="Bildbeschreibung..."
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
-                            className="border border-caramel rounded-xl px-4 py-2 text-gray font-spectral focus:outline-none focus:ring-2 focus:ring-caramel"
+                            className="border border-[var(--teal-dark)] focus:border-[var(--teal-dark)] focus:ring-2 focus:ring-[var(--teal-dark)] rounded-xl px-4 py-2 text-gray font-spectral focus:outline-none"
+
                         />
 
                         <button
@@ -129,7 +143,11 @@ const AdminGallery = () => {
                             {images.map((img) => (
                                 <tr key={img._id} className="hover:bg-gray-50">
                                     <td className="px-6 py-4">
-                                        <img src={img.url} alt="preview" className="h-24 rounded-lg object-cover" />
+                                        <img
+                                            src={img.url}
+                                            alt="preview"
+                                            className="w-32 h-24 object-cover rounded-lg"
+                                        />
                                     </td>
                                     <td className="px-6 py-4 text-gray-700">{img.description}</td>
                                     <td className="px-6 py-4 text-center">
@@ -138,7 +156,7 @@ const AdminGallery = () => {
                                             className="text-red-600 hover:text-red-800"
                                             title="Löschen"
                                         >
-                                            <X size={22} />
+                                            <Trash2 size={20} />
                                         </button>
                                     </td>
                                 </tr>

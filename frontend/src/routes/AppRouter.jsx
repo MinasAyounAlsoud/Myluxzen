@@ -20,6 +20,9 @@ import AdminGallery from "../pages/AdminGallery"; //zahra
 import AboutUs from "../pages/aboutUsPage";
 import { AdminHausBeschreibung } from "../pages/AdminHausBeschreibung";
 import ActivitiesPage from '../pages/ActivitiesPage';  //Naheeda
+import AdminBookingDashboardPage from "../pages/AdminBookingDashboardPage"; // Zahra
+import AdminEmailSupportClient from "../pages/AdminEmailSupportClient"; // Zahra
+
 
 const createAuthRouter = (authContext) =>
   createBrowserRouter([
@@ -67,7 +70,6 @@ const createAuthRouter = (authContext) =>
       element: <AboutUs></AboutUs>,
     }, //Minas
 
-
     // {
 
     // page router, end
@@ -107,6 +109,16 @@ const createAuthRouter = (authContext) =>
         {
           path: "gallery",
           element: <AdminGallery />,
+        },
+        // Zahra  
+        {
+          path: "booking-dashboard",
+          element: <AdminBookingDashboardPage />,
+        },
+        // Zahra 
+        {
+          path: "client-email-support",
+          element: <AdminEmailSupportClient />
         },
 
         // admin page, end

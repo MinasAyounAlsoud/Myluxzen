@@ -10,6 +10,8 @@ import { authRouter } from "./routes/authRouter.js"; // authRouter durch Naheeda
 import hausRoutes from "./routes/HausRoutes.js"; //Minas
 import reviewRouter from "./routes/reviewRouter.js"; //Minas
 import { singleHouseRouter } from "./routes/singleHouseRouter.js";// Xiangyu
+import { dashboardRouter } from "./routes/dashboardRouter.js";//Zahra
+import contactRoutes from "./routes/contact.routes.js";//zahra
 
 // here is for routers, end
 
@@ -39,6 +41,15 @@ app.use("/api/auth", authRouter); // authRouter durch Naheeda hinzugefügt
 // Minas
 app.use("/api/houses", hausRoutes);
 app.use("/api/reviews", reviewRouter);
+
+//zahra
+app.use("/api/dashboard", dashboardRouter); 
+
+//zahra
+app.use("/api/contact", contactRoutes);
+
+// zahra
+app.use("/api/user", authRouter); 
 
 // test: change from dev direct
 // test: change from Xiangyu-branch direct
