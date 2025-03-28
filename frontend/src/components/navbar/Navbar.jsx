@@ -43,7 +43,8 @@ const Navbar = () => {
         scrollingDown ? "-translate-y-full" : "translate-y-0"
       } bg-white opacity-90 `}
     >
-      <nav className="max-w-[100%] sm:max-w-[95%] md:max-w-[80%] mx-auto flex justify-between items-center">
+      <nav className="max-w-[100%] sm:max-w-[95%] md:max-w-[80%] mx-auto flex justify-between items-center gap-x-8">
+
         {/* Logo */}
         <Logo />
 
