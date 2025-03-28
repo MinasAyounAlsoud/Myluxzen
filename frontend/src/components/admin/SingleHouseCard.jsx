@@ -33,7 +33,7 @@ export function SingleHouseCard({ house, seHouse, onClose }) {
     <>
 <div className='py-2 px-10 '>
         { house ? (
-            <div className='border border-gray-300 p-2 rounded-lg '>
+            <div className='border border-gray-300 p-2 rounded-lg'>
                 <p><span className='text-gray-500 text-sm'>Haus Nummer: </span> {house.houseNum}</p>
                 <p><span className='text-gray-500 text-sm'>Haus Type: </span>{house.houseType}</p>
                 {house.bookingNum && 

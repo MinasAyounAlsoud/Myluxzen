@@ -64,7 +64,7 @@ export const HouseTypeModal = ({ house, onClose }) => {
       onClick={handleCloseOnBackgroundClick}
     >
       <div
-        className="bg-white bg-opacity-90 rounded-xl shadow-2xl w-220 h-200 relative p-1 "
+        className="bg-white bg-opacity-90 rounded-xl shadow-2xl w-full md:w-3/5   relative p-1 "
         onClick={handleModalClick}
       >
         <div className="bg-gray-100 p-4 flex justify-between items-center border-b border-[#064236]">
