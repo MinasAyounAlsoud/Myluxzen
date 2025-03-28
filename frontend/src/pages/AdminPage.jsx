@@ -34,11 +34,11 @@ export function AdminPage() {
             Häuseranfrage
             </NavLink>
           </li>
-          <li className="cursor-pointer">
+          {/* <li className="cursor-pointer">
             <NavLink to="booking-edit" className={getLinkClass}>
               Buchungsticket bearbeiten
             </NavLink>
-          </li>
+          </li> */}
           {/*Zahra*/}
           <li className="cursor-pointer">
             <NavLink to="gallery" className={getLinkClass}>
