@@ -1,7 +1,7 @@
 import { Booking} from "../models/bookingSchema.js";
 import { HausBeschreibung } from "../models/HausBeschreibung.js";
 import { SingleHouse } from "../models/SingleHouseSchema.js";
-import { sendEmailToClient } from "../utils/emailService.js";
+// import { sendEmailToClient } from "../utils/emailService.js";
 export const getBookingTicket = async(req,res,next)=>{
     const {bookingNumber} = req.params;
     if(!bookingNumber) return;
