@@ -1,6 +1,7 @@
 import { Booking} from "../models/bookingSchema.js";
 import { HausBeschreibung } from "../models/HausBeschreibung.js";
 import { SingleHouse } from "../models/SingleHouseSchema.js";
+import { sendEmailToClient } from "../utils/emailService.js";
 export const getBookingTicket = async(req,res,next)=>{
     const {bookingNumber} = req.params;
     if(!bookingNumber) return;
@@ -88,6 +89,15 @@ export const createBookingMiddleware = async (req, res, next) => {
         });
         await newBooking.save();
         req.result = newBooking;
+        
+        const toGuestEmail = newBooking.email;
+        const emailSubject = "Buchung erstellt erfolgreich"
+        const text = `Hallo, ${newBooking.bookingNumber}`
+        console.log("sendEmailToClient, toGuestEmail",toGuestEmail)
+        console.log("sendEmailToClient, emailSubject",emailSubject)
+        console.log("sendEmailToClient, text",text)
+
+        // sendEmailToClient({toGuestEmail, emailSubject, text});
         next(); 
     } catch (error) {
         console.log("Error in createBookingMiddleware middleware:", error);

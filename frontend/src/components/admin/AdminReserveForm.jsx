@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 export const AdminReserveForm = ({inUsePeriods, setInUsePeriods, handleAdminReserveConfirm}) => {
+    
     const handleAddPeriod = () => {
         setInUsePeriods([
             ...inUsePeriods,
@@ -39,25 +40,31 @@ export const AdminReserveForm = ({inUsePeriods, setInUsePeriods, handleAdminRese
     return (
         <div className="flex flex-col gap-4 p-4 px-10">
             {inUsePeriods.map((period, index) => (
-                <div key={index} className="flex flex-col lg:flex-row gap-4 items-center">
-                    <DatePicker
-                        selected={period.startDate}
-                        onChange={(date) => handleDateChange(date, index, 'startDate')}
-                        className="p-2 border rounded"
-                    />
-                    <DatePicker
-                        selected={period.endDate}
-                        onChange={(date) => handleDateChange(date, index, 'endDate')}
-                        className="p-2 border rounded"
-                    />
-                    <input
-                        type="text"
-                        value={period.reason}
-                        onChange={(event) => handleReasonChange(event, index)}
-                        className="p-2 border rounded"
-                        placeholder="Reason"
-                    />
-                    <button onClick={() => handleRemovePeriod(index)} className="bg-red-500 hover:bg-red-700 text-white font-bold  px-4 rounded">
+                <div key={index} className="flex flex-col  gap-4">
+                    <div className='flex gap-4'>
+                        <DatePicker
+                            selected={period.startDate}
+                            onChange={(date) => handleDateChange(date, index, 'startDate')}
+                            minDate={new Date()}
+                            // maxDate={parseDate(newBooking.endDate)}
+                            placeholderText="--"                            className="p-2 border rounded"
+                        />
+                        <DatePicker
+                            selected={period.endDate}
+                            onChange={(date) => handleDateChange(date, index, 'endDate')}
+                            className="p-2 border rounded"
+                            minDate={period.startDate}
+
+                        />
+                    </div>
+                        <textarea
+                            type="text"
+                            value={period.reason}
+                            onChange={(event) => handleReasonChange(event, index)}
+                            className="p-2 border rounded"
+                            placeholder="Reason"
+                        />
+                    <button onClick={() => handleRemovePeriod(index)} className="bg-red-500 hover:bg-red-700 text-white font-bold  px-4 w-30 h-6 rounded">
                         Löschen
                     </button>
                 </div>
