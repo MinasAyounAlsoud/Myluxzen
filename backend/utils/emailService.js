@@ -10,13 +10,13 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Base URL je nach Umgebung (localhost oder production)
+// Base URL nach Umgebung
 const BASE_URL =
   process.env.NODE_ENV === "production"
     ? "https://myluxzen.com"
     : "http://localhost:5173";
 
-// Gmail-Transporter
+// GmailTransporter
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -25,42 +25,55 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-//  Hauptfunktion zum Versenden von E-Mails an Kunden
-export const sendEmailToClient = async ({ to, subject, text, hasAccount = false, bookingLink = null }) => {
-  // 🔗 Link zum Kundenkonto (wenn vorhanden)
-  const accountLink = hasAccount
-    ? `<p style="margin-top: 20px;">
-         <a href="${BASE_URL}/account-booking?view=account" target="_blank" style="color:#116769; text-decoration: none;">
-         Hier klicken, um Ihre Reservierungen in Ihrem Konto zu verwalten
-         </a>
-       </p>`
-    : "";
+// Hauptfunktion zum Versenden von E-Mails
+export const sendEmailToClient = async ({ to, subject, text, bookingLink = null }) => {
+  // Link zum Kundenkonto 
+  const accountLink = `
+    <p style="margin-top: 20px;">
+      <a href="${BASE_URL}/account-booking?view=account" target="_blank" style="color:#116769; text-decoration: none;">
+        Hier klicken, um Ihre Reservierungen in Ihrem Konto zu verwalten
+      </a>
+    </p>`;
 
-  // Link zur Buchung (z.B. /booking/BOOK4008)
-  const directBookingLink = bookingLink
-    ? `<p style="margin-top: 10px;">
-         <a href="${bookingLink.replace("http://localhost:5173", BASE_URL)}" target="_blank" style="color:#116769; text-decoration: none;">
-         Hier klicken, um Ihre Buchung direkt anzusehen
-         </a>
-       </p>`
-    : "";
+  // Link zur Buchung oder zu allgemeiner Buchungsseite
+  const linkToUse = bookingLink
+    ? bookingLink.replace("http://localhost:5173", BASE_URL)
+    : `${BASE_URL}/booking`;
 
-  // HTML-Vorlage für die E-Mail
+  const directBookingLink = `
+    <p style="margin-top: 10px;">
+      <a href="${linkToUse}" target="_blank" style="color:#116769; text-decoration: none;">
+        Hier klicken, um Ihre Buchung anzusehen
+      </a>
+    </p>`;
+
+  // HTML Template
   const htmlTemplate = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; color: #333;">
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 24px; color: #333;">
       <div style="text-align: center; margin-bottom: 20px;">
         <img src="cid:logoMyLuxZen" alt="MyLuxZen Logo" style="width: 100px;" />
       </div>
 
-      <h2 style="color: #116769;">Antwort von MyLuxZen</h2>
+      <h2 style="color: #116769;">Ihre Anfrage bei MyLuxZen</h2>
+
       <p>Liebe Kundin, lieber Kunde,</p>
-      <p>${text.replace(/\n/g, "<br/>")}</p>
+      <p>vielen Dank für Ihre Nachricht. Hier ist unsere Antwort:</p>
+
+      <blockquote style="border-left: 4px solid #ccc; padding-left: 12px; color: #555; margin: 20px 0;">
+        ${text.replace(/\n/g, "<br/>")}
+      </blockquote>
 
       ${directBookingLink}
       ${accountLink}
 
-      <br/>
-      <p>Mit freundlichen Grüßen,<br/><strong>Ihr MyLuxZen Team</strong></p>
+      <p style="margin-top: 30px;">
+        Bei Fragen stehen wir Ihnen jederzeit gerne zur Verfügung.
+      </p>
+
+      <p style="margin-top: 30px;">
+        Mit freundlichen Grüßen,<br/>
+        <strong>Ihr MyLuxZen Team</strong>
+      </p>
 
       <hr style="margin: 30px 0;" />
 
@@ -77,7 +90,6 @@ export const sendEmailToClient = async ({ to, subject, text, hasAccount = false,
     </div>
   `;
 
-  // E-Mail-Optionen
   const mailOptions = {
     from: `"MyLuxZen Support" <${process.env.GMAIL_USER}>`,
     to,
@@ -93,7 +105,6 @@ export const sendEmailToClient = async ({ to, subject, text, hasAccount = false,
     ],
   };
 
-  // E-Mail versenden
   const info = await transporter.sendMail(mailOptions);
   console.log("E-Mail erfolgreich gesendet:", info.response);
 };
