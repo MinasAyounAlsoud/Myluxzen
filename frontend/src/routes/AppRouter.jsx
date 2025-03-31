@@ -22,6 +22,7 @@ import { AdminHausBeschreibung } from "../pages/AdminHausBeschreibung";
 import ActivitiesPage from '../pages/ActivitiesPage';  //Naheeda
 import AdminBookingDashboardPage from "../pages/AdminBookingDashboardPage"; // Zahra
 import AdminEmailSupportClient from "../pages/AdminEmailSupportClient"; // Zahra
+import { BookingSummaryPage } from "../pages/BookingSummaryPage";
 
 
 const createAuthRouter = (authContext) =>
@@ -33,7 +34,11 @@ const createAuthRouter = (authContext) =>
     {
       path: "/booking",
       element: <BookingPage></BookingPage>,
-    },
+    },//Xiangyu
+    {
+      path: "/booking/:bookingNumber",
+      element: <BookingSummaryPage></BookingSummaryPage>,
+    },//Xiangyu
     // page router, begin
     //zahra
     {
