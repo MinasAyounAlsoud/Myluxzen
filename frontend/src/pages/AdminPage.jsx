@@ -29,7 +29,7 @@ export function AdminPage() {
 
     return (
       <nav className="bg-gray-800 text-white p-4 flex items-center justify-between">
-        <ul className="flex space-x-4">
+        <ul className="flex space-x-6 flex-wrap">
 
           <li className="cursor-pointer">
             <NavLink to="bookings-manage" className={getLinkClass}>
