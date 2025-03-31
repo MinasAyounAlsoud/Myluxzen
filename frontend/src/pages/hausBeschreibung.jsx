@@ -14,7 +14,7 @@ const ApartmentCard = ({ apartment, onClick }) => {
         alt={apartment.title}
         className="w-32 h-32 sm:w-48 sm:h-48 md:w-65 md:h-65 object-cover rounded-lg mr-4 mb-4 md:mb-0"
       />
-      <div className="flex-1">
+      <div className="flex-1" >
         <h2 className="text-2xl font-semibold text-gray-600">
           {apartment.title}
         </h2>

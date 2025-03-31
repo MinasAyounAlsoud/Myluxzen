@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { FaChevronDown } from "react-icons/fa";
 import activities from "../dataJson/activitiesData.json"; // Pfad anpassen
 import mainBild from "../assets/imageNaheeda/main5.jpg"
-// import mainBild from "../assets/imageNaheeda/main2.avif"
+//import mainBild from "../assets/imageNaheeda/main2.avif"
 import contactImage from "../assets/imageNaheeda/rezeption4.jpg"; // dein Kontaktbild
 import { FaArrowLeft, FaArrowUp, FaEnvelope, FaPhone } from "react-icons/fa";
 import NavbarMini from "../components/navbarMini/NavbarMini";
@@ -125,9 +125,9 @@ const ContactSection = () => {
           {/* Buttons */}
           <div className="flex gap-3 pt-2 flex-wrap">
             <button className="bg-caramel hover:bg-gray-600 text-white py-2 px-4 rounded flex items-center gap-2 text-sm"
-            onClick={() => window.location.href = "/booking"}>
+         >
 
-              <FaArrowLeft /> Unterkunft buchen
+              <FaArrowLeft /> Activitäten buchen
             </button>
             <button
               onClick={scrollToTop}
