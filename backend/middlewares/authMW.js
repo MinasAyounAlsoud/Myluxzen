@@ -119,14 +119,17 @@ const authUser = async (req, res, next) => {
         sameSite: "strict",
          maxAge: 30 * 24 * 60 * 60 * 1000
          });
-        res.status(201).json({ 
+         res.status(201).json({ 
             _id: user.id, 
             vorname: user.vorname, 
             nachname: user.nachname, 
             email: user.email,
+            telefonnummer: user.telefonnummer,
+            landesvorwahl: user.landesvorwahl,
+            address: user.address,
             isAdmin: user.isAdmin,
-            token:token
-            });
+            token: token
+        });
     } catch (error) {
         next(error);
     }
