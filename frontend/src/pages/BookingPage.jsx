@@ -19,6 +19,7 @@ export const BookingPage = ()=>{
     const [successBookingNumber, setSuccessBookingNumber] = useState("");
     const totalSteps = 4;
     const {user} = useContext(AuthContext);
+    const [loadingBookingTicket, setLoadingBookingTicket] = useState(false);
     useEffect(()=>{
         if(user !== null){
             const initState = {
@@ -74,6 +75,7 @@ export const BookingPage = ()=>{
             setGotoNextStep(true); 
         } else {//last step, send API and create booking ticket 
             try {
+                setLoadingBookingTicket(true);
                 const response = await fetch("http://localhost:3000/booking/create-booking", {
                     method: "POST",
                     headers: {
@@ -90,6 +92,8 @@ export const BookingPage = ()=>{
                 const result = await response.json();
                 console.log("Booking created successfully:", result);
                 setSuccessBookingNumber(result.booking.bookingNumber);
+                setLoadingBookingTicket(false);
+
             } catch (error) {
                 console.error("Error creating booking:", error);
             }
@@ -102,7 +106,7 @@ export const BookingPage = ()=>{
     return (
     <div>
         <BookingNavBar></BookingNavBar>
-        {successBookingNumber==="" ? (
+        {(successBookingNumber==="" && !loadingBookingTicket) ? (
         <div>
             <div   className='pb-10 lg:px-20'>
                 <ProcessBar step={step} setStep={setStep}></ProcessBar>
@@ -129,9 +133,12 @@ export const BookingPage = ()=>{
             </div>
         </div>
         )
-        : (
-        <SuccessBooking successBookingNumber={successBookingNumber}></SuccessBooking>
-        )}
+        : 
+        (!loadingBookingTicket ? 
+            <SuccessBooking successBookingNumber={successBookingNumber}></SuccessBooking>
+            : <div ><p>Buchungsticket erstellen....</p></div>
+        )
+        }
     </div>
     );
 };
