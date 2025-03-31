@@ -62,19 +62,19 @@ export const Summery = ({newBooking, completed})=>{
         ) : (
         <>
             <div className='text-gray-500'>Kein Haus ausgewählt</div>
-            <div class="flex items-center p-4 rounded-lg text-gray-500">
-                <div class="rounded-lg p-1 bg-gray-200">
+            <div className="flex items-center p-4 rounded-lg text-gray-500">
+                <div className="rounded-lg p-1 bg-gray-200">
                 <CiImageOn size={24}/>
                 </div>
-                <p class="ml-4">Kein Haus ausgewählt</p>
+                <p className="ml-4">Kein Haus ausgewählt</p>
             </div>
             <div className="border-t border-gray-200 my-4"></div>
 
-            <div class="flex items-center p-4 bg-[#E8F3FE] rounded-lg text-gray-500">
-                <div class="rounded-full p-2">
+            <div className="flex items-center p-4 bg-[#E8F3FE] rounded-lg text-gray-500">
+                <div className="rounded-full p-2">
                     <IoMdInformationCircleOutline size={24} />
                 </div>
-                <p class="ml-4">Sie werden die Zusammenfassung sehen, nachdem Sie im Schritt 'Häuser' ein Haus ausgewählt haben.</p>
+                <p className="ml-4">Sie werden die Zusammenfassung sehen, nachdem Sie im Schritt 'Häuser' ein Haus ausgewählt haben.</p>
             </div>
         </>
         )}
