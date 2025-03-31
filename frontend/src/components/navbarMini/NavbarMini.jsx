@@ -17,7 +17,7 @@ const MiniNavbar = () => {
   };
 
   return (
-    <header className="relative top-0 left-0 z-50 w-full h-35 p-2 shadow-md bg-white">
+    <header className="relative top-0 left-0 z-[999] w-full h-35 p-2 shadow-md bg-white">
     <nav className="max-w-[90%] mx-auto flex justify-between items-center relative gap-x-4">
       {/* Logo Mini */}
       <LogoMini />
