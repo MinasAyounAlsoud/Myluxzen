@@ -38,6 +38,7 @@
     "react-router-dom": "^6.30.0",
     "react-scroll": "^1.9.3",
     "react-scroll-parallax": "^3.4.5",
+    "recharts": "^2.15.1",
     "vite": "^6.2.1",
     "yet-another-react-lightbox": "^3.21.7"
   }
