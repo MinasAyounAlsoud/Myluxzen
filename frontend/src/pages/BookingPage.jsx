@@ -32,7 +32,8 @@ export const BookingPage = ()=>{
                 endDate: null,
                 houseType:"",
                 price: "",
-                mobileNumber: "",
+                mobileNumber: user !== null ?user.telefonnummer : "",
+                //xiangyu, telef von AuthContext
                 comments:"",
                 houseNum: "",
                 totalPrice: 0,
