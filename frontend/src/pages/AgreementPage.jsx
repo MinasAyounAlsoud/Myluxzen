@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NavbarMini from "../components/navbarMini/NavbarMini";
 import Footer from "../components/footer/Footer";
 
@@ -39,6 +39,11 @@ const InfoSection = ({ title, description, image, reverseLayout }) => {
 
 // Hauptseite der Vereinbarung
 const AgreementPage = () => {
+  useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
+  }, []);
   return (
     <div className="w-full">
       <NavbarMini />
