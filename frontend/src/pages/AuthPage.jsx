@@ -5,6 +5,7 @@ import { BiUser, BiEnvelope, BiLock, BiShow, BiHide } from "react-icons/bi";
 import loginImage from "../assets/imageNaheeda/login-image.jpg"; 
 import NavbarMini from "../components/navbarMini/NavbarMini";
 import useServerErrorHandler from "../components/User/ErrorHandler";
+import { jwtDecode } from "jwt-decode";
 
 const AuthPage = () => {
     const location = useLocation();
@@ -123,6 +124,32 @@ const AuthPage = () => {
         }
     };
 
+    const handleGoogleSuccess = async (response) => {
+        try {
+            const userInfo = jwtDecode(response.credential); // JWT Token dekodieren
+            console.log("Google User Info:", userInfo);
+
+            const res = await fetch("http://localhost:3000/api/auth/google", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ token: response.credential }),
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                console.log("✅ Google Login erfolgreich:", data);
+            } else {
+                console.error(" Fehler bei Google Auth:", data.message);
+            }
+        } catch (error) {
+            console.error(" Fehler beim Google Login:", error);
+        }
+    };
+
+    const handleGoogleFailure = () => {
+        console.error(" Google Anmeldung fehlgeschlagen");
+    };
    
 useEffect(() => {
     document.documentElement.style.overflow = "hidden"; // Scrollen deaktivieren
@@ -220,6 +247,25 @@ return (
                             )}
                         </button>
                     </div>
+
+                    {!isRegister && (
+ <div className="text-center mt-6">
+ <a
+     href="http://localhost:3000/api/auth/google?prompt=select_account"
+     className="inline-flex items-center justify-center space-x-4 px-6 py-2 border border-gray-300 rounded-full hover:shadow-lg transition-all duration-200 bg-white hover:bg-gray-100"
+ >
+     <img
+         src="https://developers.google.com/identity/images/g-logo.png"
+         alt="Google Logo"
+         className="w-5 h-5"
+     />
+     <span className="text-[#116769] font-medium">Mit Google anmelden</span>
+ </a>
+</div>
+
+)}
+
+
                 </div>
             </div>
         </div>

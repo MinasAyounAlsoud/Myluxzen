@@ -2,6 +2,8 @@
 import {User} from "../models/userSchema.js";
 import { Booking } from "../models/bookingSchema.js";
 import { generateToken } from "../utils/generateToken.js";
+import passport from "passport";
+
 
 //  Hilfsfunktionen zur Validierung
 const formatAndValidateName = (name, field) => {
@@ -268,6 +270,30 @@ const adminCheck = (req, res, next) => {
         next(); //  Admin erlaubt
     } else {
         res.status(403).json({ message: " Zugriff verweigert. Nur für Admins." });
+    }
+};
+
+// Google Auth starten
+export const googleAuth = passport.authenticate("google", {
+    scope: ["profile", "email"],
+    prompt: "select_account" // 👈 Zwingt Google zur Kontenauswahl!
+});
+
+// Google Callback
+export const googleCallback = passport.authenticate("google", { failureRedirect: "/auth?register=false" });
+
+export const googleAuthSuccess = (req, res) => {
+    try {
+        if (!req.user) {
+            return res.status(401).json({ message: "Google-Authentifizierung fehlgeschlagen." });
+        }
+
+        const token = generateToken(req.user._id);
+        res.cookie("jwt", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "strict", maxAge: 30 * 24 * 60 * 60 * 1000 });
+
+        res.redirect("http://localhost:5173"); // Frontend-URL anpassen
+    } catch (error) {
+        res.status(500).json({ message: "Fehler bei der Google-Anmeldung" });
     }
 };
 
