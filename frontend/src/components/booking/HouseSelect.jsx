@@ -152,7 +152,7 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
     };
 
     return (
-    <>
+    <div>
       <div className="text-2xl py-2 text-gray-700 font-bold">
           Häuser
       </div>
@@ -176,7 +176,7 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
                 </div>
                 {/* for choose a special house */}
                 {selectedHouseType === room.houseType && 
-                <div className='flex text-sm space-x-6 items-center pt-2'>
+                <div className='flex flex-col items-start text-sm md:space-x-6 items-center pt-2'>
                   <p className='text-gray-600'>Gibt es eine bevorzugte Unterkunft? Wir buchen gerne wieder für Sie!</p>
                   <button className='hover:scale-120 hover:text-[#116769] cursor-pointer border-b hover:border-[#fae1a8]' onClick={() => setShowHouses(prev => !prev)}><p>Click hier</p></button>
                 </div>}
@@ -201,6 +201,6 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
           onClose={() => setSelectedApartment(null)}
         />
       )}
-    </>
+    </div>
     );
 };

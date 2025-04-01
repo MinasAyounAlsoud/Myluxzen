@@ -33,7 +33,7 @@ export function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, 
               onChange={handleChange}
               onFocus={() => handleFocus('email')}
               onBlur={() => handleBlur('email')}
-              className="mt-1 block w-full px-3 py-2 bg-transparent focus:outline-none"
+              className="mt-1 block w-full pl-2 pr-8 py-2 bg-transparent focus:outline-none"
             />
             <button
               type="button"
@@ -59,7 +59,7 @@ export function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, 
                 onChange={handleChange}
                 onFocus={() => handleFocus('guestFirstName')}
                 onBlur={() => handleBlur('guestFirstName')}
-                className="mt-1 block w-full px-3 py-2 bg-transparent focus:outline-none"
+                className="mt-1 block w-full pl-2 pr-8 py-2 bg-transparent focus:outline-none"
               />
               <button
                 type="button"
@@ -85,7 +85,7 @@ export function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, 
               onChange={handleChange}
               onFocus={() => handleFocus('guestFamilyName')}
               onBlur={() => handleBlur('guestFamilyName')}
-              className="mt-1 block w-full px-3 py-2 bg-transparent focus:outline-none"
+              className="mt-1 block w-full pl-2 pr-8 py-2 bg-transparent focus:outline-none"
             />
             <button
               type="button"
@@ -101,7 +101,7 @@ export function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, 
       </div>
       <div className={`relative border rounded-lg  ${focusedField === 'mobileNumber'? 'border-gray-700' : 'border-gray-300'} p-2`}>
         <label htmlFor="mobileNumber" className={`absolute text-gray-700 transition-all ${focusedField === 'mobileNumber' || newBooking.mobileNumber ? 'text-sm top-0' : 'text-lg top-1/2 transform -translate-y-1/2'}`}>
-          Telefonnummer:
+          Telefonnummer(optional):
         </label>
         <input
           type="text"
@@ -111,7 +111,7 @@ export function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, 
           onChange={handleChange}
           onFocus={() => handleFocus('mobileNumber')}
           onBlur={() => handleBlur('mobileNumber')}
-          className="mt-1 block w-full px-3 py-2 bg-transparent focus:outline-none"
+          className="mt-1 block w-full pl-2 pr-8 py-2 bg-transparent focus:outline-none"
         />
         <button
           type="button"
@@ -120,7 +120,7 @@ export function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, 
           <RxCrossCircled />
         </button>
       </div>
-      <div className={`relative border rounded-lg  ${focusedField === 'comments'? 'border-gray-700' : 'border-gray-300'} p-2`}>
+      <div className={`relative border rounded-lg  ${focusedField === 'comments'? 'border-gray-700' : 'border-gray-300'} p-2 `}>
         <label htmlFor="comments" className={`absolute text-gray-700 transition-all ${focusedField === 'comments' || newBooking.comments ? 'text-sm top-0' : 'text-lg top-1/2 transform -translate-y-1/2'}`}>
           Kommentare (optional):
         </label>
@@ -131,8 +131,9 @@ export function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, 
           onChange={handleChange}
           onFocus={() => handleFocus('comments')}
           onBlur={() => handleBlur('comments')}
-          className="mt-1 block w-full px-3 py-2 bg-transparent focus:outline-none"
-          rows="3"
+          className="mt-1 block w-11/12 pl-2 pr-8 py-2 bg-transparent focus:outline-none"
+          rows="6"
+          style={{ resize: 'none', overflow: 'auto' }}
         />
         <button
           type="button"

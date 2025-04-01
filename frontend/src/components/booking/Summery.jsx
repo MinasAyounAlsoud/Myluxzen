@@ -9,7 +9,7 @@ export const Summery = ({newBooking, completed})=>{
     };
     return (
     <div className="bg-white w-full p-4 border rounded-lg shadow border-gray-300 text-gray-500">
-        <div className="text-2xl py-2 text-gray-700 font-bold">
+        <div className="text-xl py-2 text-gray-700 font-bold">
         Reservierungszusammenfassung
         </div>
         <div className="border-t border-gray-200 my-4"></div>
@@ -36,7 +36,7 @@ export const Summery = ({newBooking, completed})=>{
             </div>}
             <div>{newBooking.guestCount} Gast{newBooking.guestCount > 1 ? 'e' : ''}</div>
             <div className="border-t border-gray-200 my-4"></div>
-            <div >
+            <div className="break-words overflow-wrap max-w-100">
                 <p className='text-gray-700'>Gastinformationen: </p>
                 <div className='flex items-center'>
                     <p className='pr-2'>{newBooking.guestFirstName}</p>
