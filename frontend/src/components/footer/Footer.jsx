@@ -82,7 +82,7 @@ const Footer = () => {
               <span className="hover:text-caramel">+49 123 456 789</span>
             </a>
 
-            {/* Réseaux sociaux */}
+            {/* Réseaux sociaux test */}
             <h3 className="text-xl font-semibold mb-4 text-caramel">Folgen Sie uns</h3>
             <div className="flex space-x-4">
               {[FaFacebookF, FaTwitter, FaInstagram, FaLinkedin].map((Icon, index) => (
