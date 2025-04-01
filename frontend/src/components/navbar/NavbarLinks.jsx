@@ -9,6 +9,7 @@ const links = [
   { link: "Buchen", path: "/booking", type: "router" },
   { link: "Galerie", path: "/gallerie", type: "router" },
   { link: "Unsere Villen", path: "/HausBeschreibung", type: "router" },
+  { link: "Aktivitäten", path: "/activities", type: "router" },
   { link: "Reviews", path: "/reviews", type: "router" },
   { link: "Über Uns", path: "/about", type: "router" },
   { link: "AGB", section: "agb", type: "scroll" },
