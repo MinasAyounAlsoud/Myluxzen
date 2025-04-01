@@ -90,6 +90,7 @@ export const sendEmailToClient = async ({ to, subject, text, bookingLink = null 
     </div>
   `;
 
+  // E-Mail-Optionen
   const mailOptions = {
     from: `"MyLuxZen Support" <${process.env.GMAIL_USER}>`,
     to,
@@ -105,6 +106,7 @@ export const sendEmailToClient = async ({ to, subject, text, bookingLink = null 
     ],
   };
 
+  // E-Mail versenden
   const info = await transporter.sendMail(mailOptions);
   console.log("E-Mail erfolgreich gesendet:", info.response);
 };
