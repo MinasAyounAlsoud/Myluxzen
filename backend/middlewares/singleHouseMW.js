@@ -33,7 +33,7 @@ export const getHousesforCheckinOrReserve = async(req,res,next)=>{
         const houses = await SingleHouse.find({
             houseType: houseType,
             // choose houseType suitable and not Occupied houses
-            // status: { $nin: ['Occupied'] } 
+            bookingNum: { $eq: ""} // add for single house select for booking (not checkedin)
         });
         console.log("getHousesforCheckinOrReserve, houses.length", houses.length);
 
