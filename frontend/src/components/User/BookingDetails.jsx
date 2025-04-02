@@ -82,6 +82,7 @@ const BookingDetails = () => {
       const requestBody = {
         houseNum: selectedBooking.houseNum,
         status: "Canceled",
+        email: selectedBooking.email // add email for cancel email
       };
 
       const response = await fetch(
