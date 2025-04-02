@@ -109,7 +109,6 @@ const BookingDetails = () => {
       setSelectedBooking(null);
     } catch (error) {
       console.error("❌ Fehler beim Stornieren:", error.message);
-      alert("Stornierung fehlgeschlagen. Versuchen Sie es später erneut.");
     }
   };
 
@@ -127,74 +126,49 @@ const BookingDetails = () => {
         Ihre Buchungen
       </h2>
 
-      {/* Filterbuttons */}
-      <div className="flex justify-center mb-10">
-  <div className="inline-flex shadow-md rounded-md overflow-hidden border border-gray-300">
-    <button
-      className={`px-4 py-2 transition-all duration-200 ${
-        view === "all"
-          ? "bg-[#116769] text-white"
-          : "bg-white text-gray-700 hover:bg-gray-100"
-      }`}
-      onClick={() => {
-        setView("all");
-        setCurrentPage(1);
-      }}
-      style={{ fontFamily: "Merriweather, serif" }}
-    >
-      Alle
-    </button>
-    <button
-      className={`px-4 py-2 transition-all duration-200 ${
-        view === "active"
-          ? "bg-[#116769] text-white"
-          : "bg-white text-gray-700 hover:bg-gray-100"
-      }`}
-      onClick={() => {
-        setView("active");
-        setCurrentPage(1);
-      }}
-      style={{ fontFamily: "Merriweather, serif" }}
-    >
-      Aktiv
-    </button>
-    <button
-      className={`px-4 py-2 transition-all duration-200 ${
-        view === "canceled"
-          ? "bg-[#116769] text-white"
-          : "bg-white text-gray-700 hover:bg-gray-100"
-      }`}
-      onClick={() => {
-        setView("canceled");
-        setCurrentPage(1);
-      }}
-      style={{ fontFamily: "Merriweather, serif" }}
-    >
-      Storniert
-    </button>
-  </div>
-</div>
-
-
-      {/* Lade-/Fehlerzustand */}
-      {loading ? (
+  {/* Ladezustand */}
+  {loading ? (
         <p className="text-gray-600 text-center">⏳ Lade Buchungen...</p>
-      ) : error ? (
-        <div className="p-6 bg-gray-100 text-center rounded-lg shadow-md">
-          <p className="text-gray-700 text-lg font-medium" style={{ fontFamily: "Merriweather, serif" }}>
-            {error}
-          </p>
-          {error.includes("noch keine Buchungen") && (
-            <button
-              className="mt-4 px-5 py-2 bg-[#116769] text-white rounded-md hover:bg-[#0e5756] transition duration-200"
-              style={{ fontFamily: "Merriweather, serif" }}
-              onClick={() => window.location.href = "/booking"}
-            >
-              Jetzt eine Unterkunft buchen 🏡
-            </button>
-          )}
-        </div>
+      ) : bookings.length === 0 ? (
+        <div className="p-10 bg-[#f8f9fa] text-center rounded-2xl shadow-md border border-gray-200 max-w-2xl mx-auto mt-10">
+  <h3 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: "Merriweather, serif" }}>
+    Du hast noch keine Buchungen
+  </h3>
+  <p className="text-gray-600 mt-2 mb-6" style={{ fontFamily: "Merriweather, serif" }}>
+  Aber du kannst jetzt ganz einfach deine Traumvilla bei uns buchen.
+  </p>
+  <button
+    className="inline-block px-6 py-3 bg-[#116769] text-white rounded-md  pointer-cursor font-medium shadow-md hover:bg-[#0e5756] transition duration-300"
+    style={{ fontFamily: "Merriweather, serif" }}
+    onClick={() => window.location.href = "/booking"}
+  >
+    Unterkunft buchen
+  </button> 
+</div>
       ) : (
+        <>
+          {/* Filterbuttons */}
+          <div className="flex justify-center mb-10">
+            <div className="inline-flex shadow-md rounded-md overflow-hidden border border-gray-300">
+              {['all', 'active', 'canceled'].map((type) => (
+                <button
+                  key={type}
+                  className={`px-4 py-2 transition-all duration-200 ${
+                    view === type
+                      ? "bg-[#116769] text-white"
+                      : "bg-white text-gray-700 hover:bg-gray-100"
+                  }`}
+                  onClick={() => {
+                    setView(type);
+                    setCurrentPage(1);
+                  }}
+                  style={{ fontFamily: "Merriweather, serif" }}
+                >
+                  {type === "all" ? "Alle" : type === "active" ? "Aktiv" : "Storniert"}
+                </button>
+              ))}
+            </div>
+          </div>
         <div ref={bookingContainerRef} className="space-y-6">
           {currentBookings.map((booking) => (
             <div
@@ -251,6 +225,7 @@ const BookingDetails = () => {
             </div>
           ))}
         </div>
+        </>
       )}
 
       {/* Bestätigung Popup */}
@@ -279,18 +254,19 @@ const BookingDetails = () => {
 
       {/* Pagination */}
       {filteredBookings.length > bookingsPerPage && (
-  <div className="flex justify-center items-center mt-6 gap-3">
+  <div className="flex justify-center items-center mt-8 gap-6">
     <button
       onClick={() => {
         setCurrentPage((prev) => Math.max(prev - 1, 1));
         window.scrollTo(0, 0);
       }}
       disabled={currentPage === 1}
+      className="text-2xl px-4 py-2 rounded-md bg-white shadow hover:bg-gray-100 transition duration-200 disabled:opacity-40  cursor-pointer"
     >
       ‹
     </button>
 
-    <span className="text-gray-600 font-medium">
+    <span className="text-lg text-gray-700 font-medium">
       Seite {currentPage} von {totalPages}
     </span>
 
@@ -300,11 +276,13 @@ const BookingDetails = () => {
         window.scrollTo(0, 0);
       }}
       disabled={currentPage === totalPages}
+      className="text-2xl px-4 py-2 rounded-md bg-white shadow hover:bg-gray-100 transition duration-200 disabled:opacity-40  cursor-pointer"
     >
       ›
     </button>
   </div>
 )}
+
 
     </div>
   );
