@@ -91,17 +91,17 @@ export const createBookingMiddleware = async (req, res, next) => {
         await newBooking.save();
         req.result = newBooking;
         
-        // const toGuestEmail = newBooking.email;
-        const toGuestEmail = "xiangyu.liu@dci-student.org";
+        const toGuestEmail = newBooking.email;
+        // const toGuestEmail = "xiangyu.liu@dci-student.org";
         const emailSubject = "Buchung erstellt erfolgreich";
+        const bookingLink = `http://localhost:5173/booking/${newBooking.bookingNumber}`;
         const text = `Sie haben erfolgreich das Housetype ${newBooking.houseTitle} gebucht, für den Zeitraum von ${newBooking.startDate.toLocaleString()} bis ${newBooking.endDate.toLocaleString()} Sie werden bei uns angenehme ${newBooking.totalDays}  Tage verbringen. \n
         Ihre Buchungsnummer lautet:${newBooking.bookingNumber}.\n
-        Bitte klicken Sie auf den folgenden Link, um die Details Ihrer Buchung einzusehen:\n
-        http://localhost:5173/booking/${newBooking.bookingNumber}`;
-        console.log("sendEmailToClient, toGuestEmail",toGuestEmail)
-        console.log("sendEmailToClient, emailSubject",emailSubject)
-        console.log("sendEmailToClient, text",text)
-        await sendEmailToClient({to: toGuestEmail, subject: emailSubject, text:text});
+        `;
+        // console.log("sendEmailToClient, toGuestEmail",toGuestEmail)
+        // console.log("sendEmailToClient, emailSubject",emailSubject)
+        // console.log("sendEmailToClient, text",text)
+        await sendEmailToClient({to: toGuestEmail, subject: emailSubject, text:text, bookingLink: bookingLink});
         next(); 
     } catch (error) {
         console.log("Error in createBookingMiddleware middleware:", error);
@@ -178,16 +178,15 @@ export const bookingCheckoutOrCancel = async(req,res,next)=>{
         const booking = await Booking.updateOne(filter, updateData);
         req.result = bookingNum;
         if(status === "Canceled"){
-            // const toGuestEmail = newBooking.email;
-            const toGuestEmail = "xiangyu.liu@dci-student.org";
+            const toGuestEmail = booking.email;
+            // const toGuestEmail = "xiangyu.liu@dci-student.org";
             const emailSubject = "Buchung canceled erfolgreich";
-            const text = `Sie haben erfolgreich ${bookingNum} gecanceled. \n
-            Bitte klicken Sie auf den folgenden Link, um die Details Ihrer Buchung einzusehen:\n
-            http://localhost:5173/booking/${bookingNum}`;
+            const bookingLink = `http://localhost:5173/booking/${bookingNum}`;
+            const text = `Sie haben erfolgreich ${bookingNum} gecanceled. \n`;
             console.log("sendEmailToClient, toGuestEmail",toGuestEmail)
             console.log("sendEmailToClient, emailSubject",emailSubject)
             console.log("sendEmailToClient, text",text)
-            await sendEmailToClient({to: toGuestEmail, subject: emailSubject, text:text});
+            await sendEmailToClient({to: toGuestEmail, subject: emailSubject, text:text, bookingLink:bookingLink});
         }
         next(); 
     } catch (error) {

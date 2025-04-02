@@ -16,8 +16,19 @@ import "../../styles/extra.css";
 const Gallerie = () => {
   const [index, setIndex] = useState(-1);
   const [images, setImages] = useState([]);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [showCaption, setShowCaption] = useState(false); // toggle pour petit écran
 
-  //  Charger les images depuis le backend
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsSmallScreen(window.innerWidth < 640);
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/images")
@@ -32,7 +43,7 @@ const Gallerie = () => {
   return (
     <>
       <div className="pt-20 max-w-[1200px] mx-auto px-4">
-        {/* Masonry Grid avec Tailwind */}
+        {/* Masonry Grid */}
         <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 px-4">
           {images.map((image, idx) => (
             <div
@@ -40,14 +51,11 @@ const Gallerie = () => {
               className="relative mb-4 break-inside-avoid overflow-hidden shadow-md transition-transform transform hover:scale-105 hover:shadow-lg cursor-pointer group"
               onClick={() => setIndex(idx)}
             >
-              {/* Image principale */}
               <img
-                src={image.url} // ✅ Correction ici
+                src={image.url}
                 alt={image.description}
                 className="w-full h-auto object-cover rounded-none"
               />
-
-              {/* Overlay pour la description au hover */}
               <div className="absolute inset-0 bg-ivory-75 bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <p className="text-white text-lg font-semibold px-4 text-center">
                   {image.description}
@@ -58,47 +66,76 @@ const Gallerie = () => {
         </div>
       </div>
 
-      {/*  Lightbox avec miniatures (thumbnails) */}
       <Lightbox
-  plugins={[Captions, Download, Fullscreen, Zoom, Thumbnails]}
-  index={index}
-  open={index >= 0}
-  close={() => setIndex(-1)}
-  slides={images.map((image) => ({
-    src: image.url,
-    width: 1200,
-    height: 800,
-    title: image.description,
-  }))}
-  thumbnails={{
-    position: "bottom",
-    width: 100,
-    height: 70,
-    border: 2,
-    borderRadius: 0,
-    gap: 5,
-  }}
-  styles={{
-    container: { backgroundColor: "rgba(222, 222, 222, 1)" },
-    image: { objectFit: "contain", maxHeight: "90vh" },
-    icon: {
-      color: "white",
-      transition: "transform 0.2s ease, filter 0.2s ease",
-    },
-    iconButton: {
-      className: "lightbox-icon-button",
-    },
-  }}
-  render={{
-    // 👉 Custom caption au-dessus de l’image
-    caption: ({ slide }) => (
-      <div className="absolute top-0 left-0 w-full text-center text-black text-xl font-semibold bg-white/80 py-3 z-50">
-        {slide.title}
-      </div>
-    ),
-  }}
-/>
+        plugins={[Captions, Download, Fullscreen, Zoom, Thumbnails]}
+        index={index}
+        open={index >= 0}
+        close={() => {
+          setIndex(-1);
+          setShowCaption(false);
+        }}
+        slides={images.map((image) => ({
+          src: image.url,
+          width: 1200,
+          height: 800,
+          title: image.description,
+        }))}
+        thumbnails={{
+          position: "bottom",
+          width: 100,
+          height: 70,
+          border: 2,
+          borderRadius: 0,
+          gap: 5,
+        }}
+        styles={{
+          container: { backgroundColor: "rgba(222, 222, 222, 1)" },
+          slide: {
+            paddingTop: isSmallScreen ? "0px" : "70px",
+          },
+          image: {
+            objectFit: "contain",
+            maxHeight: "90vh",
+          },
+          icon: {
+            color: "white",
+            transition: "transform 0.2s ease, filter 0.2s ease",
+          },
+          iconButton: {
+            className: "lightbox-icon-button",
+          },
+        }}
+        render={{
+          caption: ({ slide }) =>
+            isSmallScreen ? (
+              <div className="absolute inset-0 z-50">
+                {/* BOUTON INFO */}
+                <button
+                  onClick={() => setShowCaption((prev) => !prev)}
+                  className="absolute bottom-4 right-4 bg-black/50 text-white text-sm px-2 py-1 rounded-full"
+                >
+                  ℹ️
+                </button>
 
+                {/* OVERLAY DESCRIPTION */}
+                <div
+                  className={`w-full h-full flex items-center justify-center transition-opacity duration-300 ${
+                    showCaption ? "opacity-100" : "opacity-0"
+                  } bg-ivory-75 bg-opacity-60`}
+                >
+                  <p className="text-white text-lg font-semibold px-4 text-center">
+                    {slide.title}
+                  </p>
+                </div>
+              </div>
+            ) : (
+              // Caption en haut sur grand écran
+              <div className="absolute top-0 left-0 w-full text-center text-black text-xl font-semibold bg-white/80 py-3 z-50">
+                {slide.title}
+              </div>
+            ),
+        }}
+      />
     </>
   );
 };

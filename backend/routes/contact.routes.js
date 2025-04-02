@@ -1,21 +1,18 @@
-// Zahra routes/contact.routes.js
+// Zahra - routes/contact.routes.js
 import express from "express";
 import EmailMessage from "../models/emailMessage.js";
 import { sendEmailToClient } from "../utils/emailService.js";
+import { User } from "../models/userSchema.js";
+import { Booking } from "../models/bookingSchema.js";
 
 const router = express.Router();
 
-// ✅ 1. POST-Route: Kunde sendet eine Nachricht (wird in MongoDB gespeichert)
+// 1. POST-Route: Kunde sendet eine Nachricht
 router.post("/", async (req, res) => {
   try {
     const { name, email, message } = req.body;
 
-    const neueNachricht = new EmailMessage({
-      name,
-      email,
-      message,
-    });
-
+    const neueNachricht = new EmailMessage({ name, email, message });
     await neueNachricht.save();
 
     res.status(201).json({ message: "Nachricht erfolgreich gespeichert." });
@@ -25,7 +22,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// ✅ 2. GET-Route: Admin ruft alle Nachrichten ab
+// 2. GET-Route: Admin ruft alle Nachrichten ab
 router.get("/all", async (req, res) => {
   try {
     const nachrichten = await EmailMessage.find().sort({ createdAt: -1 });
@@ -36,23 +33,35 @@ router.get("/all", async (req, res) => {
   }
 });
 
-// ✅ 3. POST-Route: Admin antwortet auf eine Nachricht
+// 3. POST-Route: Admin antwortet auf eine Nachricht
 router.post("/reply", async (req, res) => {
   const { id, email, responseText } = req.body;
 
   try {
-    // Antwort per E-Mail senden
+    // Prüfen, ob Benutzer ein registriertes Konto hat
+    const userExists = await User.findOne({ email });
+    const hasAccount = !!userExists;
+
+    // Prüfen, ob eine Buchung existiert
+    const booking = await Booking.findOne({ email });
+    const bookingLink = booking
+      ? `http://localhost:5173/booking/${booking.bookingNumber}`
+      : null;
+
+    // E-Mail senden mit Konto- und Buchungslink (falls vorhanden)
     await sendEmailToClient({
       to: email,
       subject: "Antwort von MyLuxZen",
       text: responseText,
+      hasAccount,
+      bookingLink,
     });
 
-    // Nachricht in der Datenbank aktualisieren
+    // Nachricht als beantwortet markieren
     await EmailMessage.findByIdAndUpdate(id, {
       status: "replied",
       reply: responseText,
-      repliedAt: new Date(), // Optional: Zeitpunkt der Antwort speichern
+      repliedAt: new Date(),
     });
 
     res.status(200).json({ message: "Antwort erfolgreich gesendet und Nachricht aktualisiert." });
@@ -63,3 +72,4 @@ router.post("/reply", async (req, res) => {
 });
 
 export default router;
+

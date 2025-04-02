@@ -20,7 +20,7 @@ export function AdminHausBeschreibung() {
 
   const fetchHouses = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/houses");
+      const response = await fetch("http://localhost:3000/api/houses");
       if (!response.ok) throw new Error("Fehler beim Laden der Häuser");
       const data = await response.json();
       setHouses(data);
@@ -32,7 +32,7 @@ export function AdminHausBeschreibung() {
   const updateHouse = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/houses/${updatedHouseData._id}`,
+        `http://localhost:3000/api/houses/${updatedHouseData._id}`,
         {
           method: "PUT",
           headers: {

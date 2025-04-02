@@ -13,7 +13,7 @@ export const HouseTypeCard = ({ house, onClick, selected=false}) => {
       <img
         src={house.images[0]}
         alt={house.title}
-        className="w-32 h-32 sm:w-48 sm:h-48 lg:w-45 lg:h-45 object-cover rounded-lg mr-4 mb-4 md:mb-0"
+        className="w-32 h-32 max-w-1/2 sm:w-48 sm:h-48 md:w-65 md:h-65 object-cover rounded-lg mr-4 mb-4 md:mb-0"
       />
       <div className="flex-1">
         <h2 className="text-2xl font-semibold text-gray-600 ">
@@ -26,12 +26,12 @@ export const HouseTypeCard = ({ house, onClick, selected=false}) => {
         </p>
 
         <div className="flex justify-between items-center mt-4 ">
-          <div className="text-gray-600 text-sm sm:text-base flex-1 flex space-x-4">
-          <p>max.<span className="font-semibold"> {house.guests}</span> Gäste</p>
-          <p> <span className="font-semibold">{house.bedrooms}</span>             Schlafzimmer</p>
-            <p><span className="font-semibold">{house.bathroom}</span> Bäder</p>
+          <div className="text-gray-600 text-sm sm:text-base flex-1">
+          <p className="text-sm">max.<span className="font-semibold"> {house.guests}</span> Gäste</p>
+          <p className="text-sm"> <span className="font-semibold">{house.bedrooms}</span>             Schlafzimmer</p>
+            <p className="text-sm"><span className="font-semibold">{house.bathroom}</span> Bäder</p>
           </div>
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-[#116769]">
+          <p className="text-sm sm:text-base md:text-lg lg:text-base font-bold text-[#116769]">
             €{house.pricePerNight}/Nacht
           </p>
         </div>

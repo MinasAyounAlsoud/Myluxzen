@@ -19,12 +19,11 @@ import { AdminBookTimelinePage } from "../pages/AdminBookTimelinePage"; //Xiangy
 import AdminGallery from "../pages/AdminGallery"; //zahra
 import AboutUs from "../pages/aboutUsPage";
 import { AdminHausBeschreibung } from "../pages/AdminHausBeschreibung";
-import ActivitiesPage from '../pages/ActivitiesPage';  //Naheeda
+import ActivitiesPage from "../pages/ActivitiesPage"; //Naheeda
 import AdminBookingDashboardPage from "../pages/AdminBookingDashboardPage"; // Zahra
 import AdminEmailSupportClient from "../pages/AdminEmailSupportClient"; // Zahra
 import { BookingSummaryPage } from "../pages/BookingSummaryPage";
-
-
+import AgreementPage from "../pages/AgreementPage";
 const createAuthRouter = (authContext) =>
   createBrowserRouter([
     {
@@ -34,11 +33,11 @@ const createAuthRouter = (authContext) =>
     {
       path: "/booking",
       element: <BookingPage></BookingPage>,
-    },//Xiangyu
+    }, //Xiangyu
     {
       path: "/booking/:bookingNumber",
       element: <BookingSummaryPage></BookingSummaryPage>,
-    },//Xiangyu
+    }, //Xiangyu
     // page router, begin
     //zahra
     {
@@ -63,12 +62,18 @@ const createAuthRouter = (authContext) =>
       element: <ApartmentsList></ApartmentsList>,
     }, //Minas
     {
+      path: "/Agreement",
+      element: <AgreementPage></AgreementPage>,
+    }, //Minas
+
+    {
       path: "/gallery",
       element: <AdminGallery />,
-    },   
+    },
 
-    {path:"/activities",
-    element:<ActivitiesPage />   //Naheeda
+    {
+      path: "/activities",
+      element: <ActivitiesPage />, //Naheeda
     },
     {
       path: "/about",
@@ -108,22 +113,25 @@ const createAuthRouter = (authContext) =>
           path: "singleHouse-query",
           element: <AdminSingleHouseQueryPage></AdminSingleHouseQueryPage>,
         }, // Xiangyu
-        { path: "booking-timeline", element: <AdminBookTimelinePage></AdminBookTimelinePage>}, // Xiangyu
+        {
+          path: "booking-timeline",
+          element: <AdminBookTimelinePage></AdminBookTimelinePage>,
+        }, // Xiangyu
 
         // Zahra
         {
           path: "gallery",
           element: <AdminGallery />,
         },
-        // Zahra  
+        // Zahra
         {
           path: "booking-dashboard",
           element: <AdminBookingDashboardPage />,
         },
-        // Zahra 
+        // Zahra
         {
           path: "client-email-support",
-          element: <AdminEmailSupportClient />
+          element: <AdminEmailSupportClient />,
         },
 
         // admin page, end

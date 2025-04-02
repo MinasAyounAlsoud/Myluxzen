@@ -32,7 +32,8 @@ export const BookingPage = ()=>{
                 endDate: null,
                 houseType:"",
                 price: "",
-                mobileNumber: "",
+                mobileNumber: user !== null ?user.telefonnummer : "",
+                //xiangyu, telef von AuthContext
                 comments:"",
                 houseNum: "",
                 totalPrice: 0,
@@ -108,11 +109,11 @@ export const BookingPage = ()=>{
         <BookingNavBar></BookingNavBar>
         {(successBookingNumber==="" && !loadingBookingTicket) ? (
         <div>
-            <div   className='pb-10 lg:px-20'>
+            <div   className='pb-10 lg:px-6'>
                 <ProcessBar step={step} setStep={setStep}></ProcessBar>
                 <div  className="py-10 px-12 overflow-auto">
                     <div onClick={e => e.stopPropagation()}
-                        className="flex lg:flex-row w-full lg:space-x-30 min-h-screen">
+                        className="flex lg:flex-row w-full lg:space-x-10 min-h-screen">
                         <div className="lg:w-3/5 w-full">
                             {step === 1 && <DateSelect gotoNextStep={gotoNextStep} setStepCompleted={setStepCompleted} setGotoNextStep={setGotoNextStep} newBooking={newBooking} setNewBooking={setNewBooking}></DateSelect >}
                             {step === 2 && <HouseSelect gotoNextStep={gotoNextStep} setStepCompleted={setStepCompleted} setGotoNextStep={setGotoNextStep} newBooking={newBooking} setNewBooking={setNewBooking}></HouseSelect>}
