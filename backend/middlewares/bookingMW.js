@@ -165,7 +165,7 @@ export const bookingCheckin = async(req,res,next)=>{
 /** checkout start from singleHouse middleware, this is the second middleware for checkout*/
 export const bookingCheckoutOrCancel = async(req,res,next)=>{
     const { bookingNum } = req.params;
-    const { houseNum, status} = req.body;
+    const { houseNum, status, email} = req.body;// add email for cancel email 
     // console.log("bookingCheckoutOrCancel",bookingNum); 
     try {
         if(!bookingNum) throw new Error("in bookingCheckoutOrCancel no bookingNum");
@@ -177,8 +177,9 @@ export const bookingCheckoutOrCancel = async(req,res,next)=>{
         };
         const booking = await Booking.updateOne(filter, updateData);
         req.result = bookingNum;
+
         if(status === "Canceled"){
-            const toGuestEmail = booking.email;
+            const toGuestEmail = email;// add email for cancel email 
             // const toGuestEmail = "xiangyu.liu@dci-student.org";
             const emailSubject = "Buchung canceled erfolgreich";
             const bookingLink = `http://localhost:5173/booking/${bookingNum}`;
