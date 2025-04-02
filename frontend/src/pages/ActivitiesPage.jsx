@@ -1,12 +1,12 @@
 
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import activities from "../dataJson/activitiesData.json"; // Pfad anpassen
 import faqData from "../dataJson/faqData.json";
 import mainBild from "../assets/imageNaheeda/main5.jpg"
 import { FaArrowLeft, FaArrowUp, FaEnvelope, FaPhoneAlt, FaChevronDown  } from "react-icons/fa";
 import NavbarMini from "../components/navbarMini/NavbarMini";
-import ContactFormModal from "../components/footer/ContactFormModal";
+
 import "../styles/extra.css";
 
 
@@ -180,8 +180,6 @@ const Accordion = ({ question, answer }) => {
 };
 
 const ContactSection = () => {
-  const [showContactModal, setShowContactModal] = useState(false);
-
   const scrollToTop = () => {
     // window.scrollTo({ top: 0, behavior: "smooth" });
     window.scrollTo(0, 0);
@@ -212,35 +210,27 @@ const ContactSection = () => {
   </h3>
 
   <div className="flex flex-col sm:flex-row justify-center items-center gap-6 text-sm font-medium">
-    {/* Nachricht schreiben */}
-    <button
-      onClick={() => setShowContactModal(true)}
-      className="flex items-center gap-2 group transition"
-    >
-      <FaEnvelope className="text-caramel text-base" />
-      <span className="font-semibold relative group-hover:underline group-hover:underline-offset-4">
-        Nachricht schreiben
-      </span>
-    </button>
+  {/* Nachricht schreiben */}
+  <div className="flex items-center gap-2 group">
+    <FaEnvelope className="text-caramel text-base" />
+    <span className="font-semibold relative group-hover:underline group-hover:underline-offset-4">
+      kontakt@myluxzen.com
+    </span>
+  </div>
 
-    {/* Trennstrich */}
-    <span className="hidden sm:inline text-gray-400">|</span>
+  {/* Trennstrich */}
+  <span className="hidden sm:inline text-gray-400">|</span>
 
-    {/* Telefonnummer */}
-    <a
-      href="tel:+49123456789"
-      className="flex items-center gap-2 group transition"
-    >
-      <FaPhoneAlt className="text-caramel text-base" />
-      <span className="font-semibold relative group-hover:underline group-hover:underline-offset-4">
-        +49 123 456 789
-      </span>
-    </a>
+  {/* Anruf */}
+  <div className="flex items-center gap-2 group">
+    <FaPhoneAlt className="text-caramel text-base" />
+    <span className="font-semibold relative group-hover:underline group-hover:underline-offset-4">
+      +49 123 456 789
+    </span>
   </div>
 </div>
 
-
-
+</div>
 
   {/* Buttons darunter */}
   <div className="flex justify-center gap-4 mt-6 flex-wrap">
@@ -254,18 +244,14 @@ const ContactSection = () => {
       <FaArrowUp /> Nach oben scrollen
     </button>
   </div>
-
-
-
-      {/* Kontaktformular (Modal) */}
-      {showContactModal && (
-        <ContactFormModal onClose={() => setShowContactModal(false)} />
-      )}
     </div>
   );
 };
 
 const ActivitiesPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="w-full">
       <NavbarMini />

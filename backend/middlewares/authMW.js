@@ -7,14 +7,23 @@ import passport from "passport";
 
 //  Hilfsfunktionen zur Validierung
 const formatAndValidateName = (name, field) => {
+    name = name.trim();
+
+    // Erlaubt Buchstaben (inkl. Umlaute), Leerzeichen & Bindestriche
     const regex = /^[A-Za-zÄÖÜäöüß\s-]+$/;
+
     if (!regex.test(name)) {
         throw {
             field,
-            message: `${field === "vorname" ? "Vorname" : "Nachname"} darf nur Buchstaben enthalten.`,
-          };
-        }
-    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+            message: `${field === "vorname" ? "Vorname" : "Nachname"} darf nur Buchstaben, Leerzeichen oder Bindestriche enthalten.`,
+        };
+    }
+
+    // Formatieren: Ersten Buchstaben groß, Rest klein (aber z. B. "Ali ibn Abi Talib" bleibt so)
+    return name
+        .split(" ")
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+        .join(" ");
 };
 
 const isValidPassword = (password) => {
@@ -28,7 +37,7 @@ const isValidPassword = (password) => {
 const isValidPhoneNumber = (phoneNumber) => {
     const regex = /^\d{6,15}$/;
     if (!regex.test(phoneNumber)) {
-        throw { field: "telefonnummer", message: "Ungültige Telefonnummer! Sie darf nur Zahlen enthalten." };
+        throw { field: "telefonnummer", message: "Ungültige Telefonnummer." };
     }
 };
 
@@ -280,21 +289,66 @@ export const googleAuth = passport.authenticate("google", {
 });
 
 // Google Callback
-export const googleCallback = passport.authenticate("google", { failureRedirect: "/auth?register=false" });
+export const googleCallback = (req, res, next) => {
+    passport.authenticate("google", async (err, user, info) => {
+      if (err || !user) {
+        console.log("❌ Google Auth fehlgeschlagen oder abgebrochen.");
+        return res.redirect("http://localhost:5173/auth?register=false&error=google_failed");
+      }
+  
+      req.login(user, (loginErr) => {
+        if (loginErr) {
+          return res.redirect("http://localhost:5173/auth?register=false&error=google_failed");
+        }
+  
+        const token = generateToken(user._id);
+        res.cookie("jwt", token, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "strict",
+          maxAge: 30 * 24 * 60 * 60 * 1000,
+        });
+  
+        return res.redirect("http://localhost:5173");
+      });
+    })(req, res, next);
+  };
+  
+
 
 export const googleAuthSuccess = (req, res) => {
     try {
         if (!req.user) {
-            return res.status(401).json({ message: "Google-Authentifizierung fehlgeschlagen." });
+            // Authentifizierung fehlgeschlagen oder abgebrochen
+            return res.redirect("http://localhost:5173/auth?register=false&error=google_failed");
         }
 
         const token = generateToken(req.user._id);
-        res.cookie("jwt", token, { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "strict", maxAge: 30 * 24 * 60 * 60 * 1000 });
+        res.cookie("jwt", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "strict",
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+        });
 
-        res.redirect("http://localhost:5173"); // Frontend-URL anpassen
+        res.redirect("http://localhost:5173");
     } catch (error) {
-        res.status(500).json({ message: "Fehler bei der Google-Anmeldung" });
+        res.redirect("http://localhost:5173/auth?register=false&error=google_error");
     }
 };
 
-export { registerUser, authUser, logoutUser, getUserProfile, updateUserProfile, getUserBookings, cancelUserBooking, adminCheck  };
+const logoutAndRedirectToGoogle = (req, res) => {
+    res.clearCookie("jwt", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict"
+    });
+
+    // Danach zur Google-Auth weiterleiten
+    res.redirect("/api/auth/google?prompt=select_account");
+};
+
+
+
+
+export { registerUser, authUser, logoutUser, getUserProfile, updateUserProfile, getUserBookings, cancelUserBooking, adminCheck,  logoutAndRedirectToGoogle  };

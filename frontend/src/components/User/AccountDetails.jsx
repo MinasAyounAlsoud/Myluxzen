@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import AuthContext from "../../context/AuthContext";
 import countryData from "../../dataJson/CountryCodes.json";
-import useServerErrorHandler from "./ErrorHandler";
+import createErrorHandler from "./ErrorHandler";
 
 
 const AccountDetails = () => {
@@ -9,7 +9,7 @@ const AccountDetails = () => {
     const [editingFields, setEditingFields] = useState({}); 
     const [errors, setErrors] = useState({});
     const [successMessage, setSuccessMessage] = useState("");
-    const errorHandler = useServerErrorHandler(setErrors);
+    const errorHandler = createErrorHandler(setErrors);
     const [formData, setFormData] = useState({
         vorname: "",
         nachname: "",
