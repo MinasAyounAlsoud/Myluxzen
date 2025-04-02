@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FaChevronDown } from "react-icons/fa";
 import aboutUs from "../dataJson/aboutUnsData.json";
-import mainBild from "../assets/aboutUsImg/main2.avif";
 import NavbarMini from "../components/navbarMini/NavbarMini";
 import "../styles/extra.css";
 import aboutUsImgMinas from "../assets/aboutUsImg/minas.jpg";
@@ -13,95 +11,98 @@ import teamBg from "../assets/aboutUsImg/kayak1.avif";
 import Footer from "../components/footer/Footer";
 import { FaArrowLeft, FaArrowUp, FaEnvelope, FaPhone } from "react-icons/fa";
 
-const MainSection = () => {
-  return (
-    <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-center text-white px-6"
-      style={{ backgroundImage: `url(${mainBild})` }}
-    >
-      <div className="text-center bg-black/10 p-8 rounded-xl">
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="text-5xl md:text-6xl font-bold mb-12 "
-          style={{ fontFamily: "Merriweather, serif" }}
-        >
-          Willkommen bei Myluxzen
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.3 }}
-          className="text-xl md:text-2xl max-w-3xl"
-          style={{ fontFamily: "Merriweather, serif" }}
-        >
-          Erlebe unvergleichlichen Luxus und unvergessliche Momente – erschaffen
-          für dich!
-        </motion.p>
-      </div>
-      {/* Scroll Indicator */}
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 2 }}
-        className="absolute bottom-10 text-white text-3xl opacity-80"
-      >
-        <FaChevronDown />
-      </motion.div>
-    </div>
-  );
-};
+// const MainSection = () => {
+//   return (
+//     <motion.div
+//       initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
+//       animate={{ opacity: 1, scale: 1, rotate: 0 }}
+//       transition={{ duration: 1 }}
+//       className="min-h-screen flex items-center justify-center bg-cover bg-center text-white px-6"
+//       style={{ backgroundImage: `url(${mainBild})` }}
+//     >
+//       <div className="text-center bg-black/50 p-12 rounded-3xl shadow-2xl">
+//         <motion.h1
+//           initial={{ opacity: 0, y: -20 }}
+//           animate={{ opacity: 1, y: 0 }}
+//           transition={{ duration: 1 }}
+//           className="text-5xl md:text-6xl font-bold mb-12 "
+//           style={{ fontFamily: "Merriweather, serif" }}
+//         >
+//           Willkommen bei Myluxzen
+//         </motion.h1>
+//         <motion.p
+//           initial={{ opacity: 0, y: 20 }}
+//           animate={{ opacity: 1, y: 0 }}
+//           transition={{ duration: 1, delay: 0.3 }}
+//           className="text-xl md:text-2xl max-w-3xl"
+//           style={{ fontFamily: "Merriweather, serif" }}
+//         >
+//           Erlebe unvergleichlichen Luxus und unvergessliche Momente – erschaffen
+//           für dich!
+//         </motion.p>
+//       </div>
+//       <motion.div
+//         animate={{ y: [0, 10, 0] }}
+//         transition={{ repeat: Infinity, duration: 2 }}
+//         className="absolute bottom-10 text-white text-3xl opacity-80"
+//       >
+//         <FaChevronDown />
+//       </motion.div>
+//     </motion.div>
+//   );
+// };
 
 const InfoSection = ({ title, description, image }) => {
   return (
-    <div className="relative h-screen w-full overflow-hidden">
+    <div className="relative min-h-screen w-full flex flex-col items-center justify-center py-20">
       <div
-        className="absolute top-0 left-0 w-full h-full bg-cover bg-center"
+        className="absolute inset-0 bg-cover bg-center filter brightness-90"
         style={{
           backgroundImage: `url(${image})`,
           backgroundAttachment: "fixed",
         }}
       />
-      <div className="relative z-10 h-1/2 w-full flex items-center justify-center bg-white/70 backdrop-blur-sm">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="max-w-4xl px-8 text-center"
-        >
-          <h2
-            className="text-4xl font-bold text-teal-dark mb-12"
-            style={{ fontFamily: "Merriweather, serif" }}
-          >
-            {title}
-          </h2>
-          <p
-            className="text-lg text-gray-600 leading-relaxed"
-            style={{ fontFamily: "Merriweather, serif" }}
-          >
-            {description}
-          </p>
-        </motion.div>
-      </div>
 
-      <div className="relative z-0 h-1/2 w-full" />
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20">
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-          className="text-white text-3xl opacity-70"
+      <motion.div
+        initial={{ opacity: 0, y: 50, scale: 0.95 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
+        viewport={{ once: true }}
+        className="relative z-10 w-full max-w-4xl bg-white/90 backdrop-blur-lg p-12 md:p-16 rounded-3xl text-center shadow-2xl"
+      >
+        <motion.h2
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1.05 }}
+          transition={{
+            duration: 0.8,
+            type: "spring",
+            stiffness: 120,
+            delay: 0.3,
+          }}
+          className="text-4xl font-bold text-teal-700 mb-6"
         >
-          ↓
-        </motion.div>
-      </div>
+          {title}
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.8,
+            type: "spring",
+            stiffness: 120,
+            delay: 0.5,
+          }}
+          className="text-lg text-gray-800 leading-relaxed"
+        >
+          {description}
+        </motion.p>
+      </motion.div>
     </div>
   );
 };
 
 const UnserTeamSection = () => {
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
-
   const teamMembers = [
     {
       name: "Fatima Zahra Azekraoui",
@@ -128,62 +129,55 @@ const UnserTeamSection = () => {
         "Xiangyu ist Mitgründerin und die organisatorische Stütze von Myluxzen. Sie sorgt dafür, dass alle Prozesse reibungslos ablaufen und jeder Gast die bestmögliche Erfahrung während seines Aufenthalts hat.",
     },
   ];
-
   return (
-    <div
-      className="min-h-screen py-16 px-6 bg-cover bg-center text-white"
+    <motion.div
+      initial={{ opacity: 0, x: -50 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ duration: 1 }}
+      className="min-h-screen py-20 px-6 bg-cover bg-center text-white"
       style={{ backgroundImage: `url(${teamBg})` }}
     >
-      <div className="min-h-screen py-16 px-6 bg-cover bg-center text-white">
-        <div className="max-w-7xl mx-auto text-center mb-15">
-          <motion.h1
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            className="text-5xl font-bold text-teal-dark mb-12"
-            style={{ fontFamily: "Merriweather, serif" }}
-          >
-            Unser Team
-          </motion.h1>
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-8 mt-10">
-          {teamMembers.map((member, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="relative w-full md:w-1/2 lg:w-1/4 xl:w-1/5"
-            >
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg"></div>
-              <img
-                src={member.image}
-                alt={member.name}
-                className="w-full h-80 object-cover rounded-lg mb-4"
-              />
-              <div className="relative z-10 p-4 text-center">
-                <h2 className="text-2xl font-semibold text-white">
-                  {member.name}
-                </h2>
-                <p className="text-lg text-white mt-5">{member.description}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+      <div className="max-w-7xl mx-auto text-center mb-12">
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="text-5xl font-bold text-teal-dark mb-12"
+          style={{ fontFamily: "Merriweather, serif" }}
+        >
+          Unser Team
+        </motion.h1>
       </div>
 
-      <button
-        onClick={scrollToTop}
-        className="mt-10 bg-teal-dark  text-[#fae1a8] py-3 px-6 rounded-lg flex items-center gap-2 text-sm mx-auto"
-      >
-        <FaArrowUp /> Nach oben scrollen
-      </button>
-    </div>
+      <div className="flex flex-wrap justify-center gap-8 mt-10">
+        {teamMembers.map((member, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="relative w-full md:w-1/2 lg:w-1/4 xl:w-1/5"
+          >
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent rounded-lg"></div>
+            <img
+              src={member.image}
+              alt={member.name}
+              className="w-full h-80 object-cover rounded-lg mb-4"
+            />
+            <div className="relative z-10 p-4 text-center">
+              <h2 className="text-2xl font-semibold text-white">
+                {member.name}
+              </h2>
+              <p className="text-lg text-white mt-5">{member.description}</p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
   );
 };
 
-const aboutUsPage = () => {
+const AboutUsPage = () => {
   useEffect(() => {
     setTimeout(() => {
       window.scrollTo(0, 0);
@@ -193,7 +187,9 @@ const aboutUsPage = () => {
   return (
     <div className="w-full">
       <NavbarMini />
-      <MainSection />
+      <UnserTeamSection />
+
+      {/* <MainSection /> */}
       {aboutUs.map((ab, idx) => (
         <InfoSection
           key={idx}
@@ -202,10 +198,10 @@ const aboutUsPage = () => {
           image={ab.image}
         />
       ))}
-      <UnserTeamSection />
+
       <Footer />
     </div>
   );
 };
 
-export default aboutUsPage;
+export default AboutUsPage;

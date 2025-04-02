@@ -1,4 +1,4 @@
-import { useContext,useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { NavLink, Outlet, useNavigate, Navigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
@@ -16,13 +16,12 @@ export function AdminPage() {
   }
 
   //  Schütze die Admin-Route
-  if (!loading &(!user || !user.isAuthenticated || !user.isAdmin)) {
+  if (!loading & (!user || !user.isAuthenticated || !user.isAdmin)) {
     return <Navigate to="/" replace />;
   }
 
-
   const Navbar = () => {
-      const getLinkClass = ({ isActive }) =>
+    const getLinkClass = ({ isActive }) =>
       isActive
         ? "text-[#FAE1A8] underline underline-offset-4"
         : "hover:text-[#FAE1A8]";
@@ -30,7 +29,6 @@ export function AdminPage() {
     return (
       <nav className="bg-gray-800 text-white p-4 flex items-center justify-between">
         <ul className="flex space-x-6 flex-wrap">
-
           <li className="cursor-pointer">
             <NavLink to="bookings-manage" className={getLinkClass}>
               BuchungsVerhandlung
@@ -39,12 +37,12 @@ export function AdminPage() {
           {/* Xiangyu */}
           <li className="cursor-pointer">
             <NavLink to="booking-timeline" className={getLinkClass}>
-            Reservierungszeitlinie
+              Reservierungszeitlinie
             </NavLink>
           </li>
           <li className="cursor-pointer">
             <NavLink to="singleHouse-query" className={getLinkClass}>
-            Häuseranfrage
+              Häuseranfrage
             </NavLink>
           </li>
           {/*Zahra*/}
@@ -54,15 +52,19 @@ export function AdminPage() {
             </NavLink>
           </li>
           <li className="cursor-pointer hover:text-[#FAE1A8]">
-            <NavLink to="HausBeschreibung">HausBeschreibung</NavLink>
+            <NavLink to="HausBeschreibung" className={getLinkClass}>
+              HausBeschreibung
+            </NavLink>
           </li>
           <li className="cursor-pointer hover:text-[#FAE1A8]">
-            <NavLink to="reviews">Reviews</NavLink>
+            <NavLink to="reviews" className={getLinkClass}>
+              Reviews
+            </NavLink>
           </li>
-           {/*Zahra*/ }
+          {/*Zahra*/}
           <li className="cursor-pointer">
   <NavLink to="booking-dashboard" className={getLinkClass}>
-    Statistic Buchungen
+    Buchungsstatistik
   </NavLink>
 </li>
 {/*Zahra*/ }
@@ -73,15 +75,15 @@ export function AdminPage() {
 </li>
         </ul>
         <button
-             onClick={() => {
-             logout();  // ✅ Logout nur aufrufen  // Naheeda
-             navigate("/auth?register=false");
-             setMenuOpen(false);
-              }}
-              className="ml-auto bg-white text-black font-semibold py-1 px-3 rounded hover:bg-gray-200 transition-colors"
-            >
-            Abmelden
-            </button>
+          onClick={() => {
+            logout(); // ✅ Logout nur aufrufen  // Naheeda
+            navigate("/auth?register=false");
+            setMenuOpen(false);
+          }}
+          className="ml-auto bg-white text-black font-semibold py-1 px-3 rounded hover:bg-gray-200 transition-colors"
+        >
+          Abmelden
+        </button>
       </nav>
     );
   };
