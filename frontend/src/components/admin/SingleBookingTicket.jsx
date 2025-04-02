@@ -9,7 +9,8 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
         try {
             const requestBody = {
                 houseNum: singleBooking.houseNum,
-                status: "Canceled"
+                status: "Canceled",
+                email: singleBooking.email // add email for cancel email
             };
             console.log("handleCancel,requestBody", requestBody)
             const response = await fetch(`http://localhost:3000/booking/cancel-or-checkout/${singleBooking.bookingNumber}`, {
