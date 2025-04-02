@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-const useServerErrorHandler = (setErrors) => {
+const createErrorHandler = (setErrors) => {
   return useCallback((errorResponse) => {
     if (!errorResponse) {
       setErrors({ general: "Unbekannter Fehler" });
@@ -22,4 +22,4 @@ const useServerErrorHandler = (setErrors) => {
   }, [setErrors]);
 };
 
-export default useServerErrorHandler;
+export default createErrorHandler;

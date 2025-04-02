@@ -1,13 +1,12 @@
 
-import React from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FaChevronDown } from "react-icons/fa";
 import activities from "../dataJson/activitiesData.json"; // Pfad anpassen
+import faqData from "../dataJson/faqData.json";
 import mainBild from "../assets/imageNaheeda/main5.jpg"
-//import mainBild from "../assets/imageNaheeda/main2.avif"
-import contactImage from "../assets/imageNaheeda/rezeption4.jpg"; // dein Kontaktbild
-import { FaArrowLeft, FaArrowUp, FaEnvelope, FaPhone } from "react-icons/fa";
+import { FaArrowLeft, FaArrowUp, FaEnvelope, FaPhoneAlt, FaChevronDown  } from "react-icons/fa";
 import NavbarMini from "../components/navbarMini/NavbarMini";
+
 import "../styles/extra.css";
 
 
@@ -90,77 +89,173 @@ const ActivitySection = ({ title, description, image }) => {
     </div>
   );
 };
-
+/*
 // Kontaktbereich am Ende
 const ContactSection = () => {
+  const [showContactModal, setShowContactModal] = useState(false);
+
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    //window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo(0, 0);
   };
 
   return (
-    <div className="bg-[#116769] text-white py-12 px-4 md:px-8">
-      <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 mt-8 mb-14">
-        {/* Textbereich */}
-        <div className="flex-1 space-y-4">
-          <h2 className="text-3xl md:text-4xl font-light text-sand">Sie haben Fragen?</h2>
-          <p className="text-off-white md:text-lg">
-            Wir beantworten Sie gern unter:{" "}
-            <span className="inline-flex items-center gap-2">
-              <FaPhone className="ml-3  text-caramel" />  +49 123 456 789
-            </span>
-          </p>
-          <p className="text-base md:text-lg text-off-white">
-            oder per Email an:{" "}
-            <span className="inline-flex items-center gap-2">
-              <FaEnvelope className="ml-6 text-caramel" />
-              <a
-                href="mailto:kontakt@myluxzen.com"
-                className=" text-off-whit hover:text-caramel transition duration-300 ease-in-out transform hover:scale-105 inline-block relative group"
-              >
-                kontakt@myluxzen.com
-              </a>
-            </span>
-          </p>
+<div className="bg-[#f9f4ef] text-[#0e5756] py-20 px-4 md:px-10 min-h-[30vh]">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center">
+     
+        <div className="text-center md:text-left flex flex-col items-center md:items-start">
 
-          {/* Buttons */}
-          <div className="flex gap-3 pt-2 flex-wrap">
-            <button className="bg-caramel hover:bg-gray-600 text-white py-2 px-4 rounded flex items-center gap-2 text-sm"
-         >
+          <h2 className="text-3xl font-bold mb-12 font-playfair" style={{ fontFamily: 'Merriweather, serif' }}>Sie haben Fragen?</h2>
+       
+          <div className="space-y-4 mb-4">
+            <p
+              onClick={() => setShowContactModal(true)}
+              className="cursor-pointer flex items-center gap-3 hover:text-caramel transition"
+            >
+              <span className="p-2 bg-caramel rounded-full shadow-md hover:scale-105 transition">
+                <FaEnvelope className="text-white" />
+              </span>
+              <span className="text-sm">Schreiben Sie uns einen Nachricht</span>
+            </p>
 
-              <FaArrowLeft /> Activitäten buchen
+            <a
+              href="tel:+49123456789"
+              className="flex items-center gap-3 hover:text-caramel transition"
+            >
+              <span className="p-2 bg-caramel rounded-full shadow-md hover:scale-105 transition">
+                <FaPhoneAlt className="text-white" />
+              </span>
+              <span className="text-sm"> oder rufen Sie uns unter : +49 123 456 789</span>
+            </a>
+          </div>
+
+          <div className="flex flex-wrap gap-3 pt-2">
+            <button className="bg-caramel hover:bg-[#0e5756] text-white py-2 px-4 rounded flex items-center gap-2 text-sm">
+              <FaArrowLeft /> Aktivitäten buchen
             </button>
             <button
               onClick={scrollToTop}
-              className="bg-caramel hover:bg-gray-600 text-white py-2 px-4 rounded flex items-center gap-2 text-sm ml-7"
+              className="bg-caramel hover:bg-[#0e5756] text-white py-2 px-4 rounded flex items-center gap-2 text-sm"
             >
-              <FaArrowUp /> nach oben scrollen
+              <FaArrowUp /> Nach oben scrollen
             </button>
           </div>
         </div>
 
-        {/* Bild */}
-        <div className="flex-1 hidden md:block">
-          <img
-            src={contactImage}
-            alt="Kontakt"
-            className="w-full max-w-xs rounded-md shadow-xl mx-auto"
-          />
-        </div>
+        
+
+
+
+
       </div>
 
-      {/* Linie + Copyright */}
-      <div className="w-full border-t border-gray-400 mt-6 pt-3 text-center text-sm text-gray-300">
-         © {new Date().getFullYear()} MyLuXZeN – Alle Rechte vorbehalten.
+      {showContactModal && (
+        <ContactFormModal onClose={() => setShowContactModal(false)} />
+      )}
+    </div>
+  );
+};
+
+*/
+
+const Accordion = ({ question, answer }) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="border-b border-[#d6cfc9] pb-4">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full text-left flex justify-between items-center py-4 font-semibold text-lg"
+      >
+        {question}
+        <span className="text-2xl text-caramel">{open ? "−" : "+"}</span>
+      </button>
+      {open && (
+        <p className="text-sm text-gray-600 pl-2 pr-4 transition-all duration-300"  style={{ fontFamily: 'Merriweather, serif' }}>
+          {answer}
+        </p>
+      )}
+    </div>
+  );
+};
+
+const ContactSection = () => {
+  const scrollToTop = () => {
+    // window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo(0, 0);
+  };
+
+  return (
+    <div className="bg-[#f9f4ef] text-teal-dark py-16 px-6 md:px-12"  style={{ fontFamily: 'Merriweather, serif' }}>
+      {/* FAQ-Bereich */}
+      <h2
+        className="text-3xl font-bold mb-8 text-center"
+        style={{ fontFamily: "Merriweather, serif" }}
+      >
+        Fragen & Antworten
+      </h2>
+      <div className="max-w-4xl mx-auto space-y-4 mb-16">
+        {faqData.map((faq, idx) => (
+          <Accordion key={idx} question={faq.question} answer={faq.answer} />
+        ))}
       </div>
+
+{/* Kontakt & Buttons Wrapper */}
+<div className="mt-16 text-center text-teal-dark">
+  <h3
+    className="text-xl font-semibold mb-4"
+    style={{ fontFamily: "Merriweather, serif" }}
+  >
+    Noch Fragen zu unseren Aktivitäten?
+  </h3>
+
+  <div className="flex flex-col sm:flex-row justify-center items-center gap-6 text-sm font-medium">
+  {/* Nachricht schreiben */}
+  <div className="flex items-center gap-2 group">
+    <FaEnvelope className="text-caramel text-base" />
+    <span className="font-semibold relative group-hover:underline group-hover:underline-offset-4">
+      kontakt@myluxzen.com
+    </span>
+  </div>
+
+  {/* Trennstrich */}
+  <span className="hidden sm:inline text-gray-400">|</span>
+
+  {/* Anruf */}
+  <div className="flex items-center gap-2 group">
+    <FaPhoneAlt className="text-caramel text-base" />
+    <span className="font-semibold relative group-hover:underline group-hover:underline-offset-4">
+      +49 123 456 789
+    </span>
+  </div>
+</div>
+
+</div>
+
+  {/* Buttons darunter */}
+  <div className="flex justify-center gap-4 mt-6 flex-wrap">
+    <button className="bg-caramel hover:bg-[#0e5756] text-white py-2 px-4 rounded flex items-center gap- text-sm ">
+      <FaArrowLeft /> Aktivitäten buchen
+    </button>
+    <button
+      onClick={scrollToTop}
+      className="bg-caramel hover:bg-[#0e5756] text-white py-2 px-4 rounded flex items-center gap-2 text-sm"
+    >
+      <FaArrowUp /> Nach oben scrollen
+    </button>
+  </div>
     </div>
   );
 };
 
 const ActivitiesPage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="w-full">
-       <NavbarMini />
-       <MainSection />
+      <NavbarMini />
+      <MainSection />
       {activities.map((act, idx) => (
         <ActivitySection
           key={idx}

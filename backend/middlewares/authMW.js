@@ -2,17 +2,28 @@
 import {User} from "../models/userSchema.js";
 import { Booking } from "../models/bookingSchema.js";
 import { generateToken } from "../utils/generateToken.js";
+import passport from "passport";
+
 
 //  Hilfsfunktionen zur Validierung
 const formatAndValidateName = (name, field) => {
+    name = name.trim();
+
+    // Erlaubt Buchstaben (inkl. Umlaute), Leerzeichen & Bindestriche
     const regex = /^[A-Za-zÄÖÜäöüß\s-]+$/;
+
     if (!regex.test(name)) {
         throw {
             field,
-            message: `${field === "vorname" ? "Vorname" : "Nachname"} darf nur Buchstaben enthalten.`,
-          };
-        }
-    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+            message: `${field === "vorname" ? "Vorname" : "Nachname"} darf nur Buchstaben, Leerzeichen oder Bindestriche enthalten.`,
+        };
+    }
+
+    // Formatieren: Ersten Buchstaben groß, Rest klein (aber z. B. "Ali ibn Abi Talib" bleibt so)
+    return name
+        .split(" ")
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+        .join(" ");
 };
 
 const isValidPassword = (password) => {
@@ -26,7 +37,7 @@ const isValidPassword = (password) => {
 const isValidPhoneNumber = (phoneNumber) => {
     const regex = /^\d{6,15}$/;
     if (!regex.test(phoneNumber)) {
-        throw { field: "telefonnummer", message: "Ungültige Telefonnummer! Sie darf nur Zahlen enthalten." };
+        throw { field: "telefonnummer", message: "Ungültige Telefonnummer." };
     }
 };
 
@@ -271,4 +282,73 @@ const adminCheck = (req, res, next) => {
     }
 };
 
-export { registerUser, authUser, logoutUser, getUserProfile, updateUserProfile, getUserBookings, cancelUserBooking, adminCheck  };
+// Google Auth starten
+export const googleAuth = passport.authenticate("google", {
+    scope: ["profile", "email"],
+    prompt: "select_account" // 👈 Zwingt Google zur Kontenauswahl!
+});
+
+// Google Callback
+export const googleCallback = (req, res, next) => {
+    passport.authenticate("google", async (err, user, info) => {
+      if (err || !user) {
+        console.log("❌ Google Auth fehlgeschlagen oder abgebrochen.");
+        return res.redirect("http://localhost:5173/auth?register=false&error=google_failed");
+      }
+  
+      req.login(user, (loginErr) => {
+        if (loginErr) {
+          return res.redirect("http://localhost:5173/auth?register=false&error=google_failed");
+        }
+  
+        const token = generateToken(user._id);
+        res.cookie("jwt", token, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "strict",
+          maxAge: 30 * 24 * 60 * 60 * 1000,
+        });
+  
+        return res.redirect("http://localhost:5173");
+      });
+    })(req, res, next);
+  };
+  
+
+
+export const googleAuthSuccess = (req, res) => {
+    try {
+        if (!req.user) {
+            // Authentifizierung fehlgeschlagen oder abgebrochen
+            return res.redirect("http://localhost:5173/auth?register=false&error=google_failed");
+        }
+
+        const token = generateToken(req.user._id);
+        res.cookie("jwt", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "strict",
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+        });
+
+        res.redirect("http://localhost:5173");
+    } catch (error) {
+        res.redirect("http://localhost:5173/auth?register=false&error=google_error");
+    }
+};
+
+const logoutAndRedirectToGoogle = (req, res) => {
+    res.clearCookie("jwt", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "strict"
+    });
+
+    // Danach zur Google-Auth weiterleiten
+    res.redirect("/api/auth/google?prompt=select_account");
+};
+
+
+
+
+export { registerUser, authUser, logoutUser, getUserProfile, updateUserProfile, getUserBookings, cancelUserBooking, adminCheck,  logoutAndRedirectToGoogle  };

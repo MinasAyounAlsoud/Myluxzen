@@ -1,5 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
+import session from "express-session";  //Naheeda
+import passport from "./utils/passport.js";  //Naheeda
 import { connect } from "./utils/connect.js";
 import cors from "cors";
 import cookieParser from "cookie-parser"; //Naheeda
@@ -24,6 +26,18 @@ app.use("/images", express.static("public/images"));
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(cookieParser()); //Add Cookieparser von Naheeda
 app.use(express.json());
+
+// Session-Middleware für Passport-google anmeldung
+app.use(    //Naheeda
+  session({
+      secret: "geheimesToken",
+      resave: false,
+      saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
 // app.get("/", (req, res) => {
 //   res.send("✅ Myluxzen API läuft... 🚀");
 // });
