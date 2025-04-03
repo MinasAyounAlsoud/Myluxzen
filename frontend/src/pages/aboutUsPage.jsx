@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import aboutUs from "../dataJson/aboutUnsData.json";
 import NavbarMini from "../components/navbarMini/NavbarMini";
 import "../styles/extra.css";
-import aboutUsImgMinas from "../assets/aboutUsImg/minas.jpg";
+import aboutUsImgMinas from "../assets/aboutUsImg/Minas1.jpg";
 import aboutUsImgNaheeda from "../assets/aboutUsImg/Naheeda.jpg";
 import aboutUsImgXiangyu from "../assets/aboutUsImg/Xiangyu.jpg";
 import aboutUsImgFatima from "../assets/aboutUsImg/Fatima.jpg";
@@ -12,47 +12,6 @@ import aboutUsImgFatima from "../assets/aboutUsImg/Fatima.jpg";
 import teamBg from "../assets/aboutUsImg/kayak1.avif";
 import Footer from "../components/footer/Footer";
 import { FaArrowLeft, FaArrowUp, FaEnvelope, FaPhone } from "react-icons/fa";
-
-// const MainSection = () => {
-//   return (
-//     <motion.div
-//       initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
-//       animate={{ opacity: 1, scale: 1, rotate: 0 }}
-//       transition={{ duration: 1 }}
-//       className="min-h-screen flex items-center justify-center bg-cover bg-center text-white px-6"
-//       style={{ backgroundImage: `url(${mainBild})` }}
-//     >
-//       <div className="text-center bg-black/50 p-12 rounded-3xl shadow-2xl">
-//         <motion.h1
-//           initial={{ opacity: 0, y: -20 }}
-//           animate={{ opacity: 1, y: 0 }}
-//           transition={{ duration: 1 }}
-//           className="text-5xl md:text-6xl font-bold mb-12 "
-//           style={{ fontFamily: "Merriweather, serif" }}
-//         >
-//           Willkommen bei Myluxzen
-//         </motion.h1>
-//         <motion.p
-//           initial={{ opacity: 0, y: 20 }}
-//           animate={{ opacity: 1, y: 0 }}
-//           transition={{ duration: 1, delay: 0.3 }}
-//           className="text-xl md:text-2xl max-w-3xl"
-//           style={{ fontFamily: "Merriweather, serif" }}
-//         >
-//           Erlebe unvergleichlichen Luxus und unvergessliche Momente – erschaffen
-//           für dich!
-//         </motion.p>
-//       </div>
-//       <motion.div
-//         animate={{ y: [0, 10, 0] }}
-//         transition={{ repeat: Infinity, duration: 2 }}
-//         className="absolute bottom-10 text-white text-3xl opacity-80"
-//       >
-//         <FaChevronDown />
-//       </motion.div>
-//     </motion.div>
-//   );
-// };
 
 const InfoSection = ({ title, description, image }) => {
   return (

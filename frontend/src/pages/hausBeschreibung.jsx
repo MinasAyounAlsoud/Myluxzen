@@ -144,50 +144,14 @@ const ApartmentModal = ({ apartment, onClose }) => {
   );
 };
 
-// export function ApartmentsList() {
-//   const [apartments, setApartments] = useState([]);
-//   const [selectedApartment, setSelectedApartment] = useState(null);
-
-//   useEffect(() => {
-//     fetch("http://localhost:3000/api/houses")
-//       .then((response) => response.json())
-//       .then((data) => {
-//         console.log(data);
-//         setApartments(data);
-//       })
-//       .catch((error) => console.error("Fehler beim Laden der Daten:", error));
-//   }, []);
-
-//   return (
-//     <div>
-//       <MiniNavbar />
-//       <div className="max-w-6xl mx-auto p-6">
-//         <div className="flex flex-col gap-6 items-center mt-7">
-//           {apartments.map((apartment, index) => (
-//             <ApartmentCard
-//               key={index}
-//               apartment={apartment}
-//               onClick={setSelectedApartment}
-//             />
-//           ))}
-//         </div>
-//         {selectedApartment && (
-//           <ApartmentModal
-//             apartment={selectedApartment}
-//             onClose={() => setSelectedApartment(null)}
-//           />
-//         )}
-//       </div>
-//       <Footer />
-//     </div>
-//   );
-// }
 export function ApartmentsList() {
   const [apartments, setApartments] = useState([]);
   const [selectedApartment, setSelectedApartment] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/houses")
+    const url = `${import.meta.env.VITE_SERVER_URL}/api/houses`;
+
+    fetch(url)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);

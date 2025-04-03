@@ -56,8 +56,9 @@ export function ReviewForm({ onReviewAdded, onClose }) {
     }
 
     setErrors({});
+    const url = `${import.meta.env.VITE_SERVER_URL}/api/reviews/add`;
 
-    const response = await fetch("http://localhost:3000/api/reviews/add", {
+    const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(review),
