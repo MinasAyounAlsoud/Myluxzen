@@ -29,8 +29,10 @@ export const queryBookingTickets = async(req,res,next)=>{
     let query = {};
     if (bookingNum) query.bookingNumber = bookingNum;
     if (email) query.email = email;
-    if (guestFirstName) query.guestFirstName = guestFirstName;
-    if (guestFamilyName) query.guestFamilyName = guestFamilyName;
+    if (guestFirstName) 
+            query.guestFirstName = { $regex: guestFirstName.replace(/\s+/g, ""), $options: "i" };
+    if (guestFamilyName) 
+            query.guestFamilyName = { $regex: guestFamilyName.replace(/\s+/g, ""), $options: "i" };
     if (houseType) query.houseType = houseType;
     if (status === "ActiveOrCheckedIn"){
         query.status = {$in: ["Active", "CheckedIn"]};

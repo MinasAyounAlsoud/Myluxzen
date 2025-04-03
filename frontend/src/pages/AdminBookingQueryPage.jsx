@@ -12,6 +12,7 @@ export const AdminBookingQueryPage = ()=>{
     const [hasMore, setHasMore] = useState(false);
     const [bookingData, setBookingData] = useState(null);
     const [showDetails, setShowDetails] = useState(false);
+    const [showQueryResults, setShowQueryResult] = useState(false);
     const [formData, setFormData] = useState({
         bookingNum: "",
         email: '',
@@ -82,6 +83,7 @@ export const AdminBookingQueryPage = ()=>{
     const handleSearch = (formData) => {
         setQuery(formData);
         fetchResults(formData, 1);
+        setShowQueryResult(true);
     };
     const handleLoadMore = () => {
         fetchResults(query, page + 1);
@@ -92,9 +94,12 @@ export const AdminBookingQueryPage = ()=>{
     })
     return (
     <div>
-        <div>
+        <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">
+                    Buchungsverhandlung
+        </h2>
+        <div >
             <QueryForm handleSearch={handleSearch} formData={formData} setFormData={setFormData} />
-            <QueryResults results={results} hasMore={hasMore} onLoadMore={handleLoadMore} fetchBooking={fetchBooking}/>
+            {showQueryResults && <QueryResults results={results} hasMore={hasMore} onLoadMore={handleLoadMore} fetchBooking={fetchBooking}/>}
             <Modal isOpen={showDetails} onClose={handleClose} >
                 <SingleBookingTicket singleBooking={bookingData} setBookingData={setBookingData} onClose={handleClose}></SingleBookingTicket>
             </Modal>
