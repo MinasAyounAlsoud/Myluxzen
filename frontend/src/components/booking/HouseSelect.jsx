@@ -5,6 +5,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { FaArrowTurnUp } from "react-icons/fa6";
 import { SingleBookingTicket } from '../admin/SingleBookingTicket';
 import { SingleHousesList } from "./SingleHousesList";
+
 export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompleted,setGotoNextStep})=>{
   const [availableRooms, setAvailableRooms] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
@@ -60,7 +61,9 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
           return;
         }
         try {
-          const response = await fetch("http://localhost:3000/booking/check-availability", {
+          const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/booking/check-availability`;
+          // const url = `http://localhost:3000/booking/check-availability`;
+          const response = await fetch(url, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -115,8 +118,9 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
                       houseNum: newBooking.houseNum
                   };
                   console.log("handleGetHousesForReserve, requestBody", requestBody);
-  
-                  const response = await fetch(`http://localhost:3000/singleHouse/reserve-get-houses/${selectedHouseType}`, {
+                  const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/singleHouse/reserve-get-houses/${selectedHouseType}`;
+                  // const url = `http://localhost:3000/singleHouse/reserve-get-houses/${selectedHouseType}`;
+                  const response = await fetch(url, {
                       method: "POST",
                       headers: {
                           "Content-Type": "application/json",

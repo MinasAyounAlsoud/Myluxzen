@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { fetchRequestNoRes } from "../../utils/commenBookFunc.js";
+
 export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) {
     const [houses, setHouses] = useState([]);
     const [selectedHouse,setSelectedHouse] = useState(null);
@@ -12,8 +13,10 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
                 status: "Canceled",
                 email: singleBooking.email // add email for cancel email
             };
-            console.log("handleCancel,requestBody", requestBody)
-            const response = await fetch(`http://localhost:3000/booking/cancel-or-checkout/${singleBooking.bookingNumber}`, {
+            // console.log("handleCancel,requestBody", requestBody)
+            const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/booking/cancel-or-checkout/${singleBooking.bookingNumber}`;
+            // const url = `http://localhost:3000/booking/cancel-or-checkout/${singleBooking.bookingNumber}`;
+            const response = await fetch(url, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -37,7 +40,9 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
                 houseNum: singleBooking.houseNum
             };
             console.log("handleCheckIn,requestBody", requestBody)
-            const response = await fetch(`http://localhost:3000/singleHouse/checkin-get-houses/${singleBooking.houseType}`, {
+            const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/singleHouse/checkin-get-houses/${singleBooking.houseType}`;
+            // const url = `http://localhost:3000/singleHouse/checkin-get-houses/${singleBooking.houseType}`;
+            const response = await fetch(url, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -61,7 +66,8 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
     };
     const handleCheckInConfirm = async()=>{
         if(selectedHouse=== null) return;
-        const url = `http://localhost:3000/singleHouse/house-checkin/${selectedHouse.houseNum}`; 
+        const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/booking/delete/${singleBooking.bookingNumber}`;
+        // const url = `http://localhost:3000/booking/delete/${singleBooking.bookingNumber}`;
         const requestBody = {
             houseNum: selectedHouse.houseNum,
             bookingNum: singleBooking.bookingNumber,
@@ -92,7 +98,9 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
                 status: "CheckedOut"
             };
             console.log("handleCheckOut,requestBody", requestBody)
-            const response = await fetch(`http://localhost:3000/booking/cancel-or-checkout/${singleBooking.bookingNumber}`, {
+            const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/booking/cancel-or-checkout/${singleBooking.bookingNumber}`;
+            // const url = `http://localhost:3000/booking/cancel-or-checkout/${singleBooking.bookingNumber}`;
+            const response = await fetch(url, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -119,7 +127,9 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
     const handleDelete = async () => {
         if (window.confirm('Sind Sie sicher, dass Sie diese Buchung löschen möchten?')){
             try {
-                const response = await fetch(`http://localhost:3000/booking/delete/${singleBooking.bookingNumber}`, {
+                const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/booking/delete/${singleBooking.bookingNumber}`;
+                // const url = `http://localhost:3000/booking/delete/${singleBooking.bookingNumber}`;
+                const response = await fetch(url, {
                     method: 'DELETE'
                 });
                 const data = await response.json();

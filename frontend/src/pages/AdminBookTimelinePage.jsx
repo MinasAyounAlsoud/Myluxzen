@@ -31,7 +31,8 @@ export const AdminBookTimelinePage = () => {
             status: "ActiveOrCheckedIn",
             setLimit: 1000
         });
-        const url = `http://localhost:3000/booking/query?${params.toString()}`;
+        const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/booking/query?${params.toString()}`;
+        // const url = `http://localhost:3000/booking/query?${params.toString()}`;
         // console.log("Requesting URL:", url);
         const response = await fetch(url);
         if(!response.ok){

@@ -50,7 +50,8 @@ async function seedDatabase() {
                     hausBeschreibung: new ObjectId(hausBeschreibungIds[houseType]),
                     status: 'Available',
                     booking:[],
-                    inUsePeriods:[]
+                    inUsePeriods:[],
+                    bookingNum: ""
                 });
             }
         });

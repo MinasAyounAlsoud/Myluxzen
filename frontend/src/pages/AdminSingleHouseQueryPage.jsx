@@ -21,8 +21,9 @@ export const AdminSingleHouseQueryPage = ()=>{
             ...query, 
             page  
         });
-        const url = `http://localhost:3000/singleHouse/query?${params.toString()}`;
-        // console.log("Requesting URL:", url);
+        // const url = `http://localhost:3000/singleHouse/query?${params.toString()}`;
+        const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/singleHouse/query?${params.toString()}`;
+        console.log("AdminSingleHouseQueryPage URL:", url);
         const response = await fetch(url);
         let data = await response.json();
         console.log("received query data",data)
@@ -36,7 +37,10 @@ export const AdminSingleHouseQueryPage = ()=>{
     };
     const fetchHouse = async (houseNum) => {
         try {
-            const response = await fetch(`http://localhost:3000/singleHouse/geHausByNum/${houseNum}`, {
+            const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/singleHouse/geHausByNum/${houseNum}`;
+            // const url = `http://localhost:3000/singleHouse/geHausByNum/${houseNum}`;
+            console.log("AdminSingleHouseQueryPage URL:", url);
+            const response = await fetch(url, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

@@ -20,6 +20,7 @@ export const BookingPage = ()=>{
     const totalSteps = 4;
     const {user} = useContext(AuthContext);
     const [loadingBookingTicket, setLoadingBookingTicket] = useState(false);
+
     useEffect(()=>{
         if(user !== null){
             const initState = {
@@ -77,7 +78,9 @@ export const BookingPage = ()=>{
         } else {//last step, send API and create booking ticket 
             try {
                 setLoadingBookingTicket(true);
-                const response = await fetch("http://localhost:3000/booking/create-booking", {
+                const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/booking/create-booking`;
+                // console.log(".env urlTest", url);
+                const response = await fetch(url, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
