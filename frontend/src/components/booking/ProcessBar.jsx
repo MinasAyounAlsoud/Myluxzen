@@ -1,7 +1,7 @@
 import React from "react";
 
 export const ProcessBar = ({ step, setStep }) => {
-    const steps = ["Daten", "Häuser", "Kontakt", "Zahlung"];
+    const steps = ["Datum", "Häuser", "Kontakt", "Zahlung"];
     return (
     <div  className="py-10 px-12" >
         <div className="flex items-center space-x-4">

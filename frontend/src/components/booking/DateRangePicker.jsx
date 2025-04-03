@@ -89,13 +89,14 @@ export function DateRangePicker({ newBooking, setNewBooking, errStartDate, errEn
             minDate={new Date()}
             // maxDate={parseDate(newBooking.endDate)}
             placeholderText="--"
-            className="text-black font-bold text-xl w-full"
+            className="text-black font-bold text-xl w-full focus:outline-none"
             calendarClassName="datePickerCalendar"
+            dateFormat="dd/MM/yyyy" 
           />
           <button
             type="button"
             onClick={handleStartDateClear}
-            className=" text-gray-300 hover:text-gray-500 focus:outline-none ">
+            className=" text-gray-300 hover:text-gray-500 focus:outline-none cursor-pointer">
               <RxCrossCircled />
           </button>
         </div>
@@ -111,13 +112,14 @@ export function DateRangePicker({ newBooking, setNewBooking, errStartDate, errEn
             endDate={parseDate(newBooking.endDate)}
             minDate={newBooking.startDate ? new Date(newBooking.startDate) : new Date()}
             placeholderText="--"
-            className="text-black font-bold text-xl w-full"
+            className="text-black font-bold text-xl w-full focus:outline-none"
             calendarClassName="datePickerCalendar"
+            dateFormat="dd/MM/yyyy" 
           />
           <button
             type="button"
             onClick={handleEndDateClear}
-            className=" text-gray-300 hover:text-gray-500 focus:outline-none">
+            className=" text-gray-300 hover:text-gray-500 focus:outline-none cursor-pointer">
               <RxCrossCircled />
           </button>
         </div>

@@ -32,7 +32,7 @@ export const DateSelect = ({newBooking, setNewBooking,gotoNextStep,setStepComple
     return (
     <div>
         <div className="text-2xl py-2 text-gray-700 font-bold">
-            Daten
+        Datum
         </div>
         <div className="w-full space-y-4">
             <DateRangePicker newBooking={newBooking} setNewBooking={setNewBooking} errStartDate={errStartDate} errEndDate={errEndDate} focusedField={focusedField} setFocusedField={setFocusedField}
