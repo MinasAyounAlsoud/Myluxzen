@@ -61,7 +61,7 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
           return;
         }
         try {
-          const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/booking/check-availability`;
+          const url = `${import.meta.env.VITE_SERVER_URL}/booking/check-availability`;
           // const url = `http://localhost:3000/booking/check-availability`;
           const response = await fetch(url, {
             method: "POST",
@@ -118,7 +118,7 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
                       houseNum: newBooking.houseNum
                   };
                   console.log("handleGetHousesForReserve, requestBody", requestBody);
-                  const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/singleHouse/reserve-get-houses/${selectedHouseType}`;
+                  const url = `${import.meta.env.VITE_SERVER_URL}/singleHouse/reserve-get-houses/${selectedHouseType}`;
                   // const url = `http://localhost:3000/singleHouse/reserve-get-houses/${selectedHouseType}`;
                   const response = await fetch(url, {
                       method: "POST",

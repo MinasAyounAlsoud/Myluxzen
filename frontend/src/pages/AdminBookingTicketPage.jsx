@@ -11,7 +11,7 @@ export function AdminBookingTicketPage() {
             if(bookingNumber==="") {
                 throw new Error('Bitte füllen Buchungsnummer ein.');
             }
-            const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/booking/byBookingNum/${bookingNumber}`;
+            const url = `${import.meta.env.VITE_SERVER_URL}/booking/byBookingNum/${bookingNumber}`;
             // const url = `http://localhost:3000/booking/byBookingNum/${bookingNumber}`;
             const response = await fetch(url, {
                 method: "GET",

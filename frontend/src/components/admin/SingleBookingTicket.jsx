@@ -14,7 +14,7 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
                 email: singleBooking.email // add email for cancel email
             };
             // console.log("handleCancel,requestBody", requestBody)
-            const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/booking/cancel-or-checkout/${singleBooking.bookingNumber}`;
+            const url = `${import.meta.env.VITE_SERVER_URL}/booking/cancel-or-checkout/${singleBooking.bookingNumber}`;
             // const url = `http://localhost:3000/booking/cancel-or-checkout/${singleBooking.bookingNumber}`;
             const response = await fetch(url, {
                 method: "PUT",
@@ -40,7 +40,7 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
                 houseNum: singleBooking.houseNum
             };
             console.log("handleCheckIn,requestBody", requestBody)
-            const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/singleHouse/checkin-get-houses/${singleBooking.houseType}`;
+            const url = `${import.meta.env.VITE_SERVER_URL}/singleHouse/checkin-get-houses/${singleBooking.houseType}`;
             // const url = `http://localhost:3000/singleHouse/checkin-get-houses/${singleBooking.houseType}`;
             const response = await fetch(url, {
                 method: "POST",
@@ -66,7 +66,7 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
     };
     const handleCheckInConfirm = async()=>{
         if(selectedHouse=== null) return;
-        const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/booking/delete/${singleBooking.bookingNumber}`;
+        const url = `${import.meta.env.VITE_SERVER_URL}/booking/delete/${singleBooking.bookingNumber}`;
         // const url = `http://localhost:3000/booking/delete/${singleBooking.bookingNumber}`;
         const requestBody = {
             houseNum: selectedHouse.houseNum,
@@ -98,7 +98,7 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
                 status: "CheckedOut"
             };
             console.log("handleCheckOut,requestBody", requestBody)
-            const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/booking/cancel-or-checkout/${singleBooking.bookingNumber}`;
+            const url = `${import.meta.env.VITE_SERVER_URL}/booking/cancel-or-checkout/${singleBooking.bookingNumber}`;
             // const url = `http://localhost:3000/booking/cancel-or-checkout/${singleBooking.bookingNumber}`;
             const response = await fetch(url, {
                 method: "PUT",
@@ -127,7 +127,7 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
     const handleDelete = async () => {
         if (window.confirm('Sind Sie sicher, dass Sie diese Buchung löschen möchten?')){
             try {
-                const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/booking/delete/${singleBooking.bookingNumber}`;
+                const url = `${import.meta.env.VITE_SERVER_URL}/booking/delete/${singleBooking.bookingNumber}`;
                 // const url = `http://localhost:3000/booking/delete/${singleBooking.bookingNumber}`;
                 const response = await fetch(url, {
                     method: 'DELETE'

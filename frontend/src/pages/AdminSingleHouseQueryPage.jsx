@@ -22,7 +22,7 @@ export const AdminSingleHouseQueryPage = ()=>{
             page  
         });
         // const url = `http://localhost:3000/singleHouse/query?${params.toString()}`;
-        const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/singleHouse/query?${params.toString()}`;
+        const url = `${import.meta.env.VITE_SERVER_URL}/singleHouse/query?${params.toString()}`;
         console.log("AdminSingleHouseQueryPage URL:", url);
         const response = await fetch(url);
         let data = await response.json();
@@ -37,7 +37,7 @@ export const AdminSingleHouseQueryPage = ()=>{
     };
     const fetchHouse = async (houseNum) => {
         try {
-            const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/singleHouse/geHausByNum/${houseNum}`;
+            const url = `${import.meta.env.VITE_SERVER_URL}/singleHouse/geHausByNum/${houseNum}`;
             // const url = `http://localhost:3000/singleHouse/geHausByNum/${houseNum}`;
             console.log("AdminSingleHouseQueryPage URL:", url);
             const response = await fetch(url, {

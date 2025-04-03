@@ -15,7 +15,7 @@ export function SingleHouseCard({ house, seHouse, onClose }) {
                 inUsePeriods:inUsePeriods
             };
             console.log("handleCheckOut,requestBody", requestBody);
-            const url = `${import.meta.env.VITE_SERVER_URL}:${import.meta.env.VITE_SERVER_PORT}/singleHouse/admin-reserve/${house.houseNum}`;
+            const url = `${import.meta.env.VITE_SERVER_URL}/singleHouse/admin-reserve/${house.houseNum}`;
             // const url = `http://localhost:3000/singleHouse/admin-reserve/${house.houseNum}`;
             const response = await fetch(url, {
                 method: "PUT",
