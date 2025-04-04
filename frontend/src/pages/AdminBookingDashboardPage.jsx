@@ -14,6 +14,8 @@ import {
   Cell,
 } from "recharts";
 
+const API_URL = import.meta.env.VITE_SERVER_URL;
+
 const COLORS = ["#116769", "#F4B400", "#E74C3C", "#8E44AD", "#3498DB"];
 
 const AdminBookingDashboard = () => {
@@ -23,7 +25,8 @@ const AdminBookingDashboard = () => {
   useEffect(() => {
     const fetchBookingStats = async () => {
       try {
-        const { data } = await axios.get("http://localhost:3000/api/dashboard/bookings/all");
+        const { data } = await axios.get(`${API_URL}/api/dashboard/bookings/all`);
+
 
         const monthly = new Map();
         const status = new Map();

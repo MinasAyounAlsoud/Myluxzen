@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Plus, Trash2, ImagePlus, X } from "lucide-react";
 import "../styles/extra.css"
+const API_URL = import.meta.env.VITE_SERVER_URL;
 
 const AdminGallery = () => {
     const [images, setImages] = useState([]);
@@ -15,7 +16,7 @@ const AdminGallery = () => {
 
     const fetchImages = async () => {
         try {
-            const res = await axios.get("http://localhost:3000/api/images");
+            const res = await axios.get(`${API_URL}/api/images`);
             setImages(res.data);
         } catch (err) {
             console.error("Fehler beim Laden der Bilder:", err);
@@ -38,7 +39,7 @@ const AdminGallery = () => {
         formData.append("description", description);
 
         try {
-            await axios.post("http://localhost:3000/api/images/upload", formData);
+            await axios.post(`${API_URL}/api/images/upload`, formData);
             setFile(null);
             setDescription("");
             setPreview(null);
@@ -57,7 +58,7 @@ const AdminGallery = () => {
         if (!window.confirm(" Möchten Sie dieses Bild wirklich löschen?")) return;
 
         try {
-            await axios.delete(`http://localhost:3000/api/images/${id}`);
+            await axios.delete(`${API_URL}/api/images/${id}`);
             fetchImages();
         } catch (err) {
             console.error("Fehler beim Löschen:", err);

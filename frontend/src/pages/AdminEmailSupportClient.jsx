@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { X, Mail, Trash2 } from "lucide-react";
 
+const API_URL = import.meta.env.VITE_SERVER_URL;
+
 const AdminEmailSupportClient = () => {
   const [messages, setMessages] = useState([]);
   const [selectedMessage, setSelectedMessage] = useState(null);
@@ -9,7 +11,7 @@ const AdminEmailSupportClient = () => {
   const [filter, setFilter] = useState("all"); // new
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/contact/all", {
+    fetch(`${API_URL}/api/contact/all`,{
       credentials: "include",
     })
       .then((res) => res.json())
@@ -26,7 +28,7 @@ const AdminEmailSupportClient = () => {
   const handleReplySubmit = async () => {
     if (!selectedMessage || !responseText) return;
     setLoading(true);
-    await fetch("http://localhost:3000/api/contact/reply", {
+    await fetch(`${API_URL}/api/contact/reply`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -51,7 +53,7 @@ const AdminEmailSupportClient = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Möchten Sie diese Nachricht wirklich löschen?")) return;
     try {
-      await fetch(`http://localhost:3000/api/contact/${id}`, {
+      await fetch(`${API_URL}/api/contact/${id}`, {
         method: "DELETE",
         credentials: "include",
       });

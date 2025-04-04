@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import SuccessPopup from "./SuccessPopup";
 import "../../styles/extra.css";
 
+const API_URL = import.meta.env.VITE_SERVER_URL;
+
 const ContactFormModal = ({ onClose }) => {
   const [formData, setFormData] = useState({
     name: "",
@@ -17,7 +19,7 @@ const ContactFormModal = ({ onClose }) => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/user/me", {
+        const res = await fetch(`${API_URL}/api/user/me`, {
           credentials: "include",
         });
 
@@ -46,7 +48,7 @@ const ContactFormModal = ({ onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await fetch("http://localhost:3000/api/contact", {
+    await fetch(`${API_URL}/api/contact`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
