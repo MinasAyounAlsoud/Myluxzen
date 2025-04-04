@@ -71,16 +71,24 @@ export const sendEmailToClient = async ({ to, subject, text, bookingLink = null 
       </p>
 
       <p style="margin-top: 30px;">
-        Mit freundlichen Grüßen,<br/>
+        Mit freundlichen Grüßen<br/>
         <strong>Ihr MyLuxZen Team</strong>
       </p>
 
       <hr style="margin: 30px 0;" />
 
       <div style="font-size: 14px; color: #555; line-height: 1.6;">
-        <p><strong>Telefon:</strong> +49 123 456 789</p>
+        <p><strong>Telefon:</strong> +66 2 123 4567</p>
         <p><strong>Website:</strong> <a href="https://myluxzen.com" target="_blank" style="color: #116769;">www.myluxzen.com</a></p>
-        <p><strong>E-Mail:</strong> info@myluxzen.com</p>
+        <p>
+
+  <p>
+  <strong>E-Mail:</strong> 
+  <a href="${BASE_URL}/?contact=open" target="_blank" style="color: #116769; text-decoration: none;">
+    info@myluxzen.com
+  </a>
+</p>
+  
       </div>
 
       <hr style="margin: 30px 0;" />

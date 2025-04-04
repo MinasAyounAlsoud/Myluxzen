@@ -113,7 +113,8 @@ const AdminEmailSupportClient = () => {
               </div>
               <div className="mt-2">
                 <p><strong>Von:</strong> {msg.name} ({msg.email})</p>
-                <p className="my-2"><strong>Nachricht:</strong> {msg.message}</p>
+                <p className="my-2 break-words whitespace-pre-wrap"><strong>Nachricht:</strong> {msg.message}</p>
+
                 <p className="text-sm italic">
                   Status:{" "}
                   <span
