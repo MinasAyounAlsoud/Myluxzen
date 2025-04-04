@@ -29,7 +29,7 @@ export const SingleHousesList = ({houses,setNewBooking,newBooking})=>{
                 onChange={handleSelectChange}
                 className="bg-white text-gray-600 border border-[#116769] rounded-lg cursor-pointer hover:scale-105 transition-transform duration-200 ease-in-out w-60 p-2 text-gray-600"
                     >
-                <option value="" >Bitte Haus Auswahlen</option>
+                <option value="" >Bitte ein Haus auswählen</option>
                 {houses.map((house) => (
                     <option key={house.houseNum} value={house.houseNum}>
                         {house.houseNum}

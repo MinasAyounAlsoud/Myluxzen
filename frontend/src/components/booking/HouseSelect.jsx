@@ -160,7 +160,7 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
       <div className="text-2xl py-2 text-gray-700 font-bold">
           Häuser
       </div>
-      <h2 className="pb-1">Wählen Sie das perfekte Zimmer für Ihren Aufenthalt.</h2>
+      <h2 className="pb-1">Wählen Sie das perfekte Haus für Ihren Aufenthalt.</h2>
       {errorMessage !== "" ? <p className='text-[#9C785E] text-sm'>{errorMessage}</p>
           : <p className="text-transparent text-sm">Placeholder</p>}
       {availableRooms.length > 0 ? (

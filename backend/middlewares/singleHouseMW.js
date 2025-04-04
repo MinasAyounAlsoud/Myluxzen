@@ -29,7 +29,7 @@ export const getHousesforCheckinOrReserve = async(req,res,next)=>{
         const requestedStartDate = new Date(startDate);
         const requestedEndDate = new Date(endDate);
         console.log("getHousesforCheckinOrReserve, req.body", req.body);
-
+        console.log("getHousesforCheckinOrReserve, houseType", houseType);
         const houses = await SingleHouse.find({
             houseType: houseType,
             // choose houseType suitable and not Occupied houses
