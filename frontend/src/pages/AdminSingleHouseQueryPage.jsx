@@ -12,6 +12,7 @@ export const AdminSingleHouseQueryPage = ()=>{
     const [hasMore, setHasMore] = useState(false);
     const [showDetails, setShowDetails] = useState(false);
     const [houseData,setHouseData] = useState(null);
+    const [showQueryResults, setShowQueryResult] = useState(false);
     // useEffect(()=>{
     //     console.log("AdminBookingQueryPage query", query);
     // },[query]);
@@ -21,8 +22,9 @@ export const AdminSingleHouseQueryPage = ()=>{
             ...query, 
             page  
         });
-        const url = `http://localhost:3000/singleHouse/query?${params.toString()}`;
-        // console.log("Requesting URL:", url);
+        // const url = `http://localhost:3000/singleHouse/query?${params.toString()}`;
+        const url = `${import.meta.env.VITE_SERVER_URL}/singleHouse/query?${params.toString()}`;
+        console.log("AdminSingleHouseQueryPage URL:", url);
         const response = await fetch(url);
         let data = await response.json();
         console.log("received query data",data)
@@ -36,7 +38,10 @@ export const AdminSingleHouseQueryPage = ()=>{
     };
     const fetchHouse = async (houseNum) => {
         try {
-            const response = await fetch(`http://localhost:3000/singleHouse/geHausByNum/${houseNum}`, {
+            const url = `${import.meta.env.VITE_SERVER_URL}/singleHouse/geHausByNum/${houseNum}`;
+            // const url = `http://localhost:3000/singleHouse/geHausByNum/${houseNum}`;
+            console.log("AdminSingleHouseQueryPage URL:", url);
+            const response = await fetch(url, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -61,6 +66,7 @@ export const AdminSingleHouseQueryPage = ()=>{
     const handleSearch = (formData) => {
         setQuery(formData);
         fetchResults(formData, 1);
+        setShowQueryResult(true);
     };
     const handleLoadMore = () => {
         fetchResults(query, page + 1);
@@ -72,7 +78,7 @@ export const AdminSingleHouseQueryPage = ()=>{
     return (
     <div>
         <SingleHouseQueryForm handleSearch={handleSearch}></SingleHouseQueryForm>
-        <SingleHouseQueryResults results={results} hasMore={hasMore} onLoadMore={handleLoadMore} fetchHouse={fetchHouse}></SingleHouseQueryResults>
+        {showQueryResults && <SingleHouseQueryResults results={results} hasMore={hasMore} onLoadMore={handleLoadMore} fetchHouse={fetchHouse}></SingleHouseQueryResults>}
         <Modal isOpen={showDetails} onClose={handleClose}>
             <SingleHouseCard house={houseData} setHouseData={setHouseData} onClose={handleClose}></SingleHouseCard>
         </Modal>

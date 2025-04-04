@@ -15,7 +15,9 @@ export const SuccessBooking = ({successBookingNumber})=>{
           return;
         }
         try {
-          const response = await fetch(`http://localhost:3000/booking/bybookingnum/${successBookingNumber}`, {
+          const url = `${import.meta.env.VITE_SERVER_URL}/booking/bybookingnum/${successBookingNumber}`;
+          // const url = `http://localhost:3000/booking/bybookingnum/${successBookingNumber}`;
+          const response = await fetch(url, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",

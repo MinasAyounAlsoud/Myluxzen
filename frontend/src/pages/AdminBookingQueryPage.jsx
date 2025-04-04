@@ -12,6 +12,7 @@ export const AdminBookingQueryPage = ()=>{
     const [hasMore, setHasMore] = useState(false);
     const [bookingData, setBookingData] = useState(null);
     const [showDetails, setShowDetails] = useState(false);
+    const [showQueryResults, setShowQueryResult] = useState(false);
     const [formData, setFormData] = useState({
         bookingNum: "",
         email: '',
@@ -30,7 +31,8 @@ export const AdminBookingQueryPage = ()=>{
             ...query, 
             page  
         });
-        const url = `http://localhost:3000/booking/query?${params.toString()}`;
+        const url = `${import.meta.env.VITE_SERVER_URL}/booking/query?${params.toString()}`;
+        // const url = `http://localhost:3000/booking/query?${params.toString()}`;
         // console.log("Requesting URL:", url);
         const response = await fetch(url);
         if(!response.ok){
@@ -53,8 +55,9 @@ export const AdminBookingQueryPage = ()=>{
     const fetchBooking = async (bookingNumber) => {
         try {
             console.log("fetchBooking, bookingNumber",bookingNumber);
-
-            const response = await fetch(`http://localhost:3000/booking/bybookingnum/${bookingNumber}`, {
+            const url = `${import.meta.env.VITE_SERVER_URL}/booking/bybookingnum/${bookingNumber}`;
+            // const url = `http://localhost:3000/booking/bybookingnum/${bookingNumber}`;
+            const response = await fetch(url, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -80,6 +83,7 @@ export const AdminBookingQueryPage = ()=>{
     const handleSearch = (formData) => {
         setQuery(formData);
         fetchResults(formData, 1);
+        setShowQueryResult(true);
     };
     const handleLoadMore = () => {
         fetchResults(query, page + 1);
@@ -90,9 +94,12 @@ export const AdminBookingQueryPage = ()=>{
     })
     return (
     <div>
-        <div>
+        <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">
+                    Buchungsverhandlung
+        </h2>
+        <div >
             <QueryForm handleSearch={handleSearch} formData={formData} setFormData={setFormData} />
-            <QueryResults results={results} hasMore={hasMore} onLoadMore={handleLoadMore} fetchBooking={fetchBooking}/>
+            {showQueryResults && <QueryResults results={results} hasMore={hasMore} onLoadMore={handleLoadMore} fetchBooking={fetchBooking}/>}
             <Modal isOpen={showDetails} onClose={handleClose} >
                 <SingleBookingTicket singleBooking={bookingData} setBookingData={setBookingData} onClose={handleClose}></SingleBookingTicket>
             </Modal>

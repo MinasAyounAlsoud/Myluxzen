@@ -22,7 +22,7 @@ export const SummeryBar = ({newBooking})=>{
         <div className={`flex gap-1 ${showCompleteSummery ? "slide-up" : "slide-down"} bg-gray-100 shadow pb-2`}>
             <Summery newBooking={newBooking} completed={true} />
             <div className="relative px-6 flex-1">
-                <button onClick={handleOnClick} className="absolute top-0 right-0 px-4 text-2xl font-bold cursor-pointer ">
+                <button onClick={handleOnClick} className="absolute top-0 right-0 px-4 text-2xl font-bold cursor-pointer hover:text-[#116769]">
                     <RiArrowDownSLine /> 
                 </button>
             </div>
@@ -30,14 +30,14 @@ export const SummeryBar = ({newBooking})=>{
         {!showCompleteSummery &&        
             <div className={`flex ${showCompleteSummery ? "slide-down" : "slide-up"} justify-between bg-gray-100 shadow py-2`}>
                 <div className='flex justify-between flex-10 px-2'>
-                    <div className='text-lg font-bold'>Reservation Summary</div>
+                    <div className='text-lg font-bold'>Reservierungszusammenfassung</div>
                     <div className='flex items-center text-lg font-bold'>
                         <MdOutlineEuro />
                         {calculateTotalPrice()}
                     </div>
                 </div>
                 <div className="relative flex-1">
-                    <button onClick={handleOnClick} className="absolute top-0 px-4 right-0 text-2xl font-bold cursor-pointer ">
+                    <button onClick={handleOnClick} className="absolute top-0 px-4 right-0 text-2xl font-bold cursor-pointer hover:text-[#116769]">
                         <RiArrowUpSLine />
                     </button>
                 </div>

@@ -5,6 +5,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { FaArrowTurnUp } from "react-icons/fa6";
 import { SingleBookingTicket } from '../admin/SingleBookingTicket';
 import { SingleHousesList } from "./SingleHousesList";
+
 export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompleted,setGotoNextStep})=>{
   const [availableRooms, setAvailableRooms] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
@@ -60,7 +61,9 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
           return;
         }
         try {
-          const response = await fetch("http://localhost:3000/booking/check-availability", {
+          const url = `${import.meta.env.VITE_SERVER_URL}/booking/check-availability`;
+          // const url = `http://localhost:3000/booking/check-availability`;
+          const response = await fetch(url, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -115,8 +118,9 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
                       houseNum: newBooking.houseNum
                   };
                   console.log("handleGetHousesForReserve, requestBody", requestBody);
-  
-                  const response = await fetch(`http://localhost:3000/singleHouse/reserve-get-houses/${selectedHouseType}`, {
+                  const url = `${import.meta.env.VITE_SERVER_URL}/singleHouse/reserve-get-houses/${selectedHouseType}`;
+                  // const url = `http://localhost:3000/singleHouse/reserve-get-houses/${selectedHouseType}`;
+                  const response = await fetch(url, {
                       method: "POST",
                       headers: {
                           "Content-Type": "application/json",
@@ -156,7 +160,7 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
       <div className="text-2xl py-2 text-gray-700 font-bold">
           Häuser
       </div>
-      <h2 className="pb-1">Wählen Sie das perfekte Zimmer für Ihren Aufenthalt.</h2>
+      <h2 className="pb-1">Wählen Sie das perfekte Haus für Ihren Aufenthalt.</h2>
       {errorMessage !== "" ? <p className='text-[#9C785E] text-sm'>{errorMessage}</p>
           : <p className="text-transparent text-sm">Placeholder</p>}
       {availableRooms.length > 0 ? (
@@ -177,8 +181,8 @@ export const HouseSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompl
                 {/* for choose a special house */}
                 {selectedHouseType === room.houseType && 
                 <div className='flex flex-col items-start text-sm md:space-x-6 items-center pt-2'>
-                  <p className='text-gray-600'>Gibt es eine bevorzugte Unterkunft? Wir buchen gerne wieder für Sie!</p>
-                  <button className='hover:scale-120 hover:text-[#116769] cursor-pointer border-b hover:border-[#fae1a8]' onClick={() => setShowHouses(prev => !prev)}><p>Click hier</p></button>
+                  <button className='text-gray-600 hover:scale-105 hover:text-[#116769] cursor-pointer border-b hover:border-[#fae1a8]' onClick={() => setShowHouses(prev => !prev)}>Gibt es eine bevorzugte Unterkunft? Wir buchen gerne wieder für Sie!</button>
+                  {/* <button className='hover:scale-105 hover:text-[#116769] cursor-pointer border-b hover:border-[#fae1a8]' onClick={() => setShowHouses(prev => !prev)}><p>Click hier</p></button> */}
                 </div>}
                 {((showHouses && selectedHouseType === room.houseType) || (newBooking.houseNum !== ""  && selectedHouseType === room.houseType)) && (<>
                     {(houses.length === 0)?

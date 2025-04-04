@@ -7,6 +7,8 @@ import "../styles/extra.css";
 import aboutUsImgMinas from "../assets/aboutUsImg/minas.jpg";
 import aboutUsImgNaheeda from "../assets/aboutUsImg/Naheeda.jpg";
 import aboutUsImgXiangyu from "../assets/aboutUsImg/Xiangyu.jpg";
+import aboutUsImgFatima from "../assets/aboutUsImg/Fatima.jpg";
+
 import teamBg from "../assets/aboutUsImg/kayak1.avif";
 import Footer from "../components/footer/Footer";
 import { FaArrowLeft, FaArrowUp, FaEnvelope, FaPhone } from "react-icons/fa";
@@ -106,7 +108,7 @@ const UnserTeamSection = () => {
   const teamMembers = [
     {
       name: "Fatima Zahra Azekraoui",
-      image: "",
+      image: aboutUsImgFatima,
       description:
         "Fatima ist die Gründerin von Myluxzen, die mit viel Leidenschaft und Vision das Hotel erschaffen hat. Ihr Ziel ist es, Gästen unvergessliche Erlebnisse in einem luxuriösen und entspannten Ambiente zu bieten.",
     },
