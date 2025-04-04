@@ -9,11 +9,23 @@ const AdminGallery = () => {
     const [file, setFile] = useState(null);
     const [description, setDescription] = useState("");
     const [preview, setPreview] = useState(null);
+    const [statusMessage, setStatusMessage] = useState({ type: "", text: "" });
+    const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+const [confirmVisible, setConfirmVisible] = useState(false);
 
     useEffect(() => {
         fetchImages();
     }, []);
-
+    useEffect(() => {
+        if (statusMessage.text) {
+          const timer = setTimeout(() => {
+            setStatusMessage({ type: "", text: "" });
+          }, 4000); // Disparaît après 4 secondes
+      
+          return () => clearTimeout(timer); // Nettoyage
+        }
+      }, [statusMessage]);
+      
     const fetchImages = async () => {
         try {
             const res = await axios.get(`${API_URL}/api/images`);
@@ -25,38 +37,34 @@ const AdminGallery = () => {
 
     const handleUpload = async () => {
         if (!file) {
-            alert("Bitte wählen Sie ein Bild aus.");
-            return;
+          setStatusMessage({ type: "error", text: "Bitte wählen Sie ein Bild aus." });
+          return;
         }
-
+      
         if (file.size > 10 * 1024 * 1024) {
-            alert(" Bild zu groß (max. 10 MB erlaubt)");
-            return;
+          setStatusMessage({ type: "error", text: "Bild zu groß (max. 10 MB erlaubt)" });
+          return;
         }
-
+      
         const formData = new FormData();
         formData.append("image", file);
         formData.append("description", description);
-
+      
         try {
-            await axios.post(`${API_URL}/api/images/upload`, formData);
-            setFile(null);
-            setDescription("");
-            setPreview(null);
-            fetchImages();
+          await axios.post(`${API_URL}/api/images/upload`, formData);
+          setFile(null);
+          setDescription("");
+          setPreview(null);
+          fetchImages();
+          setStatusMessage({ type: "success", text: "Bild erfolgreich hochgeladen!" });
         } catch (err) {
-            console.error("Fehler beim Hochladen:", err);
-            if (err.response?.data?.message) {
-                alert("Fehler: " + err.response.data.message);
-            } else {
-                alert("Fehler beim Hochladen");
-            }
+          const errorMsg = err.response?.data?.message || "Fehler beim Hochladen";
+          setStatusMessage({ type: "error", text: errorMsg });
         }
-    };
+      };
+      
 
     const handleDelete = async (id) => {
-        if (!window.confirm(" Möchten Sie dieses Bild wirklich löschen?")) return;
-
         try {
             await axios.delete(`${API_URL}/api/images/${id}`);
             fetchImages();
@@ -128,6 +136,18 @@ const AdminGallery = () => {
                         >
                             <Plus size={20} /> Hochladen
                         </button>
+                        {statusMessage.text && (
+  <div
+    className={`px-4 py-2 rounded-xl text-sm font-medium d transition ${
+      statusMessage.type === "error"
+        ? "text-red-700"
+        : "text-green-700"
+    }`}
+  >
+    {statusMessage.text}
+  </div>
+)}
+
                     </div>
                 </div>
 
@@ -153,7 +173,10 @@ const AdminGallery = () => {
                                     <td className="px-6 py-4 text-gray-700">{img.description}</td>
                                     <td className="px-6 py-4 text-center">
                                         <button
-                                            onClick={() => handleDelete(img._id)}
+                                            onClick={() => {
+                                                setConfirmDeleteId(img._id);
+                                                setConfirmVisible(true);
+                                              }}
                                             className="text-red-600 hover:text-red-800"
                                             title="Löschen"
                                         >
@@ -173,7 +196,40 @@ const AdminGallery = () => {
                     </table>
                 </div>
             </div>
+            {confirmVisible && (
+  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded-2xl shadow-xl text-center max-w-sm w-full">
+      <h3 className="text-lg font-bold mb-4 text-gray-800">Bist du sicher?</h3>
+      <p className="text-sm text-gray-600 mb-6">
+        Möchten Sie dieses Bild wirklich löschen?
+      </p>
+      <div className="flex justify-center gap-4">
+        <button
+          className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+          onClick={async () => {
+            await handleDelete(confirmDeleteId);
+            setConfirmVisible(false);
+            setConfirmDeleteId(null);
+          }}
+        >
+          Ja, löschen
+        </button>
+        <button
+          className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+          onClick={() => {
+            setConfirmVisible(false);
+            setConfirmDeleteId(null);
+          }}
+        >
+          Abbrechen
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
         </div>
+        
     );
 };
 
