@@ -50,7 +50,7 @@ export function AdminPage() {
       : "text-off-white group-hover:text-caramel transition duration-200";
 
   const Navbar = () => (
-    <aside className="hidden md:flex bg-teal-dark text-off-white w-64 flex-col p-4 overflow-y-auto h-screen fixed top-0 left-0 z-30">
+    <aside className="hidden md:flex bg-teal-dark text-off-white w-64 flex-col p-4 h-screen fixed top-0 left-0 z-[999]">
       <div className="flex items-center space-x-3 mb-6">
         <img src={logo} alt="Logo" className="w-14 h-14 object-contain" />
         <h2 className="text-2xl font-bold text-caramel">Admin</h2>
@@ -91,11 +91,8 @@ export function AdminPage() {
 
   const MobileSidebar = () => (
     <aside
-      className={`md:hidden bg-teal-dark text-off-white fixed top-0 left-0 z-40 p-4 shadow-md transition-all duration-300 h-screen overflow-y-auto ${
-        sidebarExpanded ? "w-64" : "w-20"
-      }`}
+      className={`md:hidden bg-teal-dark text-off-white fixed top-0 left-0 z-50 p-4 shadow-md transition-all duration-300 h-screen ${sidebarExpanded ? "w-64" : "w-20"}`}
     >
-      {/* Logo + Burger en haut de la sidebar mobile */}
       <div className="flex flex-col items-center space-y-3 mb-6">
         <img src={logo} alt="Logo" className="w-14 h-14 object-contain" />
         <button
@@ -107,7 +104,6 @@ export function AdminPage() {
         {sidebarExpanded && <h2 className="text-2xl font-bold text-caramel">Admin</h2>}
       </div>
 
-      {/* Liens */}
       <ul className="space-y-4 mb-8 text-sm font-haute-couture uppercase tracking-wide">
         {links.map(({ to, label, icon: Icon }) => (
           <NavLink
@@ -122,7 +118,19 @@ export function AdminPage() {
               <>
                 <div className="flex items-center">
                   <Icon className={`${getIconClass(isActive)} hidden md:inline`} size={24} />
-                  <Icon className={`${getIconClass(isActive)} md:hidden`} size={20} />
+                  <div className="relative group flex items-center justify-center">
+                    <Icon
+                      className={`${getIconClass(isActive)} md:hidden`}
+                      size={20}
+                    />
+                    {!sidebarExpanded && (
+                      <div className="absolute left-full top-1/2 -translate-y-1/2 ml-3 z-[9999] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="bg-caramel text-white text-xs px-3 py-1 rounded-lg shadow-lg whitespace-nowrap">
+                          {label}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
                 {sidebarExpanded && <span>{label}</span>}
               </>
@@ -131,7 +139,6 @@ export function AdminPage() {
         ))}
       </ul>
 
-      {/* Logout button */}
       <button
         onClick={() => {
           logout();
@@ -152,18 +159,21 @@ export function AdminPage() {
       <Navbar />
       <MobileSidebar />
 
-      <div className="flex-1 ml-0 md:ml-64 flex flex-col overflow-hidden">
-        {/* Contenu principal avec padding gauche responsive */}
-        <main
-          className={`flex-1 overflow-y-auto p-6 max-w-5xl mx-auto transition-all duration-300 pl-20 md:pl-0`}
-        >
-          <Outlet />
-        </main>
+      <div className="flex-1 ml-0 md:ml-64 flex flex-col">
+      <main
+  className={`
+    relative z-0 flex-1 overflow-visible p-6 transition-all duration-300
+    ${sidebarExpanded ? "pl-64" : "pl-20"}  // padding-left dynamique selon sidebar mobile
+    md:pl-0                                // en grand écran, plus de padding
+    md:max-w-5xl md:mx-auto                // centrage uniquement sur md+
+  `}
+>
+  <Outlet />
+</main>
       </div>
     </div>
   );
 }
-
 
 /*import { useContext, useState } from "react";
 import { NavLink, Outlet, useNavigate, Navigate } from "react-router-dom";
@@ -391,7 +401,7 @@ export function AdminPage() {
     </div>
   );
 }
-*/ 
+*/
 /*import { useContext, useState } from "react";
 import { NavLink, Outlet, useNavigate, Navigate } from "react-router-dom";
 import {
@@ -664,4 +674,4 @@ export function AdminPage() {
     </div>
   );
 }
-*/  
+*/
