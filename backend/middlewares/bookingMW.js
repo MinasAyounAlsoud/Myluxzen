@@ -92,25 +92,12 @@ export const createBookingMiddleware = async (req, res, next) => {
         });
         await newBooking.save();
         req.result = newBooking;
-        
-        const toGuestEmail = newBooking.email;
-        // const toGuestEmail = "xiangyu.liu@dci-student.org";
-        const emailSubject = "Buchung erstellt erfolgreich";
-        const bookingLink = `http://localhost:5173/booking/${newBooking.bookingNumber}`;
-        const text = `Sie haben erfolgreich das Haus ${newBooking.houseTitle} gebucht, für den Zeitraum von ${newBooking.startDate.toLocaleString()} bis ${newBooking.endDate.toLocaleString()} Sie werden bei uns angenehme ${newBooking.totalDays}  Tage verbringen. \n
-        Ihre Buchungsnummer lautet:${newBooking.bookingNumber}.\n
-        `;
-        // console.log("sendEmailToClient, toGuestEmail",toGuestEmail)
-        // console.log("sendEmailToClient, emailSubject",emailSubject)
-        // console.log("sendEmailToClient, text",text)
-        await sendEmailToClient({to: toGuestEmail, subject: emailSubject, text:text, bookingLink: bookingLink});
         next(); 
     } catch (error) {
         console.log("Error in createBookingMiddleware middleware:", error);
         next(error);
     }
 };
-
 
 export const deleteBooking = async(req,res,next)=>{
     const { bookingNumber } = req.params;
@@ -178,19 +165,7 @@ export const bookingCheckoutOrCancel = async(req,res,next)=>{
             }
         };
         const booking = await Booking.updateOne(filter, updateData);
-        req.result = bookingNum;
-
-        if(status === "Canceled"){
-            const toGuestEmail = email;// add email for cancel email 
-            // const toGuestEmail = "xiangyu.liu@dci-student.org";
-            const emailSubject = "Buchung storniert erfolgreich";
-            const bookingLink = `http://localhost:5173/booking/${bookingNum}`;
-            const text = `Sie haben erfolgreich ${bookingNum} storniert. \n`;
-            console.log("sendEmailToClient, toGuestEmail",toGuestEmail)
-            console.log("sendEmailToClient, emailSubject",emailSubject)
-            console.log("sendEmailToClient, text",text)
-            await sendEmailToClient({to: toGuestEmail, subject: emailSubject, text:text, bookingLink:bookingLink});
-        }
+        req.result = booking;
         next(); 
     } catch (error) {
         console.log("Error in bookingCheckoutOrCancel middleware:", error);

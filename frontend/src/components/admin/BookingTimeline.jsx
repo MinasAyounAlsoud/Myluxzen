@@ -22,8 +22,14 @@ export const BookingTimeline = ({ orders, startDate, endDate }) => {
 
                     let offset = ((start - queryStart) / queryDuration) * 100;
                     let width = ((end - start) / queryDuration) * 100;
-                    // console.log("BookingTimeline, offset",offset);
-                    // console.log("BookingTimeline, width",width);
+                        // Adjust for orders starting before queryStart or ending after queryEnd
+                    if (start < queryStart) {
+                        width -= ((queryStart - start) / queryDuration) * 100; // Decrease width
+                        offset = 0; // Start at the beginning
+                    }
+                    if (end > queryEnd) {
+                        width -= ((end - queryEnd) / queryDuration) * 100; // Decrease width if it extends beyond queryEnd
+                    }
                     // Adjust the offset and width to stay within bounds
                     offset = Math.max(0, offset); // Ensure offset is not less than 0
                     width = offset + width > 100 ? 100 - offset : width; // Adjust width if it extends beyond 100%

@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 
 export function QueryResults({ results, hasMore, onLoadMore, fetchBooking }) {
-    const [sortKey, setSortKey] = useState('createdDate'); // 默认排序方式
+    const [sortKey, setSortKey] = useState('updatedAt'); // 默认排序方式
     const [sortOrder, setSortOrder] = useState("asc");
     const sortedResults = useMemo(() => {
         return results.slice().sort((a, b) => {
@@ -13,11 +13,11 @@ export function QueryResults({ results, hasMore, onLoadMore, fetchBooking }) {
                 return new Date(a.startDate) - new Date(b.startDate);
             } else if (sortKey === 'startDate' && sortOrder === "desc") {
                 return new Date(b.startDate) - new Date(a.startDate) ;    
-            } else if (sortKey === 'createdDate'&& sortOrder === "asc") {
-                return new Date(a.createdAt) - new Date(b.createdAt);
+            } else if (sortKey === 'updatedAt'&& sortOrder === "asc") {
+                return new Date(b.updatedAt) - new Date(a.updatedAt);
             }
-            else if (sortKey === 'createdDate' && sortOrder === "desc") {
-                return new Date(b.createdAt) - new Date(a.createdAt) ;
+            else if (sortKey === 'updatedAt' && sortOrder === "desc") {
+                return new Date(a.updatedAt) - new Date(b.updatedAt) ;
             }
             return 0;
         });
@@ -34,7 +34,7 @@ export function QueryResults({ results, hasMore, onLoadMore, fetchBooking }) {
                     <div className='flex mb-4  space-x-4 mt-2'>
                         <label htmlFor="sort"><span className='text-sm text-gray-400'>Sortierung:</span></label>
                         <select id="sort" value={sortKey} onChange={e => setSortKey(e.target.value)} className="rounded bg-white border border-gray-300 p-1">
-                            <option value="createdDate">Erstellungsdatum der Bestellung</option>
+                            <option value="updatedAt">Aktualisierungszeit</option>
                             <option value="guestFamilyName">Nachname des Kunden</option>
                             <option value="startDate">Startdatum der Bestellung</option>
                         </select>
