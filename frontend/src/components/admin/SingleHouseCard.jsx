@@ -24,6 +24,7 @@ export function SingleHouseCard({ house, seHouse, onClose }) {
                 },
                 body: JSON.stringify(requestBody)
             });
+            setShowAdminReserveForm(false);
             if (!response.ok) throw new Error('canceled failed');
         } catch (err) {
             // setError("VerFügbar Häuser nicht gefunden.");

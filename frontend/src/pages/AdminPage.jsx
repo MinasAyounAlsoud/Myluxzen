@@ -30,7 +30,7 @@ export function AdminPage() {
 
   const links = [
     { to: "bookings-manage", label: "BuchungsVerhandlung", icon: Book },
-    { to: "booking-timeline", label: "Reservierungszeitlinie", icon: Calendar },
+    { to: "booking-timeline", label: "Buchungszeitlinie", icon: Calendar },
     { to: "singleHouse-query", label: "Häuseranfrage", icon: Building2 },
     { to: "gallery", label: "Galerie", icon: ImageIcon },
     { to: "HausBeschreibung", label: "HausBeschreibung", icon: Home },

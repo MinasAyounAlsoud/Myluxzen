@@ -198,13 +198,13 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
 
         <div className='mt-10 mb-4 flex space-x-6'>
             {singleBooking.status === "Active" && 
-            <button onClick={handleCheckIn} className='bg-teal-dark text-white px-4 rounded-full cursor-pointer hover:text-[#FAE1A8]'>Check in</button>}
+            <button onClick={handleCheckIn} className='bg-teal-dark text-white px-4 rounded-full cursor-pointer hover:text-[#FAE1A8]'>Check-in</button>}
             {singleBooking.status === "Active" && 
-            <button onClick={handleCancel} className='bg-teal-dark text-white px-4 rounded-full cursor-pointer hover:text-[#FAE1A8]'>Cancel</button>}
+            <button onClick={handleCancel} className='bg-teal-dark text-white px-4 rounded-full cursor-pointer hover:text-[#FAE1A8]'>Stornieren</button>}
             {singleBooking.status === "CheckedIn" && 
-            <button onClick={handleCheckOut} className='bg-teal-dark text-white px-4 rounded-full cursor-pointer hover:text-[#FAE1A8]'>Check out</button>}
-            {singleBooking.status !== "CheckedIn" && 
-            <button onClick={handleDelete} className='bg-teal-dark text-white px-4 rounded-full cursor-pointer hover:text-[#FAE1A8]'>Delete</button>}
+            <button onClick={handleCheckOut} className='bg-teal-dark text-white px-4 rounded-full cursor-pointer hover:text-[#FAE1A8]'>Check-out</button>}
+            {(singleBooking.status === "CheckedOut" || singleBooking.status === "Canceled" ) && 
+            <button onClick={handleDelete} className='bg-teal-dark text-white px-4 rounded-full cursor-pointer hover:text-[#FAE1A8]'>Löschen</button>}
             {/* <button onClick={onClose} className='bg-teal-dark text-white px-4 rounded-full cursor-pointer hover:text-[#FAE1A8]'>Schließen</button> */}
         </div>
 
@@ -240,9 +240,9 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
         )}</>}
         {(selectedHouseNum) && (
             <div className='mb-10 mt-10 flex gap-4 items-center'>
-                <p>Sie haben Haus {selectedHouseNum} ausgewahlt. </p>
+                <p>Sie haben das Haus {selectedHouseNum} ausgewählt. </p>
                 <button className='bg-teal-dark text-white px-4 rounded-full cursor-pointer hover:text-[#FAE1A8]'
-                    onClick={()=>handleCheckInConfirm(selectedHouseNum)}>Checkin Bestätigen</button>
+                    onClick={()=>handleCheckInConfirm(selectedHouseNum)}>Check-in Bestätigen</button>
                 {/* <div className='flex space-x-10 items-center'>
                     <p>Click hier zu checkin</p>
                     <button className='text-white bg-gray-700 py-1 px-1 h-8 rounded-md cursor-pointer text-sm'
