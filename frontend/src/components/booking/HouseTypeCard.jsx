@@ -6,9 +6,8 @@ import "../../styles/booking.css";
 export const HouseTypeCard = ({ house, onClick, selected=false}) => {
   console.log("selected",selected )
   return (
-    <div
+    <div onClick={() => onClick(house)}
       className={`shadow-lg rounded-2xl overflow-hidden transform transition duration-300 hover:scale-105 cursor-pointer mb-6 flex items-center w-full max-w-6xl mx-auto p-4 sm:flex-col md:flex-row ${selected ? "custom-bg-seletedHouseCard-color border border-[#064236]":"bg-white"}`}
-      onClick={() => onClick(house)}
     >
       <img
         src={house.images[0]}
@@ -19,17 +18,15 @@ export const HouseTypeCard = ({ house, onClick, selected=false}) => {
         <h2 className="text-2xl font-semibold text-gray-600 ">
           {house.title}
         </h2>
-
         {/* Beschreibung nur auf größeren Geräten anzeigen */}
         <p className="text-gray-600 mt-2 hidden sm:block text-sm">
           {house.description}
         </p>
-
         <div className="flex justify-between items-center mt-4 ">
           <div className="text-gray-600 text-sm sm:text-base flex-1">
-          <p className="text-sm">max.<span className="font-semibold"> {house.guests}</span> Gäste</p>
-          <p className="text-sm"> <span className="font-semibold">{house.bedrooms}</span>             Schlafzimmer</p>
-            <p className="text-sm"><span className="font-semibold">{house.bathroom}</span> Bäder</p>
+            <p className="text-sm">max.<span className="font-semibold"> {house.guests}</span> Gäste</p>
+            <p className="text-sm"> <span className="font-semibold">{house.bedrooms}</span>             Schlafzimmer</p>
+              <p className="text-sm"><span className="font-semibold">{house.bathroom}</span> Bäder</p>
           </div>
           <p className="text-sm sm:text-base md:text-lg lg:text-base font-bold text-[#116769]">
             €{house.pricePerNight}/Nacht
@@ -46,22 +43,19 @@ export const HouseTypeModal = ({ house, onClose }) => {
   const roomAmenities = house.roomAmenities
     ? Object.values(house.roomAmenities)
     : [];
-
   const handleModalClick = (e) => {
     e.stopPropagation();
   };
-
   const handleCloseOnBackgroundClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   };
-
   return (
-    <div
+    <div 
+      onClick={handleCloseOnBackgroundClick}
       className="fixed inset-0 flex justify-center items-center p-6 z-50"
       style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-      onClick={handleCloseOnBackgroundClick}
     >
       <div
         className="bg-white bg-opacity-90 rounded-xl shadow-2xl w-full md:w-3/5   relative p-1 "

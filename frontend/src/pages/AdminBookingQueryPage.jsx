@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { QueryForm } from "../components/admin/QueryForm";
 import { QueryResults } from "../components/admin/QueryResults";
-import { SingleBookingTicket } from '../components/admin/SingleBookingTicket';
-import { Modal } from '../components/admin/Modal';
-import { convertArrUtcToLocal, convertUtcToLocal } from '../utils/commenBookFunc';
+import { SingleBookingTicket } from "../components/admin/SingleBookingTicket";
+import { Modal } from "../components/admin/Modal";
 
 export const AdminBookingQueryPage = ()=>{
     const [query, setQuery] = useState(null);
@@ -15,17 +14,17 @@ export const AdminBookingQueryPage = ()=>{
     const [showQueryResults, setShowQueryResult] = useState(false);
     const [formData, setFormData] = useState({
         bookingNum: "",
-        email: '',
-        guestFirstName: '',
-        guestFamilyName: '',
+        email: "",
+        guestFirstName: "",
+        guestFamilyName: "",
         houseType:"",
-        queryStartDate: '',
-        queryEndDate: '',
+        queryStartDate: "",
+        queryEndDate: "",
         status: ""
     });
-    useEffect(()=>{
-        console.log("AdminBookingQueryPage bookingData", bookingData);
-    },[bookingData]);
+    // useEffect(()=>{
+    //     console.log("AdminBookingQueryPage bookingData", bookingData);
+    // },[bookingData]);
     const fetchResults = async (query, page = 1) => {
         const params = new URLSearchParams({
             ...query, 
@@ -33,7 +32,6 @@ export const AdminBookingQueryPage = ()=>{
         });
         const url = `${import.meta.env.VITE_SERVER_URL}/booking/query?${params.toString()}`;
         // const url = `http://localhost:3000/booking/query?${params.toString()}`;
-        // console.log("Requesting URL:", url);
         const response = await fetch(url);
         if(!response.ok){
             setResults([]);
@@ -44,10 +42,7 @@ export const AdminBookingQueryPage = ()=>{
             setResults([]);
             return;
         }
-        //add convert UTC to local
-        console.log("fetchResults received query old bookings",data.bookingTickets)
-        // data.bookingTickets = convertArrUtcToLocal(data.bookingTickets);
-        // console.log("fetchResults received query converted bookings",data.bookingTickets)
+        // console.log("fetchResults received query old bookings",data.bookingTickets)
         setResults(prev => page === 1 ? data.bookingTickets : [...prev, ...data.bookingTickets]);
         setHasMore(data.hasMore);
         setPage(page);
@@ -63,19 +58,14 @@ export const AdminBookingQueryPage = ()=>{
                     "Content-Type": "application/json",
                 },
             });
-            console.log("fetchBooking, response",response);
-
-            if (!response.ok) throw new Error('Buchung ticket nicht gefunden.');
+            // console.log("fetchBooking, response",response);
+            if (!response.ok) throw new Error("Buchung ticket nicht gefunden.");
             const booking = await response.json();
-            console.log("fetchBooking, booking",booking);
-            // console.log("fetchBooking ????",booking);
-            // if(!booking) throw new Error("Buchung ticket nicht gefunden.");
-            // add convert to local
-            // const convertBooking = convertArrUtcToLocal(booking);
-            // console.log("fetchBooking convertBooking",convertBooking);
+            // console.log("fetchBooking, booking",booking);
             setBookingData(booking);
             setShowDetails(true);
         } catch (err) {
+            console.log("fetchBooking, error", err)
             setBookingData(null);
             setShowDetails(false);
         }
@@ -95,13 +85,28 @@ export const AdminBookingQueryPage = ()=>{
     return (
     <div>
         <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">
-                    Buchungsverhandlung
+            Buchungsverhandlung
         </h2>
         <div >
-            <QueryForm handleSearch={handleSearch} formData={formData} setFormData={setFormData} />
-            {showQueryResults && <QueryResults results={results} hasMore={hasMore} onLoadMore={handleLoadMore} fetchBooking={fetchBooking}/>}
-            <Modal isOpen={showDetails} onClose={handleClose} >
-                <SingleBookingTicket singleBooking={bookingData} setBookingData={setBookingData} onClose={handleClose}></SingleBookingTicket>
+            <QueryForm 
+                handleSearch={handleSearch} 
+                formData={formData} 
+                setFormData={setFormData}
+            />
+            { showQueryResults && 
+                <QueryResults results={results} 
+                    hasMore={hasMore} 
+                    onLoadMore={handleLoadMore} 
+                    fetchBooking={fetchBooking}
+                />
+            }
+            <Modal isOpen={showDetails} 
+                onClose={handleClose}>
+                <SingleBookingTicket 
+                    singleBooking={bookingData} 
+                    setBookingData={setBookingData} 
+                    onClose={handleClose}
+                />
             </Modal>
         </div>
     </div>

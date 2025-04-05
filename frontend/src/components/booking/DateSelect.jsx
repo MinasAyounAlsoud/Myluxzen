@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { DateRangePicker } from './DateRangePicker';
-import { GuestPicker } from './GuestPicker';
+import { useState, useEffect } from "react";
+import { DateRangePicker } from "./DateRangePicker";
+import { GuestPicker } from "./GuestPicker";
 
-export const DateSelect = ({newBooking, setNewBooking,gotoNextStep,setStepCompleted,setGotoNextStep})=>{
+export const DateSelect = ({ newBooking, setNewBooking, gotoNextStep, setStepCompleted,setGotoNextStep })=>{
     const [dateErrorMsg, setDateErrorMsg] = useState("");
     const [errStartDate, setErrStartDate] = useState(false);
     const [errEndDate, setEndStartDate] = useState(false);
@@ -32,14 +32,31 @@ export const DateSelect = ({newBooking, setNewBooking,gotoNextStep,setStepComple
     return (
     <div>
         <div className="text-2xl py-2 text-gray-700 font-bold">
-        Datum
+            Datum
         </div>
         <div className="w-full space-y-4">
-            <DateRangePicker newBooking={newBooking} setNewBooking={setNewBooking} errStartDate={errStartDate} errEndDate={errEndDate} focusedField={focusedField} setFocusedField={setFocusedField}
-            className="flex-1"></DateRangePicker >
-            {dateErrorMsg !== "" ? <p className='text-[#9C785E] text-sm'>{dateErrorMsg}</p>
-            : <p className="text-transparent text-sm">Placeholder</p>}
-            <GuestPicker newBooking={newBooking} setNewBooking={setNewBooking} focusedField={focusedField} setFocusedField={setFocusedField}className="flex-1"></GuestPicker>
+            <DateRangePicker 
+                newBooking={newBooking} 
+                setNewBooking={setNewBooking} 
+                errStartDate={errStartDate} 
+                errEndDate={errEndDate} 
+                focusedField={focusedField} 
+                setFocusedField={setFocusedField}
+                className="flex-1"
+            />
+            {
+                dateErrorMsg !== "" ? (
+                <p className="text-[#9C785E] text-sm">{dateErrorMsg}</p>
+                ) : (
+                <p className="text-transparent text-sm">Placeholder</p>
+            )}
+            <GuestPicker 
+                newBooking={newBooking} 
+                setNewBooking={setNewBooking} 
+                focusedField={focusedField} 
+                setFocusedField={setFocusedField}
+                className="flex-1"
+            />
         </div>
     </div>
     );

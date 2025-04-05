@@ -1,5 +1,5 @@
 import fs from "fs";
-import { ObjectId } from 'mongodb';
+import { ObjectId } from "mongodb";
 import { connect } from "../utils/connect.js";
 import { Booking } from "../models/bookingSchema.js";
 import mongoose from "mongoose";
