@@ -66,7 +66,7 @@ const AuthPage = () => {
         e.preventDefault();
         setErrors({});
         if (user?.isAuthenticated) {
-            setErrors({ general: "Bitte melden sich ab, um ein anderes Google-Konto zu verwenden." });
+            setErrors({ general: "Bitte melden sich ab, um ein anderes Konto zu verwenden." });
             return;
         }
         if (!email || !password || (isRegister && (!vorname || !nachname))) {

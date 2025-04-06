@@ -132,7 +132,7 @@ const AccountDetails = () => {
 
 
 {/* Vorname */}
-<div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none mb-6" style={{ fontFamily: 'Merriweather, serif' }}>
+<div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none mb-6" >
     <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>Vorname</h2>
     {editingFields.vorname ? (
         <>
@@ -169,7 +169,7 @@ const AccountDetails = () => {
 
 
    {/* Nachname */}
-   <div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none" style={{ fontFamily: 'Merriweather, serif' }}>
+   <div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none" >
                 <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>Nachname</h2>
                 {editingFields.nachname ? (
                     <>
@@ -204,13 +204,13 @@ const AccountDetails = () => {
 
     
       {/* E-Mail (nur Anzeige, keine Bearbeitung) */}
-      <div className="p-6 bg-white shadow-lg border-gray-200 rounded-none" style={{ fontFamily: 'Merriweather, serif' }}>
-                <h2 className="text-xl font-semibold text-[#0e5756]">E-Mail Adresse</h2>
+      <div className="p-6 bg-white shadow-lg border-gray-200 rounded-none" >
+                <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>E-Mail Adresse</h2>
                 <p className="text-gray-600 mt-3">{user?.email || "Keine E-Mail angegeben"}</p>
             </div>
 
                        {/* Telefonnummer mit Vorwahl */}
-                       <div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none" style={{ fontFamily: 'Merriweather, serif' }}>
+                       <div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none" >
                 <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>Telefonnummer</h2>
                 {editingFields.telefonnummer ? (
                     <>
@@ -264,7 +264,7 @@ const AccountDetails = () => {
             </div>
 
 {/* Adresse */}
-<div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none" style={{ fontFamily: 'Merriweather, serif' }}>
+<div className="p-6 bg-white shadow-lg  border-gray-200 rounded-none" >
                 <h2 className="text-xl font-semibold text-[#0e5756]" style={{ fontFamily: 'Merriweather, serif' }}>Adresse</h2>
                 {editingFields.address ? (
                     <>

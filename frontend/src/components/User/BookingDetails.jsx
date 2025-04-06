@@ -176,31 +176,31 @@ const BookingDetails = () => {
               className="p-6 bg-white shadow-lg border-gray-200 rounded-none mb-6"
             >
               <div>
-                <p className="font-medium text-gray-600" style={{ fontFamily: "Merriweather, serif" }}>
+                <p className="font-medium text-gray-600" >
                   <strong>Buchungsnummer:</strong> {booking.bookingNumber}
                 </p>
-                <p className="text-gray-600" style={{ fontFamily: "Merriweather, serif" }}>
-                  <strong>Unterkunft:</strong> {booking.houseType}
+                <p className="text-gray-600" >
+                  <strong>Unterkunft:</strong> {booking.houseTitle}
                 </p>
-                <p className="text-gray-600" style={{ fontFamily: "Merriweather, serif" }}>
+                <p className="text-gray-600" >
                   <strong>Gästeanzahl:</strong> {booking.guestCount}
                 </p>
-                <p className="text-gray-600" style={{ fontFamily: "Merriweather, serif" }}>
+                <p className="text-gray-600" >
                   <strong>Tagen:</strong> {booking.totalDays}
                 </p>
-                <p className="text-gray-600" style={{ fontFamily: "Merriweather, serif" }}>
+                <p className="text-gray-600" >
                   <strong>Startdatum:</strong> {formatDate(booking.startDate)}
                 </p>
-                <p className="text-gray-600" style={{ fontFamily: "Merriweather, serif" }}>
+                <p className="text-gray-600" >
                   <strong>Enddatum:</strong> {formatDate(booking.endDate)}
                 </p>
-                <p className="text-gray-600" style={{ fontFamily: "Merriweather, serif" }}>
+                <p className="text-gray-600" >
                   <strong>Preis pro Nacht:</strong> {booking.price} €
                 </p>
-                <p className="text-gray-600" style={{ fontFamily: "Merriweather, serif" }}>
+                <p className="text-gray-600" >
                   <strong>Gesamtpreis:</strong> {booking.totalPrice} €
                 </p>
-                <p className="text-gray-600" style={{ fontFamily: "Merriweather, serif" }}>
+                <p className="text-gray-600" >
                   <strong>Status:</strong> {booking.status}
                 </p>
               </div>
@@ -210,7 +210,6 @@ const BookingDetails = () => {
                   <button
                     onClick={() => handleCancelClick(booking)}
                     className="px-4 py-2 bg-[#116769] text-white border border-[#0e5756] rounded-md hover:bg-[#0e5756] transition duration-200"
-                    style={{ fontFamily: "Merriweather, serif" }}
                   >
                     Stornieren
                   </button>
@@ -218,7 +217,7 @@ const BookingDetails = () => {
               )}
 
               {booking.status === "Canceled" && (
-                <div className="mt-4 p-2 bg-[#e6f2f1] text-[#0e5756] rounded-md" style={{ fontFamily: "Merriweather, serif" }}>
+                <div className="mt-4 p-2 bg-[#e6f2f1] text-[#0e5756] rounded-md" >
                   <p className="font-bold">Sie haben diese Buchung storniert.</p>
                 </div>
               )}
@@ -230,7 +229,7 @@ const BookingDetails = () => {
 
       {/* Bestätigung Popup */}
       {showConfirm && selectedBooking && (
-        <div className="fixed inset-0 flex items-center justify-center p-5" style={{ fontFamily: "Merriweather, serif" }}>
+        <div className="fixed inset-0 flex items-center justify-center p-5">
           <div className="bg-[#e6f2f1] p-6 rounded-xl shadow-xl border border-gray-200 max-w-sm w-full text-center">
             <h3 className="text-xl font-semibold text-gray-700">Buchung stornieren?</h3>
             <p className="text-gray-600 mt-3">Sind Sie sicher, dass Sie die Buchung stornieren möchten?</p>

@@ -5,7 +5,7 @@ import aboutUs from "../dataJson/aboutUnsData.json";
 import NavbarMini from "../components/navbarMini/NavbarMini";
 import "../styles/extra.css";
 import aboutUsImgMinas from "../assets/aboutUsImg/Minas1.jpg";
-import aboutUsImgNaheeda from "../assets/aboutUsImg/Naheeda.jpg";
+import aboutUsImgNaheeda from "../assets/aboutUsImg/Naheeda1.jpg";
 import aboutUsImgXiangyu from "../assets/aboutUsImg/Xiangyu.jpg";
 import aboutUsImgFatima from "../assets/aboutUsImg/Fatima.jpg";
 
