@@ -13,7 +13,7 @@ import {
   Star,
 } from "lucide-react";
 import AuthContext from "../context/AuthContext";
-import logo from "../../public/logo-motif-only-circular.png";
+import logo from "../../src/assets/img/logo-motif-only-circular.png";
 
 export function AdminPage() {
   const { user, loading, logout } = useContext(AuthContext);
