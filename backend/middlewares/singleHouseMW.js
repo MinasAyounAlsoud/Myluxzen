@@ -1,12 +1,12 @@
 import { SingleHouse } from "../models/SingleHouseSchema.js";
-// import { Booking } from "../models/bookingSchema.js";
+
 export const getHouseByNum =async(req,res,next)=>{
     const { houseNum } = req.params;
     const filter =  { houseNum: houseNum}; 
-
+    console.log("getHouseByNum houseNum", houseNum);
     try {
         const singleHouse = await SingleHouse.findOne(filter);
-        console.log("getHouseByNum singleHouse",singleHouse)
+        // console.log("getHouseByNum singleHouse",singleHouse)
         req.result = singleHouse;
         next(); 
     } catch (error) {
@@ -16,10 +16,10 @@ export const getHouseByNum =async(req,res,next)=>{
 };
 
 export const getHousesforCheckinOrReserve = async(req,res,next)=>{
-    console.log("GET request to getHousesforCheckinOrReserve"); 
     const {houseType} = req.params;
     const { bookingNum, startDate, endDate, guestName, houseNum, reserved} = req.body;
-    console.log("GET request to getHousesforCheckinOrReserve"); 
+    console.log("GET request to getHousesforCheckinOrReserve, houseType", houseType); 
+    //if this house is already reserved, direct go to next middleware
     if(reserved){
         next();
         return;
@@ -28,17 +28,17 @@ export const getHousesforCheckinOrReserve = async(req,res,next)=>{
 
         const requestedStartDate = new Date(startDate);
         const requestedEndDate = new Date(endDate);
-        console.log("getHousesforCheckinOrReserve, req.body", req.body);
-
+        // console.log("getHousesforCheckinOrReserve, req.body", req.body);
+        // console.log("getHousesforCheckinOrReserve, houseType", houseType);
         const houses = await SingleHouse.find({
             houseType: houseType,
             // choose houseType suitable and not Occupied houses
             bookingNum: { $eq: ""} // add for single house select for booking (not checkedin)
         });
-        console.log("getHousesforCheckinOrReserve, houses.length", houses.length);
+        // console.log("getHousesforCheckinOrReserve, houses.length", houses.length);
 
         const availableHouses = houses.filter(house => {
-            // houses can't have overlap with inUsePeriods(admin reserve for other use) or with bookingReservePeriods(reserved for booking guest)
+            // houses can"t have overlap with inUsePeriods(admin reserve for other use) or with bookingReservePeriods(reserved for booking guest)
             const isInUseOverlapping = house.inUsePeriods.some(period => {
                 const inUseStartDate = new Date(period.startDate);
                 const inUseEndDate = new Date(period.endDate);
@@ -50,8 +50,6 @@ export const getHousesforCheckinOrReserve = async(req,res,next)=>{
                 const reserveEndDate = new Date(period.endDate);
                 return requestedEndDate > reserveStartDate  && requestedStartDate < reserveEndDate;
             });
-
-        
 
             return !isInUseOverlapping && !isBookingReserveOverlapping;
         });
@@ -70,7 +68,8 @@ export const houseReservedByAdmin =async(req,res,next)=>{
     const { houseNum } = req.params;
     const { inUsePeriods} = req.body;
     const filter =  { houseNum: houseNum}; 
-    
+    console.log("houseReservedByAdmin, houseNum", houseNum);
+
     try {
         if (!Array.isArray(inUsePeriods)) {
             throw new Error("inUsePeriods must be an array");
@@ -79,7 +78,7 @@ export const houseReservedByAdmin =async(req,res,next)=>{
             $set: { inUsePeriods: inUsePeriods }
         };
         const singleHouse = await SingleHouse.updateOne(filter, updateData);
-        console.log("houseReservedByAdmin singleHouse",singleHouse)
+        // console.log("houseReservedByAdmin singleHouse",singleHouse)
         req.result = singleHouse;
         next(); 
     } catch (error) {
@@ -87,6 +86,7 @@ export const houseReservedByAdmin =async(req,res,next)=>{
         next(error);
     }
 };
+
 export const houseCheckIn = async(req,res,next)=>{
     const { houseType } = req.params;
     const { bookingNum, startDate, endDate, guestName, houseNum} = req.body;
@@ -98,8 +98,8 @@ export const houseCheckIn = async(req,res,next)=>{
                 houseNum: houseNum,
                 bookingReservePeriods: { $elemMatch: { bookingNum: bookingNum } }
             });
-            console.log("GET request to houseCheckIn, house", house); 
-            console.log("houseCheckIn,house.length", house.length);
+            // console.log("GET request to houseCheckIn, house", house); 
+            // console.log("houseCheckIn,house.length", house.length);
             if (house.length===0) {
                 //when this house is not reserved for the booking, send available houses back
                 req.body.houseNum = "";
@@ -108,20 +108,18 @@ export const houseCheckIn = async(req,res,next)=>{
             } 
             req.result=house;
             req.body.reserved = true;
-
-            console.log("houseCheckIn, req.result", req.result);
-
+            // console.log("houseCheckIn, req.result", req.result);
         }
         next();
         // req.body.houseNum = house.houseNum;
         // // if this house is already reserved for this booking, set book infomation.
         // houseSetBookInfo(req, res, next);
-        
     } catch (error) {
         console.log("Error in houseCheckIn middleware:", error);
         next(error);
     }
 }
+
 export const houseSetBookInfo = async(req,res,next)=>{
     // const { houseNum } = req.params;
     const { bookingNum, startDate, endDate, guestName, houseNum} = req.body;
@@ -141,7 +139,7 @@ export const houseSetBookInfo = async(req,res,next)=>{
         };
         //check in process
         const singleHouse = await SingleHouse.updateOne(filter, updateData);
-        console.log("updateOne singleHouse",singleHouse)
+        // console.log("updateOne singleHouse",singleHouse)
         next(); 
     } catch (error) {
         console.log("Error in houseSetBookInfo middleware:", error);
@@ -161,7 +159,6 @@ export const houseCheckoutOrCancel = async(req,res,next)=>{
         const filter =  { houseNum: houseNum}; 
         const updateData = {
             $set: {
-                // status: status,
                 bookingNum: "",
                 startDate: "",
                 endDate: ""
@@ -172,7 +169,7 @@ export const houseCheckoutOrCancel = async(req,res,next)=>{
         };
 
         const singleHouse = await SingleHouse.updateOne(filter, updateData);
-        console.log(" houseCheckoutOrCancel updateOne singleHouse",singleHouse)
+        // console.log(" houseCheckoutOrCancel updateOne singleHouse",singleHouse)
         next(); 
     } catch (error) {
         console.log("Error in houseCheckoutOrCancel middleware:", error);
@@ -198,9 +195,9 @@ export const houseReserve = async(req,res,next)=>{
                 }
             }            
         };
-        console.log("houseReserve, updateData ",updateData)
+        // console.log("houseReserve, updateData ",updateData)
         const singleHouse = await SingleHouse.updateOne(filter, updateData);
-        console.log(" houseReserve updateOne singleHouse",singleHouse)
+        // console.log(" houseReserve updateOne singleHouse",singleHouse)
         req.body.reserved = true;
         next(); 
     } catch (error) {
@@ -225,7 +222,7 @@ export const houseAdminInuseReserve = async(req,res,next)=>{
             }
         };
         const singleHouse = await SingleHouse.updateOne(filter, updateData);
-        console.log(" houseAdminInuseReserve updateOne singleHouse",singleHouse)
+        // console.log(" houseAdminInuseReserve updateOne singleHouse",singleHouse)
         req.result = singleHouse;
         next(); 
     } catch (error) {
@@ -233,6 +230,7 @@ export const houseAdminInuseReserve = async(req,res,next)=>{
         next(error);
     }
 }
+
 export const querySingleHouses = async(req,res,next)=>{
     const { houseType,adminReservedInuse,guestReserved,houseNum, page = 1 } = req.query;
     const limit = 15;
@@ -251,7 +249,7 @@ export const querySingleHouses = async(req,res,next)=>{
     }else if(guestReserved === "true"){
         query.bookingReservePeriods = {  "$ne": []  };
     }
-    console.log("query API", query);
+    console.log("querySingleHouses query", query);
     try {
         const singleHouses = await SingleHouse.find(query)
                                     .sort({ createdAt: -1 }) 
@@ -260,8 +258,8 @@ export const querySingleHouses = async(req,res,next)=>{
 
         const hasMore = singleHouses.length > limit;
         if (hasMore) singleHouses.pop();
-        console.log("bookingTickets.length", singleHouses.length);
-        console.log("hasMore", hasMore);
+        // console.log("bookingTickets.length", singleHouses.length);
+        // console.log("hasMore", hasMore);
         req.result = {
             singleHouses: singleHouses,
             hasMore: hasMore

@@ -31,9 +31,17 @@ const Gallerie = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/images")
+    .get(`${import.meta.env.VITE_SERVER_URL}/api/images`)
+  
       .then((response) => {
-        setImages(response.data);
+        console.log("URL utilisée :", `${import.meta.env.VITE_SERVER_URL}/api/images`);
+        console.log("Images reçues de l'API :", response.data);
+        console.log("image 1:", response.data.images?.[0]); //
+
+        
+        setImages(Array.isArray(response.data) ? response.data : []);
+
+
       })
       .catch((error) => {
         console.error("Erreur lors du chargement des images :", error);

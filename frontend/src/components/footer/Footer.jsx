@@ -79,7 +79,7 @@ const Footer = () => {
               <span className="p-2 md:p-2.5 rounded-full bg-caramel hover:bg-[#1c3b36] transition transform hover:scale-110 shadow-lg shadow-caramel/30 animate-bounce-on-hover">
                 <FaPhoneAlt className="text-base md:text-xl text-off-white transition" />
               </span>
-              <span className="hover:text-caramel">+49 123 456 789</span>
+              <span className="hover:text-caramel">+66 2 123 4567</span>
             </a>
 
             {/* Réseaux sociaux */}

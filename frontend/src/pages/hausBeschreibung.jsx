@@ -14,7 +14,7 @@ const ApartmentCard = ({ apartment, onClick }) => {
         alt={apartment.title}
         className="w-32 h-32 sm:w-48 sm:h-48 md:w-65 md:h-65 object-cover rounded-lg mr-4 mb-4 md:mb-0"
       />
-      <div className="flex-1" >
+      <div className="flex-1">
         <h2 className="text-2xl font-semibold text-gray-600">
           {apartment.title}
         </h2>
@@ -58,12 +58,12 @@ const ApartmentModal = ({ apartment, onClose }) => {
 
   return (
     <div
-      className="fixed inset-0 flex justify-center items-center p-4 z-50"
+      className="fixed inset-0 flex justify-center items-center p-4 z-50 "
       style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
       onClick={handleCloseOnBackgroundClick}
     >
       <div
-        className="bg-white bg-opacity-90 rounded-xl shadow-2xl w-220 h-200 relative p-6"
+        className="bg-white bg-opacity-90 rounded-xl shadow-2xl w-220 h-200 relative p-6 z-50"
         onClick={handleModalClick}
       >
         <div className="bg-gray-100 p-4 flex justify-between items-center border-b">
@@ -149,7 +149,9 @@ export function ApartmentsList() {
   const [selectedApartment, setSelectedApartment] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/houses")
+    const url = `${import.meta.env.VITE_SERVER_URL}/api/houses`;
+
+    fetch(url)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -160,7 +162,9 @@ export function ApartmentsList() {
 
   return (
     <div>
-      <MiniNavbar />
+      {/* MiniNavbar nur anzeigen, wenn kein Apartment ausgewählt ist */}
+      {!selectedApartment && <MiniNavbar />}
+
       <div className="max-w-6xl mx-auto p-6">
         <div className="flex flex-col gap-6 items-center mt-7">
           {apartments.map((apartment, index) => (
@@ -178,6 +182,7 @@ export function ApartmentsList() {
           />
         )}
       </div>
+
       <Footer />
     </div>
   );

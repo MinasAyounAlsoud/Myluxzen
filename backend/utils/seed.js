@@ -160,14 +160,14 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 console.log("✅ Variables d'environnement chargées ?", process.env.CLOUDINARY_CLOUD_NAME);
 
-// 📌 Configurer Cloudinary
+// Configurer Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// 📌 Vérifier si une image existe déjà sur Cloudinary
+// Vérifier si une image existe déjà sur Cloudinary
 const checkCloudinaryImage = async (fileName) => {
   try {
     const result = await cloudinary.search

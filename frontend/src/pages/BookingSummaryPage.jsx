@@ -5,6 +5,6 @@ export const BookingSummaryPage = ()=>{
     const { bookingNumber } = useParams();
     
     return (<div>
-        <SuccessBooking successBookingNumber={bookingNumber}></SuccessBooking>
+        <SuccessBooking successBookingNumber={bookingNumber}/>
     </div>);
 }

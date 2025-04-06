@@ -1,5 +1,5 @@
 import fs from "fs";
-import { ObjectId } from 'mongodb';
+import { ObjectId } from "mongodb";
 // import { connect } from "../utils/connect.js";
 import { Booking } from "../models/bookingSchema.js";
 import mongoose from "mongoose";
@@ -40,11 +40,11 @@ const guestInfo = [
 ];
 
 const houseDetails = {
-  'HouseType1': { guests: 8, pricePerNight: 1600, houseNums: [1001, 1002], houseTitle : "Strandhaus mit direktem Meerzugang" },
-  'HouseType2': { guests: 6, pricePerNight: 1350, houseNums: [2001, 2002, 2003, 2004, 2005], houseTitle : "Gemütliche Berghütte mit Sauna"  },
-  'HouseType3': { guests: 4, pricePerNight: 950, houseNums: [3001, 3002, 3003, 3004, 3005], houseTitle : "Luxuriöses Penthouse mit Dachterrasse"  },
-  'HouseType4': { guests: 4, pricePerNight: 745, houseNums: [4001, 4002, 4003, 4004, 4005], houseTitle : "Moderne Strandvilla mit Pool"  },
-  'HouseType5': { guests: 2, pricePerNight: 565, houseNums: [5001, 5002, 5003, 5004, 5005, 5006, 5007, 5008, 5009, 5010], houseTitle : "Modernes Loft"  }
+  "HouseType1": { guests: 8, pricePerNight: 1600, houseNums: [1001, 1002], houseTitle : "Strandhaus mit direktem Meerzugang" },
+  "HouseType2": { guests: 6, pricePerNight: 1350, houseNums: [2001, 2002, 2003, 2004, 2005], houseTitle : "Gemütliche Berghütte mit Sauna"  },
+  "HouseType3": { guests: 4, pricePerNight: 950, houseNums: [3001, 3002, 3003, 3004, 3005], houseTitle : "Luxuriöses Penthouse mit Dachterrasse"  },
+  "HouseType4": { guests: 4, pricePerNight: 745, houseNums: [4001, 4002, 4003, 4004, 4005], houseTitle : "Moderne Strandvilla mit Pool"  },
+  "HouseType5": { guests: 2, pricePerNight: 565, houseNums: [5001, 5002, 5003, 5004, 5005, 5006, 5007, 5008, 5009, 5010], houseTitle : "Modernes Loft"  }
 };
 
 const bookings = [];
@@ -68,11 +68,11 @@ for (let i = 0; i < 80; i++) {
 
   let status = "CheckedOut";
   if (endDate < today) {
-    status = getRandomInt(0, 9) < 1 ? 'Canceled' : 'CheckedOut'; // Mostly 'CheckedOut', rarely 'Canceled'
+    status = getRandomInt(0, 9) < 1 ? "Canceled" : "CheckedOut"; // Mostly "CheckedOut", rarely "Canceled"
   } else if (startDate > today) {
-    status = getRandomInt(0, 9) < 1 ? 'Canceled' : 'Active'; // Mostly 'Active', rarely 'Canceled'
+    status = getRandomInt(0, 9) < 1 ? "Canceled" : "Active"; // Mostly "Active", rarely "Canceled"
   } else if (startDate <= today && endDate >= today) {
-    status = 'CheckedIn';
+    status = "CheckedIn";
   }
   const creationDate = new Date(Math.min(startDate.getTime() - getRandomInt(1, 10) * 24 * 60 * 60 * 1000, today.getTime()));
   const updateDate = new Date(Math.min(creationDate.getTime() + getRandomInt(1, 5) * 24 * 60 * 60 * 1000, today.getTime()));
@@ -104,7 +104,7 @@ for (let i = 0; i < 80; i++) {
   bookings.push(booking);
 }
 
-// fs.writeFileSync('bookings.json', JSON.stringify(bookings, null, 2));
+// fs.writeFileSync("bookings.json", JSON.stringify(bookings, null, 2));
 const seedDB = async () => {
     try {
       await Booking.deleteMany();

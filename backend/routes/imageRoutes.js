@@ -55,10 +55,10 @@ import upload from "../middlewares/uploadMiddleware.js";
 import Image from "../models/image.js";
 import dotenv from "dotenv";
 
-// 🔐 Charger les variables d'environnement (.env)
+// Charger les variables d'environnement (.env)
 dotenv.config();
 
-// ✅ Configurer Cloudinary avec les variables d'environnement
+// Configurer Cloudinary avec les variables d'environnement
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -67,18 +67,18 @@ cloudinary.config({
 
 const router = express.Router();
 
-// ✅ GET - Récupérer toutes les images
+// GET - Récupérer toutes les images
 router.get("/", async (req, res) => {
   try {
-    const images = await Image.find();
+    const images = await Image.find().sort({ createdAt: -1 }); // Trier du plus récent au plus ancien
     res.json(images);
   } catch (error) {
-    console.error("❌ Erreur serveur :", error);
+    console.error(" Erreur serveur :", error);
     res.status(500).json({ message: "Erreur serveur" });
   }
 });
 
-// ✅ POST - Upload image (directement sur Cloudinary)
+// POST - Upload image (directement sur Cloudinary)
 router.post("/upload", upload.single("image"), async (req, res) => {
   try {
     const { description } = req.body;
@@ -116,7 +116,7 @@ router.post("/upload", upload.single("image"), async (req, res) => {
 
     const result = await streamUpload(fileBuffer);
 
-    // ✅ Enregistre l'image dans MongoDB
+    // Enregistre l'image dans MongoDB
     const newImage = new Image({
       url: result.secure_url,
       description: description || "",
@@ -125,12 +125,12 @@ router.post("/upload", upload.single("image"), async (req, res) => {
     await newImage.save();
     res.status(201).json(newImage);
   } catch (error) {
-    console.error("❌ Erreur Cloudinary:", error);
+    console.error("Erreur Cloudinary:", error);
     res.status(500).json({ message: "Erreur lors de l'upload" });
   }
 });
 
-// ✅ DELETE - Supprimer image (MongoDB + Cloudinary)
+//  DELETE - Supprimer image (MongoDB + Cloudinary)
 router.delete("/:id", async (req, res) => {
   try {
     const image = await Image.findById(req.params.id);
@@ -151,7 +151,7 @@ router.delete("/:id", async (req, res) => {
 
     res.json({ message: "Image supprimée avec succès" });
   } catch (error) {
-    console.error("❌ Erreur suppression :", error);
+    console.error("Erreur suppression :", error);
     res.status(500).json({ message: "Erreur lors de la suppression" });
   }
 });

@@ -12,7 +12,7 @@ const links = [
   { link: "Aktivitäten", path: "/activities", type: "router" },
   { link: "Reviews", path: "/reviews", type: "router" },
   { link: "Über Uns", path: "/about", type: "router" },
-  { link: "AGB", section: "agb", type: "scroll" },
+  { link: "agb", path: "/Agreement", type: "router" },
   
 ];
 

@@ -4,12 +4,18 @@ export function AdminReviewPage() {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/reviews/admin")
+    const url = `${import.meta.env.VITE_SERVER_URL}/api/reviews/admin`;
+
+    fetch(url)
       .then((res) => res.json())
       .then(setReviews);
   }, []);
   const updateReview = (id, isApproved) => {
-    fetch(`http://localhost:3000/api/reviews/admin/update/${id}`, {
+    const url = `${
+      import.meta.env.VITE_SERVER_URL
+    }/api/reviews/admin/update/${id}`;
+
+    fetch(url, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ isApproved }),
@@ -17,7 +23,9 @@ export function AdminReviewPage() {
   };
 
   const handleReject = async (id) => {
-    await fetch(`http://localhost:3000/api/reviews/${id}`, {
+    const url = `${import.meta.env.VITE_SERVER_URL}/api/reviews/${id}`;
+
+    await fetch(url, {
       method: "DELETE",
     });
     setReviews(reviews.filter((r) => r._id !== id));

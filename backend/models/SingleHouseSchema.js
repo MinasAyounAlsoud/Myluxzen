@@ -3,7 +3,7 @@ const { Schema, model } = mongoose;
 const singleHouseSchema = new mongoose.Schema({
     houseNum: { type: String, required: true },
     houseType: { type: String, 
-        enum: ['HouseType1', 'HouseType2', 'HouseType3', 'HouseType4', 'HouseType5'],  
+        enum: ["HouseType1", "HouseType2", "HouseType3", "HouseType4", "HouseType5"],  
         required: true  
     },    
     bookingNum: { type: String},
@@ -26,7 +26,7 @@ const singleHouseSchema = new mongoose.Schema({
     }],
     hausBeschreibung: {
         type: Schema.Types.ObjectId,
-        ref: 'HausBeschreibung'
+        ref: "HausBeschreibung"
     },
 
 });

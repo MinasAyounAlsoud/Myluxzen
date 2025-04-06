@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 export function AdminHausBeschreibung() {
   const [houses, setHouses] = useState([]);
   const [updatedHouseData, setUpdatedHouseData] = useState({
     title: "",
     description: "",
-    guests: "",
     bedrooms: "",
     livingRoom: "",
     terrace: "",
@@ -13,14 +12,16 @@ export function AdminHausBeschreibung() {
     bathroom: "",
     pricePerNight: "",
   });
+  const formRef = useRef(null);
 
   useEffect(() => {
     fetchHouses();
   }, []);
 
   const fetchHouses = async () => {
+    const url = `${import.meta.env.VITE_SERVER_URL}/api/houses`;
     try {
-      const response = await fetch("http://localhost:3000/api/houses");
+      const response = await fetch(url);
       if (!response.ok) throw new Error("Fehler beim Laden der Häuser");
       const data = await response.json();
       setHouses(data);
@@ -29,39 +30,24 @@ export function AdminHausBeschreibung() {
     }
   };
 
-  const updateHouse = async () => {
+  const updateHouse = async (e) => {
+    e.preventDefault(); // Stoppt das automatische Neuladen des Formulars
+    const url = `${import.meta.env.VITE_SERVER_URL}/api/houses/${
+      updatedHouseData._id
+    }`;
+
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/houses/${updatedHouseData._id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedHouseData),
-        }
-      );
-      if (!response.ok) throw new Error("Fehler beim Aktualisieren");
-      fetchHouses();
-      setUpdatedHouseData({
-        title: "",
-        description: "",
-        guests: "",
-        bedrooms: "",
-        livingRoom: "",
-        terrace: "",
-        toilet: "",
-        bathroom: "",
-        pricePerNight: "",
-        roomAmenities: {
-          bathroomInfo: "",
-          internetInfo: "",
-          heatingInfo: "",
-          kitchenInfo: "",
-          entertainment: "",
-          homeSafety: "",
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify(updatedHouseData),
       });
+      if (!response.ok) throw new Error("Fehler beim Aktualisieren");
+
+      await fetchHouses(); // Lädt die neuen Daten nach dem Update
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
       console.error("Fehler beim Aktualisieren:", error);
     }
@@ -69,28 +55,53 @@ export function AdminHausBeschreibung() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUpdatedHouseData({ ...updatedHouseData, [name]: value });
+
+    setUpdatedHouseData((prev) => {
+      if (name.startsWith("roomAmenities.")) {
+        const amenityKey = name.split(".")[1];
+
+        return {
+          ...prev,
+          roomAmenities: {
+            ...prev.roomAmenities, // Sicherstellen, dass roomAmenities existiert
+            [amenityKey]: value,
+          },
+        };
+      } else {
+        return {
+          ...prev,
+          [name]: value,
+        };
+      }
+    });
   };
 
   const handleEditClick = (house) => {
     setUpdatedHouseData({
       _id: house._id,
-      title: "Title : " + house.title,
-      description: "Description : " + house.description,
+      title: house.title,
+      description: house.description,
+      bedrooms: house.bedrooms || "",
+      livingRoom: house.livingRoom || "",
+      terrace: house.terrace || "",
+      toilet: house.toilet || "",
+      bathroom: house.bathroom || "",
+      pricePerNight: house.pricePerNight || "",
       roomAmenities: {
-        bathroomInfo:
-          "bathroomInfo : " + house.roomAmenities?.bathroomInfo || "",
-        internetInfo:
-          "internetInfo : " + house.roomAmenities?.internetInfo || "",
-        heatingInfo: "heatingInfo : " + house.roomAmenities?.heatingInfo || "",
-        kitchenInfo: "kitchenInfo : " + house.roomAmenities?.kitchenInfo || "",
-        entertainment:
-          "entertainment : " + house.roomAmenities?.entertainment || "",
-        homeSafety: "homeSafety : " + house.roomAmenities?.homeSafety || "",
+        bathroomInfo: house.roomAmenities?.bathroomInfo || "",
+        internetInfo: house.roomAmenities?.internetInfo || "",
+        heatingInfo: house.roomAmenities?.heatingInfo || "",
+        kitchenInfo: house.roomAmenities?.kitchenInfo || "",
+        entertainment: house.roomAmenities?.entertainment || "",
+        homeSafety: house.roomAmenities?.homeSafety || "",
       },
-
-      pricePerNight: "Preis pro Nacht : " + house.pricePerNight,
     });
+    setTimeout(() => {
+      formRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 100);
   };
 
   return (
@@ -109,7 +120,6 @@ export function AdminHausBeschreibung() {
               <h3 className="text-lg font-semibold mb-5">{house.title}</h3>
               <p className="text-gray-600 mb-5">{house.description}</p>
               <div className="flex-grow">
-                <p className="text-gray-600">Gäste: {house.guests}</p>
                 <p className="text-gray-600">Schlafzimmer: {house.bedrooms}</p>
                 <p className="text-gray-600">Wohnzimmer: {house.livingRoom}</p>
                 <p className="text-gray-600">Terrasse: {house.terrace}</p>
@@ -118,22 +128,22 @@ export function AdminHausBeschreibung() {
 
                 {/* Room Amenities */}
                 <p className="text-gray-600">
-                  Bathroom Info: {house.roomAmenities.bathroomInfo}
+                  {house.roomAmenities.bathroomInfo}
                 </p>
                 <p className="text-gray-600">
-                  Internet Info: {house.roomAmenities.internetInfo}
+                  {house.roomAmenities.internetInfo}
                 </p>
                 <p className="text-gray-600">
-                  Heating Info: {house.roomAmenities.heatingInfo}
+                  {house.roomAmenities.heatingInfo}
                 </p>
                 <p className="text-gray-600">
-                  Kitchen Info: {house.roomAmenities.kitchenInfo}
+                  {house.roomAmenities.kitchenInfo}
                 </p>
                 <p className="text-gray-600">
-                  Entertainment: {house.roomAmenities.entertainment}
+                  {house.roomAmenities.entertainment}
                 </p>
                 <p className="text-gray-600">
-                  Home Safety: {house.roomAmenities.homeSafety}
+                  {house.roomAmenities.homeSafety}
                 </p>
 
                 {/* Preis pro Nacht */}
@@ -160,144 +170,98 @@ export function AdminHausBeschreibung() {
 
       {/* Haus aktualisieren */}
       {updatedHouseData._id && (
-        <div className="mt-8 max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold text-center mb-4">
+        <div
+          ref={formRef}
+          className="mt-8 max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md"
+        >
+          <h3 className="text-lg font-semibold text-center mb-6">
             Haus bearbeiten
           </h3>
+
           <form className="space-y-4">
-            <input
-              type="text"
-              name="title"
-              value={updatedHouseData.title}
-              onChange={handleChange}
-              placeholder="Titel"
-              className="w-full p-2 border rounded-md"
-            />
-            <input
-              type="number"
-              name="guests"
-              value={updatedHouseData.guests}
-              onChange={handleChange}
-              placeholder="Gäste"
-              className="w-full p-2 border rounded-md"
-            />
-            <input
-              type="number"
-              name="bedrooms"
-              value={updatedHouseData.bedrooms}
-              onChange={handleChange}
-              placeholder="Schlafzimmer"
-              className="w-full p-2 border rounded-md"
-            />
-            <input
-              type="number"
-              name="livingRoom"
-              value={updatedHouseData.livingRoom}
-              onChange={handleChange}
-              placeholder="Wohnzimmer"
-              className="w-full p-2 border rounded-md"
-            />
-            <input
-              type="number"
-              name="terrace"
-              value={updatedHouseData.terrace}
-              onChange={handleChange}
-              placeholder="Terrasse"
-              className="w-full p-2 border rounded-md"
-            />
-            <input
-              type="number"
-              name="toilet"
-              value={updatedHouseData.toilet}
-              onChange={handleChange}
-              placeholder="Toiletten"
-              className="w-full p-2 border rounded-md"
-            />
-            <input
-              type="number"
-              name="bathroom"
-              value={updatedHouseData.bathroom}
-              onChange={handleChange}
-              placeholder="Badezimmer"
-              className="w-full p-2 border rounded-md"
-            />
-            <textarea
-              name="description"
-              value={updatedHouseData.description}
-              onChange={handleChange}
-              placeholder="Beschreibung"
-              className="w-full h-60 p-2 border rounded-md"
-            />
-            <input
-              type="text"
-              name="roomAmenities.bathroomInfo"
-              value={updatedHouseData.roomAmenities.bathroomInfo}
-              onChange={handleChange}
-              placeholder="Badezimmer-Info"
-              className="w-full p-2 border rounded-md"
-            />
+            {/* Allgemeine Informationen */}
+            {[
+              { label: "Titel", name: "title", type: "text" },
+              { label: "Schlafzimmer", name: "bedrooms", type: "number" },
+              { label: "Wohnzimmer", name: "livingRoom", type: "number" },
+              { label: "Terrasse", name: "terrace", type: "number" },
+              { label: "Toiletten", name: "toilet", type: "number" },
+              { label: "Badezimmer", name: "bathroom", type: "number" },
+              {
+                label: "Preis pro Nacht",
+                name: "pricePerNight",
+                type: "number",
+              },
+            ].map((field) => (
+              <div
+                key={field.name}
+                className="grid grid-cols-3 items-center gap-4"
+              >
+                <label className="font-medium">{field.label}:</label>
+                <input
+                  type={field.type}
+                  name={field.name}
+                  value={updatedHouseData[field.name] || ""}
+                  onChange={handleChange}
+                  placeholder={field.label}
+                  className="col-span-2 p-2 border rounded-md w-full"
+                />
+              </div>
+            ))}
 
-            <input
-              type="text"
-              name="roomAmenities.internetInfo"
-              value={updatedHouseData.roomAmenities.internetInfo}
-              onChange={handleChange}
-              placeholder="Internet-Info"
-              className="w-full p-2 border rounded-md"
-            />
+            {/* Beschreibung */}
+            <div className="grid grid-cols-3 items-start gap-4">
+              <label className="font-medium mt-2">Beschreibung:</label>
+              <textarea
+                name="description"
+                value={updatedHouseData.description}
+                onChange={handleChange}
+                placeholder="Beschreibung"
+                className="col-span-2 p-2 border rounded-md w-full h-24"
+              />
+            </div>
 
-            <input
-              type="text"
-              name="roomAmenities.heatingInfo"
-              value={updatedHouseData.roomAmenities.heatingInfo}
-              onChange={handleChange}
-              placeholder="Heizung-Info"
-              className="w-full p-2 border rounded-md"
-            />
+            {/* Zimmer-Ausstattung */}
+            {[
+              { label: "Badezimmer-Info", name: "roomAmenities.bathroomInfo" },
+              { label: "Internet-Info", name: "roomAmenities.internetInfo" },
+              { label: "Heizung-Info", name: "roomAmenities.heatingInfo" },
+              { label: "Küchen-Info", name: "roomAmenities.kitchenInfo" },
+              { label: "Entertainment", name: "roomAmenities.entertainment" },
+              {
+                label: "Sicherheitaustattung",
+                name: "roomAmenities.homeSafety",
+              },
+            ].map((field) => (
+              <div
+                key={field.name}
+                className="grid grid-cols-3 items-center gap-4"
+              >
+                <label className="font-medium">{field.label}:</label>
+                <input
+                  type="text"
+                  name={field.name}
+                  value={
+                    updatedHouseData?.roomAmenities?.[
+                      field.name.split(".")[1]
+                    ] || ""
+                  }
+                  onChange={handleChange}
+                  placeholder={field.label}
+                  className="col-span-2 p-2 border rounded-md w-full"
+                />
+              </div>
+            ))}
 
-            <input
-              type="text"
-              name="roomAmenities.kitchenInfo"
-              value={updatedHouseData.roomAmenities.kitchenInfo}
-              onChange={handleChange}
-              placeholder="Küchen-Info"
-              className="w-full p-2 border rounded-md"
-            />
-
-            <input
-              type="text"
-              name="roomAmenities.entertainment"
-              value={updatedHouseData.roomAmenities.entertainment}
-              onChange={handleChange}
-              placeholder="Entertainment"
-              className="w-full p-2 border rounded-md"
-            />
-
-            <input
-              type="text"
-              name="roomAmenities.homeSafety"
-              value={updatedHouseData.roomAmenities.homeSafety}
-              onChange={handleChange}
-              placeholder="Sicherheitsausstattung"
-              className="w-full p-2 border rounded-md"
-            />
-
-            <input
-              type="number"
-              name="pricePerNight"
-              value={updatedHouseData.pricePerNight}
-              onChange={handleChange}
-              placeholder="Preis pro Nacht"
-              className="w-full p-2 border rounded-md"
-            />
+            {/* Speichern Button */}
+            <button
+              type="button"
+              onClick={(e) => updateHouse(e)}
+              className="mt-4 bg-gray-800 text-white px-4 py-2 rounded-md cursor-pointer hover:text-[#fae1a8]"
+            >
+              Speichern
+            </button>
           </form>
-
-          <button
-            onClick={updateHouse}
-            className="mt-4 bg-gray-800 text-white px-4 py-2 rounded-md cursor-pointer hover:text-[#fae1a8]"
-          >
-            Speichern
-          </button>
         </div>
       )}
     </div>

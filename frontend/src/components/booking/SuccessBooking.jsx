@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Summery } from './Summery';
-import { useNavigate } from 'react-router-dom';
-import { convertUtcToLocal } from '../../utils/commenBookFunc';
+import { useState, useEffect } from "react";
+import { Summery } from "./Summery";
+import { useNavigate } from "react-router-dom";
 
 export const SuccessBooking = ({successBookingNumber})=>{
   console.log("SuccessBooking",successBookingNumber)
@@ -15,7 +14,9 @@ export const SuccessBooking = ({successBookingNumber})=>{
           return;
         }
         try {
-          const response = await fetch(`http://localhost:3000/booking/bybookingnum/${successBookingNumber}`, {
+          const url = `${import.meta.env.VITE_SERVER_URL}/booking/bybookingnum/${successBookingNumber}`;
+          // const url = `http://localhost:3000/booking/bybookingnum/${successBookingNumber}`;
+          const response = await fetch(url, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -26,9 +27,6 @@ export const SuccessBooking = ({successBookingNumber})=>{
           }
           const booking = await response.json();
           // console.log("received booking ticket" ,data);
-          //add convert UTC(from server) to local
-          booking.startDate = convertUtcToLocal(booking.startDate);
-          booking.endDate = convertUtcToLocal(booking.endDate);
           setBookingTicket(booking);
           setErrorMessage("");
             // console.log("received booking ticket" ,data);
@@ -47,23 +45,33 @@ export const SuccessBooking = ({successBookingNumber})=>{
     }
     return (
       <>
-      { errorMessage === "" ?  
-        <div className='flex flex-col items-center justify-center h-full pb-20'>
-          <div className='w-2/3 py-4'>
-          <Summery newBooking={bookingTicket} completed={true}></Summery>
+      { errorMessage === "" ? ( 
+        <div className="flex flex-col items-center justify-center h-full pb-20">
+          <div className="w-2/3 py-4">
+            <Summery 
+              newBooking={bookingTicket} 
+              completed={true}
+            />
           </div>
-          <div className='w3/5 py-4 px-6 lg:px-20 text-gray-700'>
+          <div className="w3/5 py-4 px-6 lg:px-20 text-gray-700">
               <p>Vielen Dank für Ihre Buchung.</p><br></br>
               <p>Die Details Ihrer Bestellung werden an Ihre E-Mail-Adresse gesendet.</p><br></br>
               <p>Falls Sie bereits registriert und angemeldet sind, können Sie Ihre Bestellung in Ihrem Benutzerkonto auf unserer Webseite einsehen und bei Bedarf auch stornieren.</p><br></br>
               <p>Sollten Sie nicht angemeldet sein, können Sie direkt mit dem Verwaltungspersonal des Hotels in Kontakt treten, indem Sie uns unter der Telefonnummer ... anrufen oder eine E-Mail an ... senden.</p>
               <p>Wir freuen uns darauf, Sie bald willkommen zu heißen und stehen Ihnen jederzeit gerne zur Verfügung, um Ihren Aufenthalt so angenehm wie möglich zu gestalten.</p><br></br>
           </div>
-          <button onClick={handleClose}
-          className="bg-[#116769] text-[#FAE1A8] text-lg py-2 px-10 cursor-pointKer rounded-md hover:text-white">
+          <button 
+            onClick={handleClose}
+            className="bg-[#116769] text-[#FAE1A8] text-lg py-2 px-10 cursor-pointKer rounded-md hover:text-white"
+          >
               schließen
           </button>
-        </div> :
-        <div><p>{errorMessage}</p></div>
-      }   </> );
+        </div>
+        ) : (
+        <div>
+          <p>{errorMessage}</p>
+        </div>
+      )}   
+    </> 
+    );
 };

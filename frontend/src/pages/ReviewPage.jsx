@@ -14,7 +14,7 @@ export function ReviewPage() {
 
   return (
     <div>
-      <MiniNavbar />
+      {!showModal && <MiniNavbar />}
       <div className="max-w-6xl mx-auto p-6">
         <button
           onClick={() => setShowModal(true)}

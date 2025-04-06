@@ -4,9 +4,18 @@ export function ReviewList() {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/reviews")
+    const url = `${import.meta.env.VITE_SERVER_URL}/api/reviews`;
+
+    fetch(url)
       .then((res) => res.json())
-      .then(setReviews)
+      .then((data) => {
+        // Nach createdAt sortieren, neueste zuerst
+        const sorted = data.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setReviews(sorted);
+      })
+      // .then(setReviews)
       .catch((error) => console.error("Fehler beim Laden der Reviews:", error));
   }, []);
 
