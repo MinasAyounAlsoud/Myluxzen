@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 
 const BookingDetails = () => {
   const { user } = useContext(AuthContext);
-
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -13,6 +12,7 @@ const BookingDetails = () => {
   const [view, setView] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const bookingsPerPage = 4;
+  const API_URL = import.meta.env.VITE_SERVER_URL;
   const bookingContainerRef = useRef(null);
 
   useEffect(() => { 
@@ -22,7 +22,7 @@ const BookingDetails = () => {
       return;
     }
 
-    fetch("http://localhost:3000/api/auth/my-bookings", {
+    fetch(`${API_URL}/api/auth/my-bookings`, {
       method: "GET",
       credentials: "include",
     })
@@ -86,7 +86,7 @@ const BookingDetails = () => {
       };
 
       const response = await fetch(
-        `http://localhost:3000/booking/cancel-or-checkout/${selectedBooking.bookingNumber}`,
+        `${API_URL}/booking/cancel-or-checkout/${selectedBooking.bookingNumber}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

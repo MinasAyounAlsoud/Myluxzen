@@ -10,6 +10,8 @@ const AccountDetails = () => {
     const [errors, setErrors] = useState({});
     const [successMessage, setSuccessMessage] = useState("");
     const errorHandler = createErrorHandler(setErrors);
+    const API_URL = import.meta.env.VITE_SERVER_URL;
+
     const [formData, setFormData] = useState({
         vorname: "",
         nachname: "",
@@ -73,7 +75,7 @@ const AccountDetails = () => {
         setSuccessMessage("");
 
         try {
-            const response = await fetch("http://localhost:3000/api/auth/profile", {
+            const response = await fetch(`${API_URL}/api/auth/profile`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
