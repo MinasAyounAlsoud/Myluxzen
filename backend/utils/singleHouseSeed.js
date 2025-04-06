@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb';
+import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 // import { connect } from "./connect.js";
 import { SingleHouse } from "../models/SingleHouseSchema.js";
@@ -24,31 +24,31 @@ async function seedDatabase() {
         await SingleHouse.deleteMany({});
 
         const hausBeschreibungIds = {
-            'HouseType1': "67d926131c85579c922f5b6b",
-            'HouseType2': "67c6b643d89f6f26b2a91b95",
-            'HouseType3': "67c6b643d89f6f26b2a91b97",
-            'HouseType4': "67c6b643d89f6f26b2a91b99",
-            'HouseType5': "67c6b643d89f6f26b2a91b9b"
+            "HouseType1": "67d926131c85579c922f5b6b",
+            "HouseType2": "67c6b643d89f6f26b2a91b95",
+            "HouseType3": "67c6b643d89f6f26b2a91b97",
+            "HouseType4": "67c6b643d89f6f26b2a91b99",
+            "HouseType5": "67c6b643d89f6f26b2a91b9b"
         };
 
         const houseTypeCountArr = {
-            'HouseType1': 2, 
-            'HouseType2': 5, 
-            'HouseType3': 5, 
-            'HouseType4': 5, 
-            'HouseType5': 10
+            "HouseType1": 2, 
+            "HouseType2": 5, 
+            "HouseType3": 5, 
+            "HouseType4": 5, 
+            "HouseType5": 10
         };
 
         const housesToInsert = [];
         Object.entries(houseTypeCountArr).forEach(([houseType, count]) => {
             for (let i = 1; i <= count; i++) {
-                const typeNumber = parseInt(houseType.replace(/\D/g, ''), 10);
+                const typeNumber = parseInt(houseType.replace(/\D/g, ""), 10);
                 const houseNum = `${typeNumber * 1000 + i}`; // Generates 1010, 1020 for HouseType1, etc.
                 housesToInsert.push({
                     houseNum,
                     houseType,
                     hausBeschreibung: new ObjectId(hausBeschreibungIds[houseType]),
-                    status: 'Available',
+                    status: "Available",
                     booking:[],
                     inUsePeriods:[],
                     bookingNum: ""

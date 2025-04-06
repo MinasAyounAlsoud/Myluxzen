@@ -15,7 +15,7 @@ router.post("/reserve-get-houses/:houseType",[getHousesforCheckinOrReserve], (re
 router.put("/admin-reserve/:houseNum",[houseReservedByAdmin], (req, res) => {
     res.status(200).json(req.result); 
 });
-router.get('/query',[querySingleHouses], (req, res) => {
+router.get("/query",[querySingleHouses], (req, res) => {
     res.status(200).json(req.result); 
 });
 router.put("/house-checkin/:houseNum", [houseSetBookInfo,bookingCheckin], (req, res) => {

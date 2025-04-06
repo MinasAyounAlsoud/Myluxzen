@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
-import { SingleHouseQueryForm } from '../components/admin/SingleHouseQueryForm';
-import { SingleHouseQueryResults } from '../components/admin/SingleHouseQueryResults';
-import { Modal } from '../components/admin/Modal';
-import { SingleHouseCard } from '../components/admin/SingleHouseCard';
-import { convertArrUtcToLocal } from '../utils/commenBookFunc';
+import { useState, useEffect } from "react";
+import { SingleHouseQueryForm } from "../components/admin/SingleHouseQueryForm";
+import { SingleHouseQueryResults } from "../components/admin/SingleHouseQueryResults";
+import { Modal } from "../components/admin/Modal";
+import { SingleHouseCard } from "../components/admin/SingleHouseCard";
 
 export const AdminSingleHouseQueryPage = ()=>{
     const [query, setQuery] = useState(null);
@@ -28,10 +27,6 @@ export const AdminSingleHouseQueryPage = ()=>{
         const response = await fetch(url);
         let data = await response.json();
         console.log("received query data",data)
-        // add convert UTC to local
-        // data = convertArrUtcToLocal(data);
-        // data.bookingReservePeriods = convertArrUtcToLocal(data.bookingReservePeriods);
-        // data.inUsePeriods = convertArrUtcToLocal(data.inUsePeriods);
         setResults(prev => page === 1 ? data.singleHouses : [...prev, ...data.singleHouses]);
         setHasMore(data.hasMore);
         setPage(page);
@@ -47,13 +42,9 @@ export const AdminSingleHouseQueryPage = ()=>{
                     "Content-Type": "application/json",
                 },
             });
-            if (!response.ok) throw new Error('Buchung Number nicht gefunden.');
+            if (!response.ok) throw new Error("Buchung Number nicht gefunden.");
             let data = await response.json();
             console.log("fetchHouse, data",data);
-            // add convert UTC to local
-            // data = convertArrUtcToLocal(data);
-            // data.bookingReservePeriods = convertArrUtcToLocal(data.bookingReservePeriods);
-            // data.inUsePeriods = convertArrUtcToLocal(data.inUsePeriods);
             setHouseData(data);
             setShowDetails(true);
 
@@ -76,12 +67,21 @@ export const AdminSingleHouseQueryPage = ()=>{
         console.log("showDetails",showDetails)
     })
     return (
-    <div>
-        <SingleHouseQueryForm handleSearch={handleSearch}></SingleHouseQueryForm>
-        {showQueryResults && <SingleHouseQueryResults results={results} hasMore={hasMore} onLoadMore={handleLoadMore} fetchHouse={fetchHouse}></SingleHouseQueryResults>}
+    <>
+        <SingleHouseQueryForm handleSearch={handleSearch}/>
+        { showQueryResults && (
+            <SingleHouseQueryResults results={results} 
+                hasMore={hasMore} 
+                onLoadMore={handleLoadMore} 
+                fetchHouse={fetchHouse}
+            />
+        )}
         <Modal isOpen={showDetails} onClose={handleClose}>
-            <SingleHouseCard house={houseData} setHouseData={setHouseData} onClose={handleClose}></SingleHouseCard>
+            <SingleHouseCard house={houseData} 
+                setHouseData={setHouseData} 
+                onClose={handleClose}
+            />
         </Modal>
-    </div>
+    </>
     );
 }

@@ -1,7 +1,6 @@
 import { Booking} from "../models/bookingSchema.js";
 import { HausBeschreibung } from "../models/HausBeschreibung.js";
 import { SingleHouse } from "../models/SingleHouseSchema.js";
-import { sendEmailToClient } from "../utils/emailService.js";
 
 export const getBookingTicket = async(req,res,next)=>{
     const {bookingNumber} = req.params;
@@ -39,7 +38,7 @@ export const queryBookingTickets = async(req,res,next)=>{
     }else if(status){
         query.status = status;
     }
-        console.log("queryStartDate",new Date(queryStartDate));
+        // console.log("queryStartDate",new Date(queryStartDate));
     /**if input  queryStartDate and queryEndDate*/
     if (queryStartDate && queryEndDate) {
         query.$or = [
@@ -56,7 +55,7 @@ export const queryBookingTickets = async(req,res,next)=>{
             query.startDate = { $lte: new Date(queryEndDate) };
         }
     }
-    console.log("queryBookingTickets, query", query)
+    // console.log("queryBookingTickets, query", query)
     try {
         const bookingTickets = await Booking.find(query)
                                     .sort({ createdAt: -1 }) //show newest first by default
@@ -82,6 +81,7 @@ export const queryBookingTickets = async(req,res,next)=>{
 
 export const createBookingMiddleware = async (req, res, next) => {
     // status is from frontend, for new created bookingticket is always "Active"
+    console.log("GET request to createBookingMiddleware"); 
     const { guestCount, startDate, endDate, houseType, status } = req.body;
     try {
         if (!guestCount || !startDate || !endDate || !houseType || !status) {
@@ -92,18 +92,6 @@ export const createBookingMiddleware = async (req, res, next) => {
         });
         await newBooking.save();
         req.result = newBooking;
-        
-        const toGuestEmail = newBooking.email;
-        // const toGuestEmail = "xiangyu.liu@dci-student.org";
-        const emailSubject = "Buchung erstellt erfolgreich";
-        const bookingLink = `http://localhost:5173/booking/${newBooking.bookingNumber}`;
-        const text = `Sie haben erfolgreich das Haus ${newBooking.houseTitle} gebucht, für den Zeitraum von ${newBooking.startDate.toLocaleString()} bis ${newBooking.endDate.toLocaleString()} Sie werden bei uns angenehme ${newBooking.totalDays}  Tage verbringen. \n
-        Ihre Buchungsnummer lautet:${newBooking.bookingNumber}.\n
-        `;
-        // console.log("sendEmailToClient, toGuestEmail",toGuestEmail)
-        // console.log("sendEmailToClient, emailSubject",emailSubject)
-        // console.log("sendEmailToClient, text",text)
-        await sendEmailToClient({to: toGuestEmail, subject: emailSubject, text:text, bookingLink: bookingLink});
         next(); 
     } catch (error) {
         console.log("Error in createBookingMiddleware middleware:", error);
@@ -111,11 +99,10 @@ export const createBookingMiddleware = async (req, res, next) => {
     }
 };
 
-
 export const deleteBooking = async(req,res,next)=>{
     const { bookingNumber } = req.params;
     try {
-        console.log("GET request to deleteBooking"); 
+        console.log("GET request to deleteBooking, bookingNumber", bookingNumber); 
         const booking = await Booking.findOne({ bookingNumber });
         if(booking.status === "CheckedIn"){
             throw new Error("this bookingticket status is CheckedIn, not allowed to delete");
@@ -152,7 +139,7 @@ export const bookingCheckin = async(req,res,next)=>{
             }
         };
         const booking = await Booking.updateOne(filter, updateData);
-        console.log("bookingCheckin,booking", booking)
+        // console.log("bookingCheckin,booking", booking)
         if (!req.result) {
             req.result = {};  
         }
@@ -168,7 +155,7 @@ export const bookingCheckin = async(req,res,next)=>{
 export const bookingCheckoutOrCancel = async(req,res,next)=>{
     const { bookingNum } = req.params;
     const { houseNum, status, email} = req.body;// add email for cancel email 
-    // console.log("bookingCheckoutOrCancel",bookingNum); 
+    console.log("bookingCheckoutOrCancel, bookingNum",bookingNum); 
     try {
         if(!bookingNum) throw new Error("in bookingCheckoutOrCancel no bookingNum");
         const filter =  { bookingNumber:bookingNum }; 
@@ -178,19 +165,7 @@ export const bookingCheckoutOrCancel = async(req,res,next)=>{
             }
         };
         const booking = await Booking.updateOne(filter, updateData);
-        req.result = bookingNum;
-
-        if(status === "Canceled"){
-            const toGuestEmail = email;// add email for cancel email 
-            // const toGuestEmail = "xiangyu.liu@dci-student.org";
-            const emailSubject = "Buchung storniert erfolgreich";
-            const bookingLink = `http://localhost:5173/booking/${bookingNum}`;
-            const text = `Sie haben erfolgreich ${bookingNum} storniert. \n`;
-            console.log("sendEmailToClient, toGuestEmail",toGuestEmail)
-            console.log("sendEmailToClient, emailSubject",emailSubject)
-            console.log("sendEmailToClient, text",text)
-            await sendEmailToClient({to: toGuestEmail, subject: emailSubject, text:text, bookingLink:bookingLink});
-        }
+        req.result = booking;
         next(); 
     } catch (error) {
         console.log("Error in bookingCheckoutOrCancel middleware:", error);
@@ -204,15 +179,16 @@ export const getAvailableHouses = async (req, res, next) => {
         const { startDate, endDate, guestCount } = req.body;
         const requestedStartDate = new Date(startDate);
         const requestedEndDate = new Date(endDate);
+        console.log("getAvailableHouses, req.body", req.body);
 
         const availableHouseTypes = await HausBeschreibung.find({ guests: { $gte: guestCount } });        // get all housetypes, which supports guest count
-        console.log("getAvailableHouses,availableHouseTypes.length",availableHouseTypes.length)
+        // console.log("getAvailableHouses,availableHouseTypes.length",availableHouseTypes.length)
 
         // from SingleHouse get every house with available housetypes
         const allSingleHouses = await SingleHouse.find({ 
             houseType: { $in: availableHouseTypes.map(house => house.houseType) }
         });
-        console.log("getAvailableHouses,allSingleHouses.length",allSingleHouses.length)
+        // console.log("getAvailableHouses,allSingleHouses.length",allSingleHouses.length)
 
         const availableHouses = allSingleHouses.filter(house => {
             const isInUsePeriodOverlapping = house.inUsePeriods.some(period => {
@@ -226,11 +202,10 @@ export const getAvailableHouses = async (req, res, next) => {
             return !isInUsePeriodOverlapping && !isHousePeriodOverlapping;
         });
         
-        console.log("getAvailableHouses,availableHouses.length",availableHouses.length)
-
-        /** Booking's status 'Active', 'Canceled', 'CheckedIn', 'CheckedOut'. Only with Active and CheckedIn this bookingticket will be considered to check the overlap.*/
+        // console.log("getAvailableHouses,availableHouses.length",availableHouses.length)
+        /** Booking"s status "Active", "Canceled", "CheckedIn", "CheckedOut". Only with Active and CheckedIn this bookingticket will be considered to check the overlap.*/
         const activeBookings = await Booking.find({
-            status: { $in: ['Active', 'CheckedIn'] },
+            status: { $in: ["Active", "CheckedIn"] },
             $or: [
                 { 
                     startDate: { $lte: requestedEndDate },  
@@ -240,19 +215,19 @@ export const getAvailableHouses = async (req, res, next) => {
         });
         // console.log("getAvailableHouses",allSingleHouses);
 
-        /**compare every need-to-be considered bookingticket's booking period with request period, if there is overlap, then availbel house count minus 1 */
+        /**compare every need-to-be considered bookingticket"s booking period with request period, if there is overlap, then availbel house count minus 1 */
         const updatedRooms = availableHouseTypes.map(house => {
             const singleHouses = availableHouses.filter(room => room.houseType === house.houseType);
             let availableCount = singleHouses.length;
-            console.log(house.houseType, singleHouses.length)
+            // console.log(house.houseType, singleHouses.length)
             activeBookings.forEach(booking => {
                 const bookingStartDate = new Date(booking.startDate);
                 const bookingEndDate = new Date(booking.endDate);
                 const overlap = (bookingStartDate < requestedEndDate) && (bookingEndDate > requestedStartDate);
                 if (overlap && house.houseType === booking.houseType) {
-                    console.log("overlap true, requestedStartDate,requestedEndDate",requestedStartDate, requestedEndDate);
-                    console.log("overlap true, bookingStartDate,bookingEndDate",bookingStartDate, bookingEndDate);
-                    console.log("overlap true, booking.bookingNum",booking.bookingNumber);
+                    // console.log("overlap true, requestedStartDate,requestedEndDate",requestedStartDate, requestedEndDate);
+                    // console.log("overlap true, bookingStartDate,bookingEndDate",bookingStartDate, bookingEndDate);
+                    // console.log("overlap true, booking.bookingNum",booking.bookingNumber);
                     availableCount -= 1;  
                 }
             });
@@ -268,8 +243,7 @@ export const getAvailableHouses = async (req, res, next) => {
                 availableCount: availableCount >= 0 ? availableCount : 0,
             };
         });
-        console.log("getAvailableHouses updatedRooms.length",updatedRooms.length)
-
+        // console.log("getAvailableHouses updatedRooms.length",updatedRooms.length)
         //only when there is availble house in the housetype, give them to frontend
         req.result = updatedRooms.filter(room => room.availableCount > 0);
         if (req.result.length === 0) {

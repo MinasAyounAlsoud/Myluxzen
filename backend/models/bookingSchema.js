@@ -11,11 +11,11 @@ const bookingSchema = new mongoose.Schema({
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     houseType: { type: String, 
-        enum: ['HouseType1', 'HouseType2', 'HouseType3', 'HouseType4', 'HouseType5'],  
+        enum: ["HouseType1", "HouseType2", "HouseType3", "HouseType4", "HouseType5"],  
         required: true  
     },
     status:  { type: String, 
-        enum: ['Active', 'Canceled', 'CheckedIn', 'CheckedOut'], 
+        enum: ["Active", "Canceled", "CheckedIn", "CheckedOut"], 
         required: true  
     },
     price: { type: Number, required: true },
