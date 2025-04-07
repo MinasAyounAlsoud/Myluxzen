@@ -25,15 +25,8 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// app.use("/images", express.static("public/images"));
 app.use("/images", express.static(path.join(__dirname, "public", "images")));
 
-// app.use(
-//   cors({
-//     origin: "https://myluxzen.onrender.com",
-//     credentials: true,
-//   })
-// );
 const allowedOrigins = [
   "https://myluxzen.onrender.com",
   "http://localhost:5173",
