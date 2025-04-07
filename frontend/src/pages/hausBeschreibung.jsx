@@ -151,7 +151,9 @@ export function ApartmentsList() {
   useEffect(() => {
     const url = `${import.meta.env.VITE_SERVER_URL}/api/houses`;
 
-    fetch(url)
+    fetch(url, {
+      credentials: "include",
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);

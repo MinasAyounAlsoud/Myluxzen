@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 // import { connect } from "../utils/connect.js";
 import { Booking } from "../models/bookingSchema.js";
 import mongoose from "mongoose";
+import { v4 as uuidv4 } from 'uuid';
 import dotenv from "dotenv";
 // dotenv.config();
 dotenv.config();
@@ -79,7 +80,9 @@ for (let i = 0; i < 80; i++) {
 
   const booking = {
     _id: new ObjectId(),
-    bookingNumber: `BOOK${getRandomInt(1000, 9999)}`,
+    // bookingNumber: `BOOK${getRandomInt(1000, 9999)}`,
+    bookingNumber: `B${uuidv4()}`,
+
     guestFirstName: guestInfo[i % guestInfo.length].vorname,
     guestFamilyName: guestInfo[i % guestInfo.length].nachname,
     email: guestInfo[i % guestInfo.length].email,
