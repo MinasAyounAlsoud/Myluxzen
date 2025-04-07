@@ -12,7 +12,7 @@ const houses = [
     houseType: "HouseType1",
     title: "Strandhaus mit direktem Meerzugang",
     images: [
-      "http://localhost:3000/images/Apartment04.jpg",
+      "https://myluxzen.onrender.com/images/Apartment04.jpg",
       "http://localhost:3000/images/Apartment04-01.jpg",
       "http://localhost:3000/images/Apartment04-02.jpg",
       "http://localhost:3000/images/Apartment04-03.jpg",
