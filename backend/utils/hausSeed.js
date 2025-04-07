@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 
 dotenv.config();
 connect();
+const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
 
 const houses = [
   {
@@ -12,15 +13,15 @@ const houses = [
     houseType: "HouseType1",
     title: "Strandhaus mit direktem Meerzugang",
     images: [
-      "http://localhost:3000/images/Apartment04.jpg",
-      "http://localhost:3000/images/Apartment04-01.jpg",
-      "http://localhost:3000/images/Apartment04-02.jpg",
-      "http://localhost:3000/images/Apartment04-03.jpg",
-      "http://localhost:3000/images/Apartment04-04.jpg",
-      "http://localhost:3000/images/Apartment04-05.jpg",
-      "http://localhost:3000/images/Apartment04-06.jpg",
-      "http://localhost:3000/images/Apartment04-07.jpg",
-      "http://localhost:3000/images/Apartment04-08.jpg",
+      `${BASE_URL}/images/Apartment04.jpg`,
+      `${BASE_URL}/images/Apartment04-01.jpg`,
+      `${BASE_URL}/images/Apartment04-02.jpg`,
+      `${BASE_URL}/images/Apartment04-03.jpg`,
+      `${BASE_URL}/images/Apartment04-04.jpg`,
+      `${BASE_URL}/images/Apartment04-05.jpg`,
+      `${BASE_URL}/images/Apartment04-06.jpg`,
+      `${BASE_URL}/images/Apartment04-07.jpg`,
+      `${BASE_URL}/images/Apartment04-08.jpg`,
     ],
     description:
       "Wunderschönes Strandhaus mit großer Sonnenterrasse, privatem Zugang zum Meer und traumhaftem Ausblick. Genießen Sie Ihren Morgenkaffee mit Blick auf den Ozean oder verbringen Sie entspannte Nachmittage in der Hängematte. Das Haus bietet großzügige Wohnbereiche, eine offene Küche und komfortable Schlafzimmer für die ganze Familie.",
