@@ -23,7 +23,12 @@ const app = express();
 
 app.use("/images", express.static("public/images"));
 
-app.use(cors({ origin: "*", credentials: true }));
+app.use(
+  cors({
+    origin: "https://myluxzen.onrender.com",
+    credentials: true,
+  })
+);
 app.use(cookieParser()); //Add Cookieparser von Naheeda
 app.use(express.json());
 
