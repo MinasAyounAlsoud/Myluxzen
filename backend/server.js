@@ -14,14 +14,19 @@ import reviewRouter from "./routes/reviewRouter.js"; //Minas
 import { singleHouseRouter } from "./routes/singleHouseRouter.js"; // Xiangyu
 import { dashboardRouter } from "./routes/dashboardRouter.js"; //Zahra
 import contactRoutes from "./routes/contact.routes.js"; //zahra
-
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 // here is for routers, end
 
 dotenv.config();
 connect();
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-app.use("/images", express.static("public/images"));
+// app.use("/images", express.static("public/images"));
+app.use("/images", express.static(path.join(__dirname, "public", "images")));
 
 // app.use(
 //   cors({
