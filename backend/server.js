@@ -23,9 +23,26 @@ const app = express();
 
 app.use("/images", express.static("public/images"));
 
+// app.use(
+//   cors({
+//     origin: "https://myluxzen.onrender.com",
+//     credentials: true,
+//   })
+// );
+const allowedOrigins = [
+  "https://myluxzen.onrender.com",
+  "http://localhost:5173",
+];
+
 app.use(
   cors({
-    origin: "https://myluxzen.onrender.com",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
