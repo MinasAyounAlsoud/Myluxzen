@@ -13,7 +13,7 @@ const __dirname = dirname(__filename);
 // Base URL nach Umgebung
 const BASE_URL =
   process.env.NODE_ENV === "production"
-    ? "https://myluxzen.com"
+    ? "https://myluxzen.onrender.com"
     : "http://localhost:5173";
 
 // GmailTransporter
@@ -51,7 +51,7 @@ export const sendEmailToClient = async ({ to, subject, text, bookingLink = null 
   const htmlTemplate = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 24px; color: #333;">
       <div style="text-align: center; margin-bottom: 20px;">
-        <img src="cid:logoMyLuxZen" alt="MyLuxZen Logo" style="width: 100px;" />
+        <img src="https://res.cloudinary.com/dckxtm6bz/image/upload/v1744015230/my_project_assets/siqkwnyza1v8goqhkpuu.png" alt="MyLuxZen Logo" style="width: 100px;" />
       </div>
 
       <h2 style="color: #116769;">Ihre Anfrage bei MyLuxZen</h2>
@@ -79,7 +79,7 @@ export const sendEmailToClient = async ({ to, subject, text, bookingLink = null 
 
       <div style="font-size: 14px; color: #555; line-height: 1.6;">
         <p><strong>Telefon:</strong> +66 2 123 4567</p>
-        <p><strong>Website:</strong> <a href="https://myluxzen.com" target="_blank" style="color: #116769;">www.myluxzen.com</a></p>
+        <p><strong>Website:</strong> <a href="${BASE_URL}" target="_blank" style="color: #116769;">www.myluxzen.com</a></p>
         <p>
 
   <p>
