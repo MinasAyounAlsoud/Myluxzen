@@ -32,7 +32,17 @@ router.get("/all", async (req, res) => {
     res.status(500).json({ error: "Serverfehler beim Abrufen der Nachrichten." });
   }
 });
-
+// 4. DELETE-Route: Nachricht löschen
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await EmailMessage.findByIdAndDelete(id);
+    res.status(200).json({ message: "Nachricht erfolgreich gelöscht." });
+  } catch (error) {
+    console.error("Fehler beim Löschen:", error);
+    res.status(500).json({ error: "Serverfehler beim Löschen der Nachricht." });
+  }
+});
 // 3. POST-Route: Admin antwortet auf eine Nachricht
 router.post("/reply", async (req, res) => {
   const { id, email, responseText } = req.body;
