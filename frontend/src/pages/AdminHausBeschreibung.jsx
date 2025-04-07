@@ -19,8 +19,9 @@ export function AdminHausBeschreibung() {
   }, []);
 
   const fetchHouses = async () => {
+    const url = `${import.meta.env.VITE_SERVER_URL}/api/houses`;
     try {
-      const response = await fetch("http://localhost:3000/api/houses");
+      const response = await fetch(url);
       if (!response.ok) throw new Error("Fehler beim Laden der Häuser");
       const data = await response.json();
       setHouses(data);
@@ -29,40 +30,24 @@ export function AdminHausBeschreibung() {
     }
   };
 
-  const updateHouse = async () => {
-    e.preventDefault(); // Verhindert, dass das Formular die Seite neu lädt
+  const updateHouse = async (e) => {
+    e.preventDefault(); // Stoppt das automatische Neuladen des Formulars
+    const url = `${import.meta.env.VITE_SERVER_URL}/api/houses/${
+      updatedHouseData._id
+    }`;
 
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/houses/${updatedHouseData._id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedHouseData),
-        }
-      );
-      if (!response.ok) throw new Error("Fehler beim Aktualisieren");
-      fetchHouses();
-      setUpdatedHouseData({
-        title: "",
-        description: "",
-        bedrooms: "",
-        livingRoom: "",
-        terrace: "",
-        toilet: "",
-        bathroom: "",
-        pricePerNight: "",
-        roomAmenities: {
-          bathroomInfo: "",
-          internetInfo: "",
-          heatingInfo: "",
-          kitchenInfo: "",
-          entertainment: "",
-          homeSafety: "",
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify(updatedHouseData),
       });
+      if (!response.ok) throw new Error("Fehler beim Aktualisieren");
+
+      await fetchHouses(); // Lädt die neuen Daten nach dem Update
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
       console.error("Fehler beim Aktualisieren:", error);
     }
@@ -71,23 +56,24 @@ export function AdminHausBeschreibung() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name.startsWith("roomAmenities.")) {
-      const amenityKey = name.split(".")[1]; // Z.B. "bathroomInfo"
+    setUpdatedHouseData((prev) => {
+      if (name.startsWith("roomAmenities.")) {
+        const amenityKey = name.split(".")[1];
 
-      setUpdatedHouseData((prev) => ({
-        ...prev,
-
-        roomAmenities: {
-          ...prev.roomAmenities,
-          [amenityKey]: value,
-        },
-      }));
-    } else {
-      setUpdatedHouseData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
+        return {
+          ...prev,
+          roomAmenities: {
+            ...prev.roomAmenities, // Sicherstellen, dass roomAmenities existiert
+            [amenityKey]: value,
+          },
+        };
+      } else {
+        return {
+          ...prev,
+          [name]: value,
+        };
+      }
+    });
   };
 
   const handleEditClick = (house) => {
@@ -170,7 +156,9 @@ export function AdminHausBeschreibung() {
               <div className="mt-6 flex justify-between">
                 <button
                   onClick={() => handleEditClick(house)}
-                  className="bg-gray-800 text-white px-6 py-3 rounded-md cursor-pointer hover:text-[#fae1a8]"
+                  className=" flex items-center justify-center gap-2 px-4 py-2 bg-teal-dark border border-forest-green text-white font-medium rounded-full cursor-pointer shadow-sm hover:bg-forest-green transition text-sm  text-center animate-bounce-on-hover"
+
+                  // className="bg-gray-800 text-white px-6 py-3 rounded-md cursor-pointer hover:text-[#fae1a8]"
                 >
                   Bearbeiten
                 </button>
@@ -269,8 +257,11 @@ export function AdminHausBeschreibung() {
 
             {/* Speichern Button */}
             <button
-              onClick={updateHouse}
-              className="mt-4 bg-gray-800 text-white px-4 py-2 rounded-md cursor-pointer hover:text-[#fae1a8]"
+              type="button"
+              onClick={(e) => updateHouse(e)}
+              className=" flex items-center justify-center gap-2 px-4 py-2 bg-teal-dark border border-forest-green text-white font-medium rounded-full cursor-pointer shadow-sm hover:bg-forest-green transition text-sm  text-center animate-bounce-on-hover"
+
+              // className="mt-4 bg-gray-800 text-white px-4 py-2 rounded-md cursor-pointer hover:text-[#fae1a8]"
             >
               Speichern
             </button>

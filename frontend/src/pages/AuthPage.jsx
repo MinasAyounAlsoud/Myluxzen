@@ -23,6 +23,8 @@ const AuthPage = () => {
     const [errors, setErrors] = useState({});
     const [passwordError, setPasswordError] = useState("");
     const errorHandler = createErrorHandler(setErrors);
+    const API_URL = import.meta.env.VITE_SERVER_URL;
+
     
     useEffect(() => {
       const queryParams = new URLSearchParams(location.search);
@@ -39,7 +41,7 @@ const AuthPage = () => {
       setErrors({ general: "Die Anmeldung mit Google wurde abgebrochen oder ist fehlgeschlagen." });
   
       // WICHTIG: Session/Cookie killen auf dem Server UND Zustand zurücksetzen
-      fetch("http://localhost:3000/api/auth/logout", {
+      fetch(`${API_URL}/api/auth/logout`, {
         method: "POST",
         credentials: "include",
       }).finally(() => {
@@ -64,7 +66,7 @@ const AuthPage = () => {
         e.preventDefault();
         setErrors({});
         if (user?.isAuthenticated) {
-            setErrors({ general: "Bitte melden sich ab, um ein anderes Google-Konto zu verwenden." });
+            setErrors({ general: "Bitte melden sich ab, um ein anderes Konto zu verwenden." });
             return;
         }
         if (!email || !password || (isRegister && (!vorname || !nachname))) {
@@ -78,9 +80,9 @@ const AuthPage = () => {
         }
 
         const endpoint = isRegister 
-            ? "http://localhost:3000/api/auth/register" 
-            : "http://localhost:3000/api/auth/login";
-
+        ? `${API_URL}/api/auth/register`
+        : `${API_URL}/api/auth/login`;
+    
             const bodyData = isRegister
             ? { vorname, nachname, email, password }
             : { email, password };
@@ -261,7 +263,8 @@ const AuthPage = () => {
             general: "Bitte melden sich ab, um ein anderes Google-Konto zu verwenden.",
           });
         } else {
-          window.location.href = "http://localhost:3000/api/auth/logout-and-google";
+          window.location.href = `${API_URL}/api/auth/logout-and-google`;
+
         }
       }}
       className="inline-flex items-center justify-center space-x-4 px-6 py-2 border border-gray-300 rounded-full hover:shadow-lg transition-all duration-200 bg-white hover:bg-gray-100"

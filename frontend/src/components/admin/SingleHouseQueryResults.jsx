@@ -33,6 +33,14 @@ export function SingleHouseQueryResults({ results, hasMore, onLoadMore, fetchHou
                             <p><span className="text-sm text-gray-400">Buchung Nummer: </span>{result.bookingNum}</p>
                         )}
                         { result.guestName.length > 0 &&<p><span className="text-sm text-gray-400">Gast Name: </span>{result.guestName}</p>}
+                        { result.bookingNum && (
+                        <div>
+                            <span className="text-gray-400">Gäste CheckedIn</span>
+                            <p> {result.bookingNum}</p>
+                            <p><span className="text-gray-400 text-sm">Startdatum:</span> {formatLocalDateWithYear(result.startDate)}</p>
+                            <p><span className="text-gray-400 text-sm">Enddatum:</span> {formatLocalDateWithYear(result.endDate)}</p>
+                        </div>
+                        )}
                         { result.bookingReservePeriods.length > 0 && (
                             <div>
                                 <span className="text-gray-400 underline">

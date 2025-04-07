@@ -30,7 +30,7 @@ export function formatLocalDate(dateString) {
     return date.toLocaleDateString("de-DE", {
         day: "2-digit", 
         month: "2-digit" 
-    });
+    }).slice(0,5);
 }
 
 export function formatLocalDateWithYear(dateString) {

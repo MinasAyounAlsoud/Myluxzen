@@ -72,7 +72,7 @@ const ActivitySection = ({ title, description, image }) => {
     className="max-w-4xl px-8 text-center"
   >
     <h2 className="text-4xl font-bold text-teal-dark mb-12" style={{ fontFamily: 'Merriweather, serif' }}>{title}</h2>
-    <p className="text-lg text-gray-600 leading-relaxed" style={{ fontFamily: 'Merriweather, serif' }}>{description}</p>
+    <p className="text-lg text-gray-600 leading-relaxed" >{description}</p>
   </motion.div>
 </div>
 
@@ -89,75 +89,6 @@ const ActivitySection = ({ title, description, image }) => {
     </div>
   );
 };
-/*
-// Kontaktbereich am Ende
-const ContactSection = () => {
-  const [showContactModal, setShowContactModal] = useState(false);
-
-  const scrollToTop = () => {
-    //window.scrollTo({ top: 0, behavior: "smooth" });
-    window.scrollTo(0, 0);
-  };
-
-  return (
-<div className="bg-[#f9f4ef] text-[#0e5756] py-20 px-4 md:px-10 min-h-[30vh]">
-      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center">
-     
-        <div className="text-center md:text-left flex flex-col items-center md:items-start">
-
-          <h2 className="text-3xl font-bold mb-12 font-playfair" style={{ fontFamily: 'Merriweather, serif' }}>Sie haben Fragen?</h2>
-       
-          <div className="space-y-4 mb-4">
-            <p
-              onClick={() => setShowContactModal(true)}
-              className="cursor-pointer flex items-center gap-3 hover:text-caramel transition"
-            >
-              <span className="p-2 bg-caramel rounded-full shadow-md hover:scale-105 transition">
-                <FaEnvelope className="text-white" />
-              </span>
-              <span className="text-sm">Schreiben Sie uns einen Nachricht</span>
-            </p>
-
-            <a
-              href="tel:+49123456789"
-              className="flex items-center gap-3 hover:text-caramel transition"
-            >
-              <span className="p-2 bg-caramel rounded-full shadow-md hover:scale-105 transition">
-                <FaPhoneAlt className="text-white" />
-              </span>
-              <span className="text-sm"> oder rufen Sie uns unter : +49 123 456 789</span>
-            </a>
-          </div>
-
-          <div className="flex flex-wrap gap-3 pt-2">
-            <button className="bg-caramel hover:bg-[#0e5756] text-white py-2 px-4 rounded flex items-center gap-2 text-sm">
-              <FaArrowLeft /> Aktivitäten buchen
-            </button>
-            <button
-              onClick={scrollToTop}
-              className="bg-caramel hover:bg-[#0e5756] text-white py-2 px-4 rounded flex items-center gap-2 text-sm"
-            >
-              <FaArrowUp /> Nach oben scrollen
-            </button>
-          </div>
-        </div>
-
-        
-
-
-
-
-      </div>
-
-      {showContactModal && (
-        <ContactFormModal onClose={() => setShowContactModal(false)} />
-      )}
-    </div>
-  );
-};
-
-*/
-
 const Accordion = ({ question, answer }) => {
   const [open, setOpen] = useState(false);
 
@@ -171,7 +102,7 @@ const Accordion = ({ question, answer }) => {
         <span className="text-2xl text-caramel">{open ? "−" : "+"}</span>
       </button>
       {open && (
-        <p className="text-sm text-gray-600 pl-2 pr-4 transition-all duration-300"  style={{ fontFamily: 'Merriweather, serif' }}>
+        <p className="text-md text-gray-600 pl-2 pr-4 transition-all duration-300" >
           {answer}
         </p>
       )}
@@ -186,7 +117,7 @@ const ContactSection = () => {
   };
 
   return (
-    <div className="bg-[#f9f4ef] text-teal-dark py-16 px-6 md:px-12"  style={{ fontFamily: 'Merriweather, serif' }}>
+    <div className="bg-[#f9f4ef] text-teal-dark py-16 px-6 md:px-12" >
       {/* FAQ-Bereich */}
       <h2
         className="text-3xl font-bold mb-8 text-center"

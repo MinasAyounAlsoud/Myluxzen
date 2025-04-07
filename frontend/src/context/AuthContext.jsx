@@ -5,6 +5,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true);
+    const API_URL = import.meta.env.VITE_SERVER_URL;
 
     useEffect(()=>{
         console.log("AuthProvider,user", user);
@@ -12,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     //  Funktion, um den aktuellen Benutzer zu prüfen
     const checkUserSession = async () => {
         try {
-            const response = await fetch("http://localhost:3000/api/auth/me", {
+            const response = await  fetch(`${API_URL}/api/auth/me`, {
                 method: "GET",
                 credentials: "include", // ✅ WICHTIG für Cookies
                 headers: {  

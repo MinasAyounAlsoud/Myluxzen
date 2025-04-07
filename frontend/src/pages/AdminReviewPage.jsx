@@ -4,12 +4,18 @@ export function AdminReviewPage() {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/reviews/admin")
+    const url = `${import.meta.env.VITE_SERVER_URL}/api/reviews/admin`;
+
+    fetch(url)
       .then((res) => res.json())
       .then(setReviews);
   }, []);
   const updateReview = (id, isApproved) => {
-    fetch(`http://localhost:3000/api/reviews/admin/update/${id}`, {
+    const url = `${
+      import.meta.env.VITE_SERVER_URL
+    }/api/reviews/admin/update/${id}`;
+
+    fetch(url, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ isApproved }),
@@ -17,7 +23,9 @@ export function AdminReviewPage() {
   };
 
   const handleReject = async (id) => {
-    await fetch(`http://localhost:3000/api/reviews/${id}`, {
+    const url = `${import.meta.env.VITE_SERVER_URL}/api/reviews/${id}`;
+
+    await fetch(url, {
       method: "DELETE",
     });
     setReviews(reviews.filter((r) => r._id !== id));
@@ -52,13 +60,13 @@ export function AdminReviewPage() {
               <div className="mt-4 flex justify-between">
                 <button
                   onClick={() => updateReview(review._id, true)}
-                  className="mt-3 bg-gray-800 text-white px-4 py-2 rounded-md cursor-pointer hover:text-[#fae1a8] "
+                  className=" flex items-center justify-center gap-2 px-4 py-2 bg-teal-dark border border-forest-green text-white font-medium rounded-full cursor-pointer shadow-sm hover:bg-forest-green transition text-sm  text-center animate-bounce-on-hover"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => handleReject(review._id)}
-                  className="mt-3 bg-gray-400 text-white px-4 py-2 rounded-md cursor-pointer hover:text-[#fae1a8] "
+                  className=" flex items-center justify-center gap-2 px-4 py-2 bg-teal-dark border border-forest-green text-white font-medium rounded-full cursor-pointer shadow-sm hover:bg-forest-green transition text-sm  text-center animate-bounce-on-hover"
                 >
                   Reject
                 </button>
