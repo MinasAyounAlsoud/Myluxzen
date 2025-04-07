@@ -60,13 +60,13 @@ export function AdminReviewPage() {
               <div className="mt-4 flex justify-between">
                 <button
                   onClick={() => updateReview(review._id, true)}
-                  className="mt-3 bg-gray-800 text-white px-4 py-2 rounded-md cursor-pointer hover:text-[#fae1a8] "
+                  className=" flex items-center justify-center gap-2 px-4 py-2 bg-teal-dark border border-forest-green text-white font-medium rounded-full cursor-pointer shadow-sm hover:bg-forest-green transition text-sm  text-center animate-bounce-on-hover"
                 >
                   Approve
                 </button>
                 <button
                   onClick={() => handleReject(review._id)}
-                  className="mt-3 bg-gray-400 text-white px-4 py-2 rounded-md cursor-pointer hover:text-[#fae1a8] "
+                  className=" flex items-center justify-center gap-2 px-4 py-2 bg-teal-dark border border-forest-green text-white font-medium rounded-full cursor-pointer shadow-sm hover:bg-forest-green transition text-sm  text-center animate-bounce-on-hover"
                 >
                   Reject
                 </button>
