@@ -52,6 +52,8 @@ const isValidEmail = (email) => {
 const registerUser = async (req, res, next) => {
     try {
         let { vorname, nachname, email, password } = req.body;
+        email = email.trim().toLowerCase();
+
 
         // Überprüfen, ob alle Felder ausgefüllt sind
         if (!vorname || !nachname || !email || !password) {
@@ -111,7 +113,9 @@ const registerUser = async (req, res, next) => {
 const authUser = async (req, res, next) => {
     console.log(" Eingehende Login-Daten:", req.body); // Debugging
     try {
-        const { email, password } = req.body;
+        const email = req.body.email.trim().toLowerCase();
+        const password = req.body.password;
+
         if (!email || !password) {
             console.log(" Fehlende Daten beim Login:", req.body);
             return res.status(400).json({ message: "Bitte E-Mail und Passwort eingeben." });
