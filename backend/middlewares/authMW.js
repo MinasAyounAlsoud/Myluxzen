@@ -293,12 +293,12 @@ export const googleCallback = (req, res, next) => {
     passport.authenticate("google", async (err, user, info) => {
       if (err || !user) {
         console.log("❌ Google Auth fehlgeschlagen oder abgebrochen.");
-        return res.redirect("http://localhost:5173/auth?register=false&error=google_failed");
+        return res.redirect(`${process.env.CLIENT_URL}/auth?register=false&error=google_failed`);
       }
   
       req.login(user, (loginErr) => {
         if (loginErr) {
-          return res.redirect("http://localhost:5173/auth?register=false&error=google_failed");
+          return res.redirect(`${process.env.CLIENT_URL}/auth?register=false&error=google_failed`);
         }
   
         const token = generateToken(user._id);
@@ -309,7 +309,7 @@ export const googleCallback = (req, res, next) => {
           maxAge: 30 * 24 * 60 * 60 * 1000,
         });
   
-        return res.redirect("http://localhost:5173");
+        return res.redirect(`${process.env.CLIENT_URL}`);
       });
     })(req, res, next);
   };
@@ -320,7 +320,7 @@ export const googleAuthSuccess = (req, res) => {
     try {
         if (!req.user) {
             // Authentifizierung fehlgeschlagen oder abgebrochen
-            return res.redirect("http://localhost:5173/auth?register=false&error=google_failed");
+            return res.redirect(`${process.env.CLIENT_URL}/auth?register=false&error=google_failed`);
         }
 
         const token = generateToken(req.user._id);
@@ -331,9 +331,9 @@ export const googleAuthSuccess = (req, res) => {
             maxAge: 30 * 24 * 60 * 60 * 1000,
         });
 
-        res.redirect("http://localhost:5173");
+        res.redirect(`${process.env.CLIENT_URL}`);
     } catch (error) {
-        res.redirect("http://localhost:5173/auth?register=false&error=google_error");
+        res.redirect(`${process.env.CLIENT_URL}auth?register=false&error=google_error`);
     }
 };
 

@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     //  Funktion, um den aktuellen Benutzer zu prüfen
     const checkUserSession = async () => {
         try {
-            const response = await  fetch(`${API_URL}/api/auth/me`, {
+            const response = await fetch(`${API_URL}/api/auth/me`, {
                 method: "GET",
                 credentials: "include", // ✅ WICHTIG für Cookies
                 headers: {  
@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
     //  Logout-Funktion
     const logout = async () => {
         try {
-            await fetch("http://localhost:3000/api/auth/logout", {
+            await fetch(`${API_URL}/api/auth/logout`, {
                 method: "POST",
                 credentials: "include",
             });

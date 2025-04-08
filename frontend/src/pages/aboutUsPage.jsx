@@ -8,7 +8,10 @@ import aboutUsImgMinas from "../assets/aboutUsImg/Minas1.jpg";
 import aboutUsImgNaheeda from "../assets/aboutUsImg/Naheeda1.jpg";
 import aboutUsImgXiangyu from "../assets/aboutUsImg/Xiangyu.jpg";
 import aboutUsImgFatima from "../assets/aboutUsImg/Fatima.jpg";
-
+import aboutUsImg1 from "../assets/aboutUsImg/aboutUsBild.jpg";
+import aboutUsImg2 from "../assets/aboutUsImg/aboutUsBild-2.png";
+import aboutUsImg3 from "../assets/aboutUsImg/aboutUsBild-6.jpg";
+import aboutUsImg4 from "../assets/aboutUsImg/first.webp";
 import teamBg from "../assets/aboutUsImg/kayak1.avif";
 import Footer from "../components/footer/Footer";
 import { FaArrowLeft, FaArrowUp, FaEnvelope, FaPhone } from "react-icons/fa";
@@ -90,6 +93,7 @@ const UnserTeamSection = () => {
         "Xiangyu ist Mitgründerin und die organisatorische Stütze von Myluxzen. Sie sorgt dafür, dass alle Prozesse reibungslos ablaufen und jeder Gast die bestmögliche Erfahrung während seines Aufenthalts hat.",
     },
   ];
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -50 }}
@@ -144,6 +148,36 @@ const AboutUsPage = () => {
       window.scrollTo(0, 0);
     }, 100);
   }, []);
+  const aboutUsData = [
+    {
+      title: "MyLuxzen",
+      description:
+        "MyLuxzen ist eine exklusive Plattform für die Buchung von Luxusferienwohnungen. Genießen Sie einen luxuriösen Aufenthalt an den schönsten Reisezielen. Unser Ziel ist es, Ihnen unvergessliche Erlebnisse in den exklusivsten Unterkünften zu bieten, die nur das Beste für Sie bereithalten.",
+
+      image: aboutUsImg1,
+    },
+    {
+      title: "Über MyLuxzen",
+      description:
+        "Bei MyLuxzen finden Sie nicht nur eine Unterkunft, sondern ein Erlebnis. Wir bieten handverlesene Luxusvillen und exklusive Resorts an, die Ihnen den höchsten Komfort und erstklassigen Service bieten. Jede unserer Unterkünfte wurde sorgfältig ausgewählt, um Ihnen das Gefühl von Ruhe und Luxus zu vermitteln, während Sie gleichzeitig an atemberaubenden Reisezielen verweilen. Unser Team ist stets bemüht, Ihre Wünsche zu erfüllen und Ihre Erwartungen zu übertreffen – damit Sie sich während Ihres Aufenthalts bei uns vollkommen entspannen können.",
+
+      image: aboutUsImg2,
+    },
+    {
+      title: "Unsere Häuser und Unterkünfte",
+      description:
+        "Unsere exklusiven Häuser und Villen wurden mit Liebe zum Detail ausgewählt. Jedes Haus bietet nicht nur Luxus, sondern auch atemberaubende Ausblicke und erstklassigen Service. Wir bieten verschiedene Arten von Ferienhäusern, die auf Ihre individuellen Bedürfnisse zugeschnitten sind. Von modernen Luxusvillen bis zu traditionellen, charmanten Unterkünften haben wir für jedes Paar oder jede Familie die perfekte Option. Unsere Luxusvillen verfügen über private Pools, exklusive Strandhäuser, erstklassige Spas und elegante Innenräume mit großzügigen Wohnbereichen.",
+
+      image: aboutUsImg3,
+    },
+    {
+      title: "Warum MyLuxzen?",
+      description:
+        "Wir von MyLuxzen haben es uns zur Aufgabe gemacht, Ihnen nicht nur eine Unterkunft zu bieten, sondern ein einzigartiges Erlebnis. Unsere persönliche Beratung und maßgeschneiderten Angebote stellen sicher, dass Ihr Aufenthalt perfekt auf Ihre Wünsche abgestimmt ist. Mit unserem 24/7 Concierge-Service stehen wir Ihnen jederzeit zur Verfügung, um Ihre Bedürfnisse zu erfüllen. Unsere handverlesenen Unterkünfte bieten luxuriöse Ausstattung und exklusive Annehmlichkeiten, die höchsten Komfort garantieren. Darüber hinaus erwarten Sie unvergessliche Erlebnisse und zahlreiche Aktivitäten in der Umgebung, die Ihren Aufenthalt zu etwas ganz Besonderem machen.",
+
+      image: aboutUsImg4,
+    },
+  ];
 
   return (
     <div className="w-full">
@@ -151,7 +185,7 @@ const AboutUsPage = () => {
       <UnserTeamSection />
 
       {/* <MainSection /> */}
-      {aboutUs.map((ab, idx) => (
+      {aboutUsData.map((ab, idx) => (
         <InfoSection
           key={idx}
           title={ab.title}

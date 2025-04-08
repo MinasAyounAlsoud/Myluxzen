@@ -66,7 +66,8 @@ export function QueryResults({ results, hasMore, onLoadMore, fetchBooking }) {
                         className="border border-gray-300 py-1 px-1 rounded-md cursor-pointer px-6 hover:bg-gray-100 hover:text-black"
                         onClick={()=>fetchBooking(result.bookingNumber)}
                     >
-                        <p><span className="text-sm text-gray-400">Buchungsnummer: </span> {result.bookingNumber}</p>
+                        <span className="text-sm text-gray-400">Buchungsnummer: </span>
+                        <p> {result.bookingNumber}</p>
                         <p><span className="text-sm text-gray-400">Status:</span> {result.status}</p>
                         <div className="flex justify-between flex-col md:flex-row">
                             <p><span className="text-sm text-gray-400">Email: </span>{result.email}</p>

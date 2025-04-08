@@ -168,7 +168,8 @@ export function SingleBookingTicket({ singleBooking, setBookingData, onClose }) 
 
         { singleBooking ? (
             <div className="border border-gray-300 p-2 rounded-lg">
-                <p><span className="text-gray-400 text-sm">Buchung Nummer: </span> {singleBooking.bookingNumber}</p>
+                <span className="text-gray-400 text-sm">Buchung Nummer: </span> 
+                <p>{singleBooking.bookingNumber}</p>
                 <p><span className="text-gray-400 text-sm">Gast Name: </span>{singleBooking.guestFirstName} {singleBooking.guestFamilyName}</p>
                 <p><span className="text-gray-400 text-sm">E-Mail:</span> {singleBooking.email}</p>
                 <p><span className="text-gray-400 text-sm">Anzahl der Gäste: </span>{singleBooking.guestCount}</p>
