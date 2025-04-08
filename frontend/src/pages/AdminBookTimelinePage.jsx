@@ -66,7 +66,10 @@ export const AdminBookTimelinePage = () => {
         setEndDate(date ? date.toISOString() : null);
     };
     return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto">
+        <h2 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">
+            Buchungszeitlinie
+        </h2>
         <div className="bg-white p-6 rounded-3xl shadow-xl flex flex-col  gap-8 items-start mb-10">
 
             {/* input house type */}
