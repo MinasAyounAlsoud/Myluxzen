@@ -304,8 +304,10 @@ export const googleCallback = (req, res, next) => {
         const token = generateToken(user._id);
         res.cookie("jwt", token, {
           httpOnly: true,
-          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-          secure: process.env.NODE_ENV === "production",
+          //sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+          //secure: process.env.NODE_ENV === "production",
+          secure: true,
+          sameSite: "None",
           maxAge: 30 * 24 * 60 * 60 * 1000,
         });
   
@@ -326,8 +328,10 @@ export const googleAuthSuccess = (req, res) => {
         const token = generateToken(req.user._id);
         res.cookie("jwt", token, {
             httpOnly: true,
-            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-            secure: process.env.NODE_ENV === "production",
+            //sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+            //secure: process.env.NODE_ENV === "production",
+            secure: true,
+            sameSite: "None",
             maxAge: 30 * 24 * 60 * 60 * 1000,
         });
 
@@ -340,8 +344,10 @@ export const googleAuthSuccess = (req, res) => {
 const logoutAndRedirectToGoogle = (req, res) => {
     res.clearCookie("jwt", {
         httpOnly: true,
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-        secure: process.env.NODE_ENV === "production",
+       // sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+       //secure: process.env.NODE_ENV === "production",
+        secure: true,
+        sameSite: "None",
     });
 
     // Danach zur Google-Auth weiterleiten

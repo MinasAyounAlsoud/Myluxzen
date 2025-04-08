@@ -15,7 +15,7 @@ import weinImg from "../assets/imageNaheeda/wein3.jpg";
 const activities = [
   {
     title: "Luxus-Spa & Massage",
-    description: "Tauchen Sie ein in eine Oase der Ruhe. Unser luxuriöses Spa bietet eine exklusive Auswahl an Massagen, Aromatherapien und individuellen Behandlungen. Mit sanfter Musik, duftenden Ölen und professionellen Therapeuten wird jede Sitzung zu einer Reise der völligen Entspannung. Der Spa-Bereich verfügt über private Räume, Dampfbäder und ein elegantes Ambiente, das speziell für Regeneration und Wellness geschaffen wurde.",
+    description: "Gönnen Sie sich Ruhe und Erholung in unserem exklusiven Spa. Genießen Sie Massagen, Aromatherapien und individuelle Behandlungen in einem stilvollen Ambiente mit beruhigender Musik und duftenden Ölen. Private Räume und Dampfbäder sorgen für pure Entspannung und Wohlbefinden.",
     image: massageImg
   },
   {
