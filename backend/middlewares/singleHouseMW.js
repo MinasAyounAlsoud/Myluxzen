@@ -42,8 +42,8 @@ export const getHousesforCheckinOrReserve = async(req,res,next)=>{
             const isInUseOverlapping = house.inUsePeriods.some(period => {
                 const inUseStartDate = new Date(period.startDate);
                 const inUseEndDate = new Date(period.endDate);
-                return inUseStartDate <= requestedEndDate && requestedStartDate <= inUseEndDate;
-            });
+                return inUseStartDate < requestedEndDate && requestedStartDate < inUseEndDate;
+            });// modified 04.08, for lastday can be used.
 
             const isBookingReserveOverlapping = house.bookingReservePeriods.some(period => {
                 const reserveStartDate = new Date(period.startDate);
