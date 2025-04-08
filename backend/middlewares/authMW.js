@@ -151,8 +151,12 @@ const logoutUser = (req, res, next) => {
     try {
         res.cookie("jwt", "", { 
             httpOnly: true, 
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+             secure: process.env.NODE_ENV === "production",
             expires: new Date(0) 
         });
+
+    res.set("Cache-Control", "no-store"); 
         res.json({ message: "Logout erfolgreich" });
     } catch (error) {
         next(error);
@@ -160,6 +164,9 @@ const logoutUser = (req, res, next) => {
 };
 //  Benutzerprofil abrufen
 const getUserProfile = async (req, res, next) => {
+    console.log("Session-Check Cookie:", req.cookies.jwt);
+    console.log("User im req:", req.user);
+
     try {
         if (!req.user) {
             return res.status(401).json({ message: "Nicht autorisiert" });
