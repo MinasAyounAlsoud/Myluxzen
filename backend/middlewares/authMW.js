@@ -292,29 +292,42 @@ export const googleAuth = passport.authenticate("google", {
 export const googleCallback = (req, res, next) => {
     passport.authenticate("google", async (err, user, info) => {
       if (err || !user) {
-        console.log("❌ Google Auth fehlgeschlagen oder abgebrochen.");
-        return res.redirect(`${process.env.CLIENT_URL}/auth?register=false&error=google_failed`);
+        return res.send(`
+          <script>
+            window.opener.postMessage('error', '${process.env.CLIENT_URL}');
+            window.close();
+          </script>
+        `);
       }
   
       req.login(user, (loginErr) => {
         if (loginErr) {
-          return res.redirect(`${process.env.CLIENT_URL}/auth?register=false&error=google_failed`);
+          return res.send(`
+            <script>
+              window.opener.postMessage('error', '${process.env.CLIENT_URL}');
+              window.close();
+            </script>
+          `);
         }
   
         const token = generateToken(user._id);
         res.cookie("jwt", token, {
           httpOnly: true,
-          //sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-          //secure: process.env.NODE_ENV === "production",
           secure: true,
           sameSite: "None",
           maxAge: 30 * 24 * 60 * 60 * 1000,
         });
   
-        return res.redirect(`${process.env.CLIENT_URL}`);
+        return res.send(`
+          <script>
+            window.opener.postMessage('success', '${process.env.CLIENT_URL}');
+            window.close();
+          </script>
+        `);
       });
     })(req, res, next);
   };
+  
   
 
 

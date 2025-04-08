@@ -256,26 +256,59 @@ const AuthPage = () => {
           {/* Google-Anmeldung */}
           {!isRegister && (
   <div className="text-center mt-10">
-    <button
-      onClick={() => {
-        if (user?.isAuthenticated) {
-          setErrors({
-            general: "Bitte melden sich ab, um ein anderes Google-Konto zu verwenden.",
-          });
-        } else {
-          window.location.href = `${API_URL}/api/auth/logout-and-google`;
 
+
+    <button
+  onClick={() => {
+    const popup = window.open(
+      `${API_URL}/api/auth/google`,
+      "_blank",
+      "width=500,height=600"
+    );
+
+    const listener = async (event) => {
+      if (event.origin !== API_URL) return;
+
+      if (event.data === "success") {
+        try {
+          const res = await fetch(`${API_URL}/api/auth/me`, {
+            method: "GET",
+            credentials: "include",
+          });
+
+          if (res.ok) {
+            const userData = await res.json();
+            setUser({
+              ...userData,
+              isAuthenticated: true,
+              isAdmin: userData.isAdmin || false,
+            });
+
+            navigate(userData.isAdmin ? "/admin" : "/");
+          } else {
+            setErrors({ general: "Anmeldung fehlgeschlagen. Bitte erneut versuchen." });
+          }
+        } catch (error) {
+          console.error("Fehler nach Google-Login:", error);
+          setErrors({ general: "Serverfehler beim Google-Login." });
+        } finally {
+          window.removeEventListener("message", listener);
         }
-      }}
-      className="inline-flex items-center justify-center space-x-4 px-6 py-2 border border-gray-300 rounded-full hover:shadow-lg transition-all duration-200 bg-white hover:bg-gray-100"
-    >
-      <img
-        src="https://developers.google.com/identity/images/g-logo.png"
-        alt="Google Logo"
-        className="w-5 h-5"
-      />
-      <span className="text-[#116769] font-medium">Mit Google anmelden</span>
-    </button>
+      }
+    };
+
+    window.addEventListener("message", listener);
+  }}
+  className="inline-flex items-center justify-center space-x-4 px-6 py-2 border border-gray-300 rounded-full hover:shadow-lg transition-all duration-200 bg-white hover:bg-gray-100"
+>
+  <img
+    src="https://developers.google.com/identity/images/g-logo.png"
+    alt="Google Logo"
+    className="w-5 h-5"
+  />
+  <span className="text-[#116769] font-medium">Mit Google anmelden</span>
+</button>
+
   </div>
 )}
 
