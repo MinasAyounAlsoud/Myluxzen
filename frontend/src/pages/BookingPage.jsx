@@ -10,6 +10,7 @@ import { Summery } from "../components/booking/Summery";
 import { SuccessBooking } from "../components/booking/SuccessBooking";
 import AuthContext from "../context/AuthContext";
 import { BookingNavBar } from "../components/booking/BookingNavBar";
+import { v4 as uuidv4 } from 'uuid';
 
 export const BookingPage = ()=>{
     const [gotoNextStep, setGotoNextStep] = useState(false);
@@ -24,7 +25,8 @@ export const BookingPage = ()=>{
     useEffect(()=>{
         if(user !== null){
             const initState = {
-                bookingNumber: `BOOK${Math.floor(1000 + Math.random() * 9000)}`, 
+                // bookingNumber: `BOOK${Math.floor(1000 + Math.random() * 9000)}`, 
+                bookingNumber: `B${uuidv4()}`,
                 guestFirstName : user !== null ?user.vorname : "",
                 guestFamilyName: user !== null ?user.nachname : "",
                 email: user !== null ?user.email : "",
@@ -43,7 +45,8 @@ export const BookingPage = ()=>{
             setNewBooking(initState);
         }else{
             const initState = {
-                bookingNumber: `BOOK${Math.floor(1000 + Math.random() * 9000)}`, 
+                // bookingNumber: `BOOK${Math.floor(1000 + Math.random() * 9000)}`, 
+                bookingNumber: `B${uuidv4()}`,
                 guestFirstName : "",
                 guestFamilyName: "",
                 email: "",

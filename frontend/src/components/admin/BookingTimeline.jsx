@@ -29,10 +29,23 @@ export const BookingTimeline = ({ orders, startDate, endDate }) => {
                 }
                 // Adjust the offset and width to stay within bounds
                 offset = Math.max(0, offset); // Ensure offset is not less than 0
-                width = offset + width > 100 ? 100 - offset : width; // Adjust width if it extends beyond 100%
+                width = offset + width > 100 ? 100 - offset : width; 
+                const bookingNumWidth = 44; //uuid的显示长度
+                // console.log("offset", offset)
+                let adjustedLeft = offset + bookingNumWidth > 100 ? (100 - bookingNumWidth ) : offset;
+                // console.log("adjustedLeft", adjustedLeft)
+                
+                // Adjust width if 
+                // 
+                // it extends beyond 100%
                 // bg-teal-dark
                 return (
-                <div key={index} className="relative mb-1" style={{ height: "20px" }}>
+                <div key={index} className="relative mb-1 group" style={{ height: "20px" }}>
+                                            <span className="absolute opacity-0 group-hover:opacity-100 left-0 top-3 translate-x bg-gray-600 text-xs px-0 text-white rounded-sm whitespace-nowrap"
+                        style={{ left: `${adjustedLeft}%`, top: "0", transform: "translateY(-100%) " }}
+                        >
+                            {order.bookingNumber}
+                        </span>
                     <div className="absolute left-0 right-0 h-1 bg-teal-dark h-2 rounded-full" style={{ left: `${offset}%`, width: `${width}%` }}>
                         {/* <span className="absolute left-0 -translate-x-1/2 bg-white text-xs px-1 text-gray-800">
                             {order.bookingNumber}
@@ -43,11 +56,13 @@ export const BookingTimeline = ({ orders, startDate, endDate }) => {
                         <span className="absolute right-3 -top-1 translate-x-12 bg-white text-xs text-gray-800 rounded-sm">
                             {formatLocalDate(order.endDate)}
                         </span>
-                        <span className="absolute left-0 top-3 translate-x bg-gray-600 text-xs px-0 text-white rounded-sm">
+                        {/* <span className="absolute opacity-0 group-hover:opacity-100 left-0 top-3 translate-x bg-gray-600 text-xs px-0 text-white rounded-sm whitespace-nowrap"
+                        style={{ left: `${adjustedLeft}%`, top: "0", transform: "translateY(-100%) " }}
+                        >
                             {order.bookingNumber}
-                        </span>
+                        </span> */}
                         { order.houseNum !== "" && (
-                            <span className="absolute left-16 top-3 translate-x bg-gray-300 text-xs text-red-500 px-0 ">{order.houseNum}</span>
+                            <span className="absolute left-0 top-3 translate-x bg-gray-300 text-xs text-red-500 px-0 ">{order.houseNum}</span>
                         )}
                     </div>
                 </div>
