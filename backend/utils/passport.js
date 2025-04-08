@@ -15,16 +15,14 @@ passport.use(
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
-                const email = profile.emails[0].value.toLowerCase(); // ✅ Email normalisieren
-                let user = await User.findOne({ email });
-                
+                let user = await User.findOne({ email: profile.emails[0].value });
 
                 if (!user) {
                     user = await User.create({
                         googleId: profile.id,
                         vorname: profile.name.givenName,
                         nachname: profile.name.familyName,
-                        email,
+                        email: profile.emails[0].value,
                         password: "google-auth",
                     });
                 }

@@ -158,7 +158,11 @@ const AuthPage = () => {
             </div>
     
             {/* Formularbereich */}
-            <div className={`w-full lg:w-1/2 px-6 py-10 flex justify-center ${isRegister ? "mt-10" : "mt-30"}`}>
+            {/*</div><div className={`w-full lg:w-1/2 px-6 py-10 flex justify-center ${isRegister ? "mt-10" : "mt-30"}`}>  */}
+            
+            <div className={`w-full lg:w-1/2 px-6 py-10 flex justify-center ${isRegister ? "mt-2 sm:mt-4 md:mt-6 lg:mt-13" : "mt-2 sm:mt-4 md:mt-10 lg:mt-24"}`}>
+
+
 
 
               <div className="w-full max-w-[450px]">
