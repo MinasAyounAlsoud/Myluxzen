@@ -67,13 +67,21 @@ cloudinary.config({
 
 const router = express.Router();
 
-// GET - Récupérer toutes les images
+// GET - Récupérer les images avec pagination
 router.get("/", async (req, res) => {
   try {
-    const images = await Image.find().sort({ createdAt: -1 }); // Trier du plus récent au plus ancien
+    const page = parseInt(req.query.page) || 1;   // page par défaut = 1
+    const limit = parseInt(req.query.limit) || 12; // images par page
+    const skip = (page - 1) * limit;
+
+    const images = await Image.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
     res.json(images);
   } catch (error) {
-    console.error(" Erreur serveur :", error);
+    console.error("Erreur serveur :", error);
     res.status(500).json({ message: "Erreur serveur" });
   }
 });
