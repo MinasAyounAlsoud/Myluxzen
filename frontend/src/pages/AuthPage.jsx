@@ -260,10 +260,16 @@ const AuthPage = () => {
           {/* Google-Anmeldung */}
           {!isRegister && (
   <div className="text-center mt-10">
-
-
     <button
   onClick={() => {
+    if (user?.isAuthenticated) {
+      // 👉 Zeige die gleiche Meldung wie beim E-Mail/Passwort-Login
+      setErrors({
+        general: "Bitte melden sich ab, um ein anderes Google-Konto zu verwenden.",
+      });
+      return;
+    }
+
     const popup = window.open(
       `${API_URL}/api/auth/google`,
       "_blank",

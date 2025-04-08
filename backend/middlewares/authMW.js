@@ -152,7 +152,7 @@ const logoutUser = (req, res, next) => {
         res.cookie("jwt", "", { 
             httpOnly: true, 
             sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-             secure: process.env.NODE_ENV === "production",
+            secure: process.env.NODE_ENV === "production",
             expires: new Date(0) 
         });
 
