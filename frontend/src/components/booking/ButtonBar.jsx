@@ -2,7 +2,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 export const ButtonBar = ({ step, setPrevStep, setNextStep })=>{
     return (
     <div>
-        <div className="flex justify-end space-x-4 md:px-10 lg:px-20 font-bold">
+        <div className="flex justify-end space-x-4 md:px-10 lg:px-20 font-bold pt-1">
             {step > 1 && (
             <button
                 onClick={setPrevStep}
