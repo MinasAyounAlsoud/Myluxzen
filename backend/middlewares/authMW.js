@@ -164,6 +164,7 @@ const getUserProfile = async (req, res, next) => {
         if (!req.user) {
             return res.status(401).json({ message: "Nicht autorisiert" });
         }
+        res.set("Cache-Control", "no-store");
         res.json({
             _id: req.user._id,
             vorname: req.user.vorname,
