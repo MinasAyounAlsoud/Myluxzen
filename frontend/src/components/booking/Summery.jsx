@@ -7,14 +7,14 @@ export const Summery = ({ newBooking, completed })=>{
     return (
     <div className="bg-white w-full p-4 border rounded-lg shadow border-gray-300 text-gray-500">
         <div className="text-xl py-2 text-gray-700 font-bold">
-            Reservierungszusammenfassung
+            Summary
         </div>
         <div className="border-t border-gray-200 my-4"></div>
         { newBooking.houseType ? (
             <>
             { completed && (
                 <div>
-                    <div className="text-gray-700 flex pt-4 flex justify-between">
+                    <div className="text-gray-700 flex flex-col pt-4 flex justify-between">
                     <p>Buchungs-Ticketnummer : </p>
                     <p> {newBooking.bookingNumber}</p>
                     </div>
