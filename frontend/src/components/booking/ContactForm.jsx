@@ -37,6 +37,7 @@ export function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, 
               onFocus={() => handleFocus("email")}
               onBlur={() => handleBlur("email")}
               className="mt-2 block w-full pl-2 pr-8 py-2 bg-transparent focus:outline-none"
+              maxLength={50}
             />
             <button
               type="button"
@@ -71,6 +72,7 @@ export function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, 
                 onFocus={() => handleFocus("guestFirstName")}
                 onBlur={() => handleBlur("guestFirstName")}
                 className="mt-2 block w-full pl-2 pr-8 py-2 bg-transparent focus:outline-none"
+                maxLength={30}
               />
               <button
                 type="button"
@@ -104,6 +106,7 @@ export function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, 
               onFocus={() => handleFocus("guestFamilyName")}
               onBlur={() => handleBlur("guestFamilyName")}
               className="mt-2 block w-full pl-2 pr-8 py-2 bg-transparent focus:outline-none"
+              maxLength={30}
             />
             <button
               type="button"
@@ -137,6 +140,7 @@ export function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, 
           onFocus={() => handleFocus("mobileNumber")}
           onBlur={() => handleBlur("mobileNumber")}
           className="mt-2 block w-full pl-2 pr-8 py-2 bg-transparent focus:outline-none"
+          maxLength={30}
         />
         <button
           type="button"
@@ -163,6 +167,7 @@ export function ContactForm({newBooking, setNewBooking, errEmail, errFirstName, 
           className="mt-2 block w-11/12 pl-2 pr-8 py-2 bg-transparent focus:outline-none"
           rows="6"
           style={{ resize: "none", overflow: "auto" }}
+          maxLength={300}
         />
         <button
           type="button"
