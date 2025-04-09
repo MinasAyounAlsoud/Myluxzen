@@ -5,7 +5,7 @@ import { formatLocalDateWithYear } from "../../utils/commenBookFunc.js";
 
 export const Summery = ({ newBooking, completed })=>{
     return (
-    <div className="bg-white w-full p-4 border rounded-lg shadow border-gray-300 text-gray-500">
+    <div className="bg-white w-full p-4 border rounded-lg shadow border-gray-300 text-gray-500 max-h-[70vh] overflow-y-auto md:max-h-none md:overflow-visible">
         <div className="text-xl py-2 text-gray-700 font-bold">
             Summary
         </div>
