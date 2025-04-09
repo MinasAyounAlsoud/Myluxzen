@@ -1,4 +1,6 @@
 import { FaArrowLeft } from "react-icons/fa6";
+import "../../styles/booking.css";
+
 export const ButtonBar = ({ step, setPrevStep, setNextStep })=>{
     return (
     <div>
@@ -14,7 +16,7 @@ export const ButtonBar = ({ step, setPrevStep, setNextStep })=>{
             <button
                 onClick={setNextStep}
                 // disabled={step > totalSteps}
-                className="bg-gray-200 text-gray-700 text-lg text-gray-600 py-2 md:px-16  px-4 rounded-lg hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                className="custom-bg-navbar-color text-gray-700 text-lg text-gray-600 py-2 md:px-16  px-4 rounded-lg hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
                 {step === 4 ? "Bestätigen" : "Weiter"}
             </button>

@@ -47,7 +47,7 @@ export const SuccessBooking = ({successBookingNumber})=>{
       <>
       { errorMessage === "" ? ( 
         <div className="flex flex-col items-center justify-center h-full pb-20 ">
-          <div className="mx-2 md:w-2/3 py-4">
+          <div className="mx-2 w-4/5 md:w-2/3 py-4">
             <Summery 
               newBooking={bookingTicket} 
               completed={true}
