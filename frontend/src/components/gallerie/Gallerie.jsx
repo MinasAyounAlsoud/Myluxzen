@@ -1,3 +1,4 @@
+//zahra
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Lightbox from "yet-another-react-lightbox";
@@ -43,12 +44,21 @@ const Gallerie = () => {
           `${import.meta.env.VITE_SERVER_URL}/api/images?page=${page}&limit=12`
         );
 
-        const newImages = response.data;
-        if (newImages.length === 0) {
-          setHasMore(false);
-        } else {
-          setImages((prev) => [...prev, ...newImages]);
-        }
+        const newImages = Array.isArray(response.data.images)
+          ? response.data.images
+          : [];
+
+          console.log(`Page ${page} - Images reçues :`, newImages);
+        // Évite les doublons (_id déjà présents)
+        setImages((prev) => {
+          const existingIds = new Set(prev.map((img) => img._id));
+          const filtered = newImages.filter((img) => !existingIds.has(img._id));
+
+          // Si aucune nouvelle image → on arrête
+          if (filtered.length === 0) setHasMore(false);
+
+          return [...prev, ...filtered];
+        });
       } catch (error) {
         console.error("Erreur lors du chargement des images :", error);
       } finally {
@@ -59,7 +69,7 @@ const Gallerie = () => {
     fetchImages();
   }, [page]);
 
-  // Scroll listener
+  // Scroll infini
   useEffect(() => {
     const handleScroll = () => {
       if (
@@ -86,11 +96,13 @@ const Gallerie = () => {
               className="relative mb-4 break-inside-avoid overflow-hidden shadow-md transition-transform transform hover:scale-105 hover:shadow-lg cursor-pointer group"
               onClick={() => setIndex(idx)}
             >
-              <img
-                src={image.url}
-                alt={image.description}
-                className="w-full h-auto object-cover rounded-none"
-              />
+            <img
+  src={image.url}
+  alt={image.description}
+  loading="lazy"
+  className="w-full h-auto max-h-[500px] object-cover rounded-none"
+/>
+
               <div className="absolute inset-0 bg-ivory-75 bg-opacity-60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <p className="text-white text-lg font-semibold px-4 text-center">
                   {image.description}
