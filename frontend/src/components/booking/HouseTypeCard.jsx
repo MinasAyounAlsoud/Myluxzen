@@ -7,7 +7,7 @@ export const HouseTypeCard = ({ house, onClick, selected=false}) => {
   console.log("selected",selected )
   return (
     <div onClick={() => onClick(house)}
-      className={`bg-white shadow-lg rounded-2xl overflow-hidden transform transition duration-300 hover:scale-105 cursor-pointer mb-6 flex items-center w-full max-w-6xl mx-auto p-4 sm:flex-col md:flex-row ${selected ? "custom-bg-seletedHouseCard-color border border-[#064236]":"bg-white"}`}
+      className={`bg-white shadow-lg rounded-2xl overflow-hidden transform transition duration-300 hover:scale-105 cursor-pointer mb-6 flex items-center w-full max-w-6xl mx-auto p-4 flex-col md:flex-row ${selected ? "custom-bg-seletedHouseCard-color border border-[#064236]":"bg-white"}`}
     >
       <img
         src={house.images[0]}
