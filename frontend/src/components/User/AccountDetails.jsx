@@ -96,7 +96,7 @@ const AccountDetails = () => {
             }
         } catch (error) {
             console.error("Fehler beim Speichern:", error);
-            setErrors({ general: "Serverfehler, bitte später erneut versuchen." });
+            setErrors({ general: "Versuchen Sie bitte später erneut." });
         }
     };
 
